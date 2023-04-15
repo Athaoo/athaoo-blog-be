@@ -1,0 +1,17 @@
+html,
+body,
+#root {
+  height: 100%;
+  overflow-x: hidden;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+
+a,
+button {
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+}
