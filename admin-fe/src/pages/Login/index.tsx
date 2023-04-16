@@ -1,15 +1,14 @@
-import React from 'react';
-import { Button, Form, Input } from 'antd';
-import './Login.css';
+import React from 'react'
+import { Button, Form, Input } from 'antd'
 
 const Login: React.FC = () => {
   const onFinish = (values: any) => {
-    console.log('Success:', values);
-  };
+    console.log('Success:', values)
+  }
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+    console.log('Failed:', errorInfo)
+  }
 
   return (
     <div className="login-container">
@@ -17,21 +16,18 @@ const Login: React.FC = () => {
         name="basic"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
+        onFinishFailed={onFinishFailed}>
         <Form.Item
           label="Username"
           name="username"
-          rules={[{ required: true, message: 'Please input your username!' }]}
-        >
+          rules={[{ required: true, message: 'Please input your username!' }]}>
           <Input />
         </Form.Item>
 
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
-        >
+          rules={[{ required: true, message: 'Please input your password!' }]}>
           <Input.Password />
         </Form.Item>
 
@@ -42,7 +38,7 @@ const Login: React.FC = () => {
         </Form.Item>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
