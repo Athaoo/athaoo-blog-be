@@ -1,7 +1,10 @@
 import React from 'react'
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, Space } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 const Register: React.FC = () => {
+  const navigate = useNavigate()
+
   const onFinish = (values: any) => {
     console.log('Success:', values)
   }
@@ -11,7 +14,15 @@ const Register: React.FC = () => {
   }
 
   return (
-    <div className="register-container">
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '0 auto',
+        width: '24vw',
+        height: '100%',
+      }}>
       <Form
         name="basic"
         initialValues={{ remember: true }}
@@ -39,9 +50,18 @@ const Register: React.FC = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              Register
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                navigate('/login')
+              }}>
+              Back to login
+            </Button>
+          </Space>
         </Form.Item>
       </Form>
     </div>

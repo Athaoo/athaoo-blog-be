@@ -1,17 +1,30 @@
 import React from 'react'
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, Space } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 const Login: React.FC = () => {
+  const navigate = useNavigate()
+
   const onFinish = (values: any) => {
+    navigate('admin')
     console.log('Success:', values)
   }
 
   const onFinishFailed = (errorInfo: any) => {
+    navigate('admin')
     console.log('Failed:', errorInfo)
   }
 
   return (
-    <div className="login-container">
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '0 auto',
+        width: '24vw',
+        height: '100%',
+      }}>
       <Form
         name="basic"
         initialValues={{ remember: true }}
@@ -32,9 +45,18 @@ const Login: React.FC = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Login
-          </Button>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              Login
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                navigate('/register')
+              }}>
+              Register
+            </Button>
+          </Space>
         </Form.Item>
       </Form>
     </div>

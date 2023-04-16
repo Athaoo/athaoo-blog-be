@@ -14,7 +14,7 @@ type page = {
 const subArticleRoutes: page[] = [
   {
     id: '1',
-    path: 'admin/articleList',
+    path: 'articleList',
     name: '文章列表',
   },
 ]

@@ -2,7 +2,8 @@
   "name": "blog-be",
   "version": "1.0.0",
   "description": "athaoo blog back end",
-  "main": "index.js",
+  "main": "app.js",
+  "type": "module",
   "author": "Athaoo",
   "license": "MIT",
   "dependencies": {

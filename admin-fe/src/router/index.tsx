@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, Route, RouteObject, useRoutes } from 'react-ro
 const Login = lazy(() => import('../pages/Login'))
 const Register = lazy(() => import('../pages/Login/Register'))
 const Admin = lazy(() => import('../pages/Admin'))
+const ArticleList = lazy(() => import('../pages/Article/list'))
 
 export type RoutesItems = {
   path: string
@@ -27,6 +28,16 @@ const config: RouteObject[] = [
   {
     path: '/admin',
     element: <Admin />,
+    children: [
+      {
+        path: '*',
+        element: <ArticleList />,
+      },
+      {
+        path: 'list',
+        element: <ArticleList />,
+      },
+    ],
   },
 ]
 
