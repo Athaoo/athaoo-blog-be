@@ -1,61 +1,61 @@
 ## 2023-04-11
 
-1. 重审rotateBoxScene，用自定义hook、普通redux的不同写法重构出两个rotateBoxScene来
+1. 重审 rotateBoxScene，用自定义 hook、普通 redux 的不同写法重构出两个 rotateBoxScene 来
 
-2. 自定义hook：
-   
+2. 自定义 hook：
+
    1. data
-      
-      1. main camera的数据是main cam props的依赖，main cam的props是面板info的部分依赖，同时菜单会触发更新数据；
-         
-         单向数据流来讲，表单的btn->data是view->data，而更新视图算是副作用。
+
+      1. main camera 的数据是 main cam props 的依赖，main cam 的 props 是面板 info 的部分依赖，同时菜单会触发更新数据；
+
+         单向数据流来讲，表单的 btn->data 是 view->data，而更新视图算是副作用。
 
 ## 需求
 
 - [ ] 奥利安费
-  
+
   - [ ] 类别查找，左侧列表展示 tag
-  
+
   - [x] markdown 阅读
-  
+
   - [ ] 锚点，右侧悬浮跳转段落
 
 - [x] 阿米诺手
-  
+
   - [x] 左侧列表 tag
   - [x] 跳转到的页面是实现的具体效果
 
 - [ ] 展望
-  
+
   - [ ] 做点游戏相关的东西
 
 - [ ] 后台
-  
+
   - [ ] 可视化访问数据等
-  
+
   - [ ] 文章增删改查
-  
+
   - [ ] markdown，富文本编辑
 
-## 
+##
 
 ## 路由设计
 
-- [x] 首页    /    默认articles
-  
+- [x] 首页     /     默认 articles
+
   - [x] articles
-    
+
     - [x] :articleId
-  
+
   - [x] art
-    
+
     - [ ] 每个页面独立路由
 
 ## 组件设计
 
-偷学掘金设计top，左侧悬浮栏，右侧悬浮栏
+偷学掘金设计 top，左侧悬浮栏，右侧悬浮栏
 
-### Commit信息
+### Commit 信息
 
 - feat: 新功能
 - fix: 修复 bug
