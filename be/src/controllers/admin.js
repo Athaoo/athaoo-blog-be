@@ -1,8 +1,6 @@
-import Router from '@koa/router'
-import { getAllAdmins } from '../controllers/admin.js'
+import Admin from '../models/admin.js'
 
-const router = new Router({ prefix: '/admin' })
-
-router.get('/', getAllAdmins)
-
-export default router
+export async function getAllAdmins(ctx) {
+  const admins = await Admin.findAll()
+  ctx.body = admins
+}
