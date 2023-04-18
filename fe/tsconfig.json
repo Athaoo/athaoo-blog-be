@@ -9,7 +9,7 @@
     "declarationMap": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "removeComments": true,
+    "removeComments": false,
     "strict": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

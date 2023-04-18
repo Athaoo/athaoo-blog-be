@@ -28,11 +28,9 @@ const Root: React.FC = () => {
 }
 
 root.render(
-  <React.StrictMode>
-    <ThemeProvider>
-      <BrowserRouter>
-        <Root />
-      </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode>
+  <ThemeProvider>
+    <BrowserRouter>
+      <Root />
+    </BrowserRouter>
+  </ThemeProvider>
 )
