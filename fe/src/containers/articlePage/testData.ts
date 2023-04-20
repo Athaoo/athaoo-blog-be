@@ -1,7 +1,12 @@
+import { BlogPost } from '@src/types/articlePage'
 import testData from './test.json'
 
 export const getBlog = (id: string) => {
-  return testData.find((data) => data.id == id)
+  const newData = {} as BlogPost
+  const originData = testData.find((data) => data.id == id)
+  Object.assign(newData, originData)
+  newData.createdAt = new Date(JSON.parse(originData.createdAt))
+  return newData
 }
 
 export default testData

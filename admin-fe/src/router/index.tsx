@@ -6,6 +6,7 @@ const Login = lazy(() => import('../pages/Login'))
 const Register = lazy(() => import('../pages/Login/Register'))
 const Admin = lazy(() => import('../pages/Admin'))
 const ArticleList = lazy(() => import('../pages/Article/list'))
+const TestApi = lazy(() => import('../pages/Article/TestApi'))
 
 export type RoutesItems = {
   path: string
@@ -36,6 +37,10 @@ const config: RouteObject[] = [
       {
         path: 'list',
         element: <ArticleList />,
+      },
+      {
+        path: 'testApi',
+        element: <TestApi />,
       },
     ],
   },

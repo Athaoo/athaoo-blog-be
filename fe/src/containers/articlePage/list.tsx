@@ -3,8 +3,9 @@ import React from 'react'
 import { Table, Tag, Dropdown, Menu, Button, Popconfirm, Card } from 'antd'
 import { BlogPost } from '@src/types/articlePage'
 import { Link } from 'react-router-dom'
-import testBlogData from './testData'
+import { getBlog } from './testData'
 
+const testBlogData = [1, 2, 3, 4, 5, 6, 7, 8].map((id) => getBlog(`${id}`))
 const columns = [
   {
     title: 'ID',
@@ -17,7 +18,10 @@ const columns = [
   },
   {
     title: '时间',
-    dataIndex: 'time',
+    dataIndex: 'createdAt',
+    render: (text, record: BlogPost) => {
+      return <>{JSON.stringify(record.createdAt)}</>
+    },
   },
   {
     title: '标签',

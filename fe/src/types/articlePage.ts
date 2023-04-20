@@ -1,11 +1,10 @@
-type BlogPost = {
+export interface BlogPost {
   id: string
   title: string
-  time: string
   tags: string[]
   content: string
   author: string
   summary: string
+  createdAt: Date
+  updatedAt?: Date
 }
-
-export type { BlogPost }

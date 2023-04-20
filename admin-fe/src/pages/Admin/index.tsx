@@ -17,6 +17,11 @@ const subArticleRoutes: page[] = [
     path: 'articleList',
     name: '文章列表',
   },
+  {
+    id: '2',
+    path: 'testApi',
+    name: '测试接口',
+  },
 ]
 
 const sideMenuItems: MenuProps['items'] = [

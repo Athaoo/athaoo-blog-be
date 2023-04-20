@@ -67,7 +67,7 @@ const Header: React.FC<HedaerProps> = ({ data }) => {
         </Title>
       </Col>
       <Col style={ColClass}>
-        <Text>{data.time}</Text>
+        <Text>{Date.toString.call(data.createdAt)}</Text>
       </Col>
     </Row>
   )

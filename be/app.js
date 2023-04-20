@@ -1,21 +1,18 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
-import adminRoutes from './src/routes/admin.js'
+import adminRoutes from './src/routes/auth.js'
+import testRoute from './src/routes/test.js'
+import articleRoutes from './src/routes/article.js'
+import { myCors } from './src/middleware/my-cors.js'
 import sequelize from './src/database/index.js'
 
-const app = new Koa() // app.use(bodyParser())
-// app.use(adminRoutes.routes())
-// app.use(adminRoutes.allowedMethods())
+const app = new Koa()
 
-// 测试数据库连接
-;(async () => {
-  try {
-    await sequelize.authenticate()
-    console.log('Connection has been established successfully.')
-  } catch (error) {
-    console.error('Unable to connect to the database:', error)
-  }
-})()
+app.use(myCors)
+app.use(bodyParser())
+app.use(adminRoutes.routes()).use(adminRoutes.allowedMethods())
+app.use(testRoute.routes())
+app.use(articleRoutes.routes()).use(adminRoutes.allowedMethods())
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
