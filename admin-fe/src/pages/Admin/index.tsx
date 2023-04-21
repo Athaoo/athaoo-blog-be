@@ -14,12 +14,17 @@ type page = {
 const subArticleRoutes: page[] = [
   {
     id: '1',
-    path: 'articleList',
+    path: '/admin/article/list',
     name: '文章列表',
   },
   {
     id: '2',
-    path: 'testApi',
+    path: '/admin/article/add',
+    name: '添加文章',
+  },
+  {
+    id: '3',
+    path: '/admin/article/testApi',
     name: '测试接口',
   },
 ]
@@ -51,8 +56,8 @@ const Admin: React.FC = () => {
         <Col span={4}>
           <Menu
             mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
+            defaultOpenKeys={['articleList']}
+            defaultSelectedKeys={['articleList']}
             style={{ height: '100%', borderRight: 0 }}
             items={sideMenuItems}></Menu>
         </Col>

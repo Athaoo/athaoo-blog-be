@@ -1,12 +1,12 @@
 import { Model } from 'sequelize'
 export type TestData = string
 export interface Article extends Model {
-  id: string
+  id?: string
   title: string
   tags: string[]
-  summary: string
+  summary?: string
   content: string
-  author: string
-  createdAt: Date
-  updatedAt: Date
+  author?: string
+  createdAt?: Date
+  updatedAt?: Date
 }

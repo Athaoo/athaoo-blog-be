@@ -6,7 +6,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
 const App = () => {
   const [content, setContent] = useState('惹啊')
-  console.log(`🚀 -> file: index.tsx:19 -> App -> testBlogData:`, testData)
 
   useEffect(() => {
     setContent(testData[6].content)

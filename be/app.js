@@ -6,15 +6,21 @@ import articleRoutes from './src/routes/article.js'
 import { myCors } from './src/middleware/my-cors.js'
 import sequelize from './src/database/index.js'
 
-const app = new Koa()
+async function main() {
+  // 同步表
+  await sequelize.sync()
 
-app.use(myCors)
-app.use(bodyParser())
-app.use(adminRoutes.routes()).use(adminRoutes.allowedMethods())
-app.use(testRoute.routes())
-app.use(articleRoutes.routes()).use(adminRoutes.allowedMethods())
+  const app = new Koa()
+  app.use(myCors)
+  app.use(bodyParser())
+  app.use(adminRoutes.routes()).use(adminRoutes.allowedMethods())
+  app.use(testRoute.routes())
+  app.use(articleRoutes.routes()).use(adminRoutes.allowedMethods())
 
-const port = process.env.PORT || 3000
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
-})
+  const port = process.env.PORT || 3000
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`)
+  })
+}
+
+main()

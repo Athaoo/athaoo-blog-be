@@ -3,7 +3,6 @@ import { XyzArr } from '@src/types/three'
 import * as THREE from 'three'
 
 export function forMatVector3(vector: Vector3): XyzArr {
-  console.log(`🚀 -> file: format.ts:6 -> forMatVector3 -> vector:`, vector)
   if (typeof vector === 'number') {
     return [vector, vector, vector]
   } else if (vector instanceof THREE.Vector3) {

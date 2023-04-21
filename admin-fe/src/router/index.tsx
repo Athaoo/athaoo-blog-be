@@ -1,11 +1,12 @@
 import { Spin } from 'antd'
 import React, { lazy, Suspense } from 'react'
-import { BrowserRouter, Navigate, Route, RouteObject, useRoutes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Outlet, Route, RouteObject, useRoutes } from 'react-router-dom'
 
 const Login = lazy(() => import('../pages/Login'))
 const Register = lazy(() => import('../pages/Login/Register'))
 const Admin = lazy(() => import('../pages/Admin'))
 const ArticleList = lazy(() => import('../pages/Article/list'))
+const AddArticle = lazy(() => import('../pages/Article/AddArticle'))
 const TestApi = lazy(() => import('../pages/Article/TestApi'))
 
 export type RoutesItems = {
@@ -31,16 +32,26 @@ const config: RouteObject[] = [
     element: <Admin />,
     children: [
       {
-        path: '*',
-        element: <ArticleList />,
-      },
-      {
-        path: 'list',
-        element: <ArticleList />,
-      },
-      {
-        path: 'testApi',
-        element: <TestApi />,
+        path: 'article',
+        element: <Outlet />,
+        children: [
+          {
+            path: '*',
+            element: <ArticleList />,
+          },
+          {
+            path: 'add',
+            element: <AddArticle />,
+          },
+          {
+            path: 'list',
+            element: <ArticleList />,
+          },
+          {
+            path: 'testApi',
+            element: <TestApi />,
+          },
+        ],
       },
     ],
   },

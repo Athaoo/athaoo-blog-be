@@ -50,4 +50,8 @@ export const getTestArticleData2 = async (): Promise<AxiosResponse<Article>> => 
   return await instance.get<Article>('/article/1')
 }
 
+export const createArticle = async (article: Article): Promise<AxiosResponse<Article>> => {
+  return await instance.post<Article>('/article', article)
+}
+
 export default instance

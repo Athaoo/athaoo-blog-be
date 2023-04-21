@@ -17,7 +17,6 @@ const useFetchTestData = () => {
       setData(null)
       setLoading(true)
       const response = await getTestData()
-      console.log(`🚀 -> file: TestApi.tsx:14 -> fetchData -> response:`, response)
       setData(response.data)
     } catch (err) {
       console.error(`error fetching data`, err)
@@ -38,7 +37,6 @@ const useFetchTestCorsData = () => {
       setData(null)
       setLoading(true)
       const response = await getTestCorsData()
-      console.log(`🚀 -> file: TestApi.tsx:35 -> fetchData -> response:`, response)
       setData(response.data)
     } catch (err) {
       console.error(`error fetching data`, err)
@@ -58,7 +56,6 @@ const useFetchTestArticleData1 = () => {
       setData(null)
       setLoading(true)
       const response = await getTestArticleData1()
-      console.log(`🚀 -> file: TestApi.tsx:35 -> fetchData -> response:`, response)
       setData(response.data.title)
     } catch (err) {
       console.error(`error fetching data`, err)
@@ -78,7 +75,6 @@ const useFetchTestArticleData2 = () => {
       setData(null)
       setLoading(true)
       const response = await getTestArticleData2()
-      console.log(`🚀 -> file: TestApi.tsx:35 -> fetchData -> response:`, response)
       setData(response.data.title)
     } catch (err) {
       console.error(`error fetching data`, err)

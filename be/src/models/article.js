@@ -9,17 +9,21 @@ Article.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    time: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     tags: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.TEXT,
       allowNull: false,
+      get() {
+        // 将JSON字符串转换为数组
+        return JSON.parse(this.getDataValue('tags'))
+      },
+      set(value) {
+        // 将数组转换为JSON字符串
+        this.setDataValue('tags', JSON.stringify(value))
+      },
     },
     summary: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     content: {
       type: DataTypes.TEXT,
@@ -27,7 +31,7 @@ Article.init(
     },
     author: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
