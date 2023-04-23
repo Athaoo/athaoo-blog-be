@@ -7,6 +7,7 @@ const Register = lazy(() => import('../pages/Login/Register'))
 const Admin = lazy(() => import('../pages/Admin'))
 const ArticleList = lazy(() => import('../pages/Article/list'))
 const AddArticle = lazy(() => import('../pages/Article/AddArticle'))
+const EditArticle = lazy(() => import('../pages/Article/EditArticle'))
 const TestApi = lazy(() => import('../pages/Article/TestApi'))
 
 export type RoutesItems = {
@@ -46,6 +47,10 @@ const config: RouteObject[] = [
           {
             path: 'list',
             element: <ArticleList />,
+          },
+          {
+            path: 'edit:id',
+            element: <EditArticle />,
           },
           {
             path: 'testApi',

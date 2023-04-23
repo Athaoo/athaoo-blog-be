@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { TestData, Article } from './types'
+import { useState } from 'react'
 
 const localUrl = '//localhost:3000'
 
@@ -37,6 +38,29 @@ const instance = axios.create({
 //   }
 // )
 
+type RequestFunction<T> = () => Promise<T>
+
+// useRequest Hook
+export const useRequest = <T>(requestFunction: RequestFunction<T>) => {
+  const [data, setData] = useState<T | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  const fetchData = async () => {
+    try {
+      setData(null)
+      setLoading(true)
+      const response = await requestFunction()
+      setData(response)
+    } catch (err) {
+      console.error(`Error fetching data`, err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return [data, loading, fetchData] as const
+}
+
 export const getTestData = async (): Promise<AxiosResponse<TestData>> => {
   return await instance.get<TestData>('/test/get1')
 }
@@ -52,6 +76,18 @@ export const getTestArticleData2 = async (): Promise<AxiosResponse<Article>> => 
 
 export const createArticle = async (article: Article): Promise<AxiosResponse<Article>> => {
   return await instance.post<Article>('/article', article)
+}
+
+export const getAllArticles = async (): Promise<AxiosResponse<Article[]>> => {
+  return await instance.get<Article[]>('/article')
+}
+
+export const getOneArticle = async (id: number): Promise<AxiosResponse<Article>> => {
+  return await instance.get<Article>(`/article`, {
+    params: {
+      id,
+    },
+  })
 }
 
 export default instance

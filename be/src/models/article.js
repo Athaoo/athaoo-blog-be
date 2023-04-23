@@ -9,6 +9,7 @@ Article.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    /**mysql不支持Array<DataTypes.STRING>，要变成字符串 */
     tags: {
       type: DataTypes.TEXT,
       allowNull: false,
