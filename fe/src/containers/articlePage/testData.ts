@@ -5,7 +5,7 @@ export const getBlog = (id: string) => {
   const newData = {} as BlogPost
   const originData = testData.find((data) => data.id == id)
   Object.assign(newData, originData)
-  newData.createdAt = new Date(JSON.parse(originData.createdAt))
+  newData.createdAt = new Date(originData.createdAt)
   return newData
 }
 
