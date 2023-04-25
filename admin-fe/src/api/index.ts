@@ -38,18 +38,18 @@ instance.interceptors.response.use(
   }
 )
 
-type RequestFunction<T, P> = (params: P) => Promise<AxiosResponse<T>>
+type RequestFunction<T, P extends any[]> = (...params: P) => Promise<AxiosResponse<T>>
 
 // useRequest Hook
-export const useRequest = <T, P>(requestFunction: RequestFunction<T, P>) => {
+export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<T, P>) => {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const fetchData = async (params: P) => {
+  const fetchData = async (...params: P) => {
     try {
       setData(() => null)
       setLoading(() => true)
-      const response = await requestFunction(params)
+      const response = await requestFunction(...params)
       console.log(`🚀 -> file: index.ts:53 -> fetchData -> response:`, response)
       setData(() => response.data)
     } catch (err) {
@@ -89,7 +89,7 @@ export const getOneArticle = async (id: number): Promise<AxiosResponse<Article>>
 }
 
 export const updateOneArticle = async (
-  id,
+  id: number,
   data: UpdateArticleType
 ): Promise<AxiosResponse<MySuccessRes>> => {
   return await instance.put<MySuccessRes>(`/article/${id}`, data)
