@@ -13,3 +13,7 @@ export function forMatVector3(vector: Vector3): XyzArr {
     return [0, 0, 0]
   }
 }
+
+export function formatDate(date: Date): string {
+  return new Date(date).toLocaleDateString('zh-CN')
+}

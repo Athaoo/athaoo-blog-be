@@ -1,13 +1,6 @@
 import { Model } from 'sequelize'
 export type TestData = string
-
-export type MySuccessRes = {
-  message: string
-}
-
-export type AddArticleType = Omit<Article, 'id' | 'createdAt' | 'updatedAt'>
-export type UpdateArticleType = AddArticleType
-export interface Article {
+export interface Article extends Model {
   id?: string
   title: string
   tags: string[]

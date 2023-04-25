@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import api, {
-  getTestData,
-  getTestCorsData,
-  getTestArticleData1,
-  getTestArticleData2,
-} from '../../api'
+import api, { getTestData, getTestCorsData, getTestArticleData1 } from '../../api'
 import { Article } from '../../api/types'
 import { Button, Card, Col, Row, Spin } from 'antd'
 
@@ -66,31 +61,11 @@ const useFetchTestArticleData1 = () => {
 
   return [data, loading, fetchData]
 }
-const useFetchTestArticleData2 = () => {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  const fetchData = async () => {
-    try {
-      setData(null)
-      setLoading(true)
-      const response = await getTestArticleData2()
-      setData(response.data.title)
-    } catch (err) {
-      console.error(`error fetching data`, err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return [data, loading, fetchData]
-}
 
 const Container = () => {
   const [data, loading, fetchData] = useFetchTestData()
   const [data2, loading2, fetchData2] = useFetchTestCorsData()
   const [data3, loading3, fetchData3] = useFetchTestArticleData1()
-  const [data4, loading4, fetchData4] = useFetchTestArticleData2()
 
   return (
     <Row style={{ height: '100%', width: '100%' }}>
@@ -107,9 +82,6 @@ const Container = () => {
           </Button>
           <Button type="default" size="large" onClick={fetchData3}>
             测试3
-          </Button>
-          <Button type="default" size="large" onClick={fetchData4}>
-            测试4
           </Button>
         </Card>
       </Col>
@@ -143,17 +115,6 @@ const Container = () => {
             ) : (
               <Card>
                 API 2 result:{'   '} {data3}
-              </Card>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {loading4 ? (
-              <Spin />
-            ) : (
-              <Card>
-                API 4 result:{'   '} {data4}
               </Card>
             )}
           </Col>

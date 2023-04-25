@@ -49,7 +49,7 @@ const config: RouteObject[] = [
             element: <ArticleList />,
           },
           {
-            path: 'edit:id',
+            path: 'edit/:id',
             element: <EditArticle />,
           },
           {

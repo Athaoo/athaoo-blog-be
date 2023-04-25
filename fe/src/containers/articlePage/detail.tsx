@@ -9,6 +9,7 @@ import { blue } from '@ant-design/colors'
 import { getBlog } from './testData'
 import { BlogPost } from '@src/types/articlePage'
 import MarkdownRenderer from '@src/components/markdownRenderer'
+import { formatDate } from '@src/utils/format'
 import Mdxprovider from '@src/components/mdxProvider'
 
 const { Title, Text } = Typography
@@ -67,7 +68,7 @@ const Header: React.FC<HedaerProps> = ({ data }) => {
         </Title>
       </Col>
       <Col style={ColClass}>
-        <Text>{Date.toString.call(data.createdAt)}</Text>
+        <Text>{formatDate(data.createdAt)}</Text>
       </Col>
     </Row>
   )

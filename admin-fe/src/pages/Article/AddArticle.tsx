@@ -3,12 +3,13 @@ import { Card } from 'antd'
 import { Article } from '../../api/types'
 import ArticleEditor, { ArticleForm } from './Editor'
 import { createArticle } from '../../api'
+import { AddArticleType } from '../../api/types'
 
 const useAddArticle = () => {
   const [res, setRes] = useState<Article>()
   const [loading, setLoading] = useState(false)
 
-  const addArticle = async (article: Article) => {
+  const addArticle = async (article: AddArticleType) => {
     try {
       const res = await createArticle(article)
       setRes(res.data)

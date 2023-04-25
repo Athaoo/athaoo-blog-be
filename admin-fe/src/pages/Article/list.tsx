@@ -34,12 +34,13 @@ const columns = [
   {
     title: '标题',
     dataIndex: 'title',
-    render: (text, record: Article) => <Link to={``}>{record.title}</Link>,
+    render: (text, record: Article) => (
+      <Link to={`/admin/article/edit/${record.id}`}>{record.title}</Link>
+    ),
   },
   {
     title: '摘要',
     dataIndex: 'summary',
-    render: (text, record: Article) => <Link to={``}>{record.title}</Link>,
   },
   {
     title: '时间',

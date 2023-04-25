@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { TestData, Article, AddArticleType, UpdateArticleType, MySuccessRes } from './types'
 import { useState } from 'react'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { TestData, Article } from './types'
 
 const localUrl = '//localhost:3000'
 
@@ -25,33 +25,32 @@ const instance = axios.create({
 // )
 
 // 在响应拦截器中，你可以规定 AxiosResponse 类型
-instance.interceptors.response.use(
-  (response: AxiosResponse) => {
-    // 在此处添加响应拦截逻辑，如统一处理错误等
-    return response
-  },
-  (error) => {
-    if (error.response.status === 401) {
-      // 处理身份验证错误，如重定向到登录页等
-    }
-    return Promise.reject(error)
-  }
-)
+// instance.interceptors.response.use(
+//   (response: AxiosResponse) => {
+//     // 在此处添加响应拦截逻辑，如统一处理错误等
+//     return response
+//   },
+//   (error) => {
+//     if (error.response.status === 401) {
+//       // 处理身份验证错误，如重定向到登录页等
+//     }
+//     return Promise.reject(error)
+//   }
+// )
 
-type RequestFunction<T, P> = (params: P) => Promise<AxiosResponse<T>>
+type RequestFunction<T> = () => Promise<T>
 
 // useRequest Hook
-export const useRequest = <T, P>(requestFunction: RequestFunction<T, P>) => {
+export const useRequest = <T>(requestFunction: RequestFunction<T>) => {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const fetchData = async (params: P) => {
+  const fetchData = async () => {
     try {
-      setData(() => null)
-      setLoading(() => true)
-      const response = await requestFunction(params)
-      console.log(`🚀 -> file: index.ts:53 -> fetchData -> response:`, response)
-      setData(() => response.data)
+      setData(null)
+      setLoading(true)
+      const response = await requestFunction()
+      setData(response)
     } catch (err) {
       console.error(`Error fetching data`, err)
     } finally {
@@ -71,8 +70,11 @@ export const getTestCorsData = async (): Promise<AxiosResponse<TestData>> => {
 export const getTestArticleData1 = async (): Promise<AxiosResponse<Article>> => {
   return await instance.get<Article>('/article/test')
 }
+export const getTestArticleData2 = async (): Promise<AxiosResponse<Article>> => {
+  return await instance.get<Article>('/article/1')
+}
 
-export const createArticle = async (article: AddArticleType): Promise<AxiosResponse<Article>> => {
+export const createArticle = async (article: Article): Promise<AxiosResponse<Article>> => {
   return await instance.post<Article>('/article', article)
 }
 
@@ -81,18 +83,11 @@ export const getAllArticles = async (): Promise<AxiosResponse<Article[]>> => {
 }
 
 export const getOneArticle = async (id: number): Promise<AxiosResponse<Article>> => {
-  return await instance.get<Article>(`/article/${id}`, {
+  return await instance.get<Article>(`/article`, {
     params: {
       id,
     },
   })
-}
-
-export const updateOneArticle = async (
-  id,
-  data: UpdateArticleType
-): Promise<AxiosResponse<MySuccessRes>> => {
-  return await instance.put<MySuccessRes>(`/article/${id}`, data)
 }
 
 export default instance
