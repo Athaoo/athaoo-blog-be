@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Article } from '../../api/types'
 import MarkdownEditor from '@uiw/react-markdown-editor'
 import { Card, Input, Button, Form, FormProps } from 'antd'
+import { RenderTest } from '../../components/renderTest'
 
 export type ArticleForm = {
   title: string
@@ -16,6 +17,8 @@ export type ArticleEditorProps = {
   onSubmit: (formData: ArticleForm) => void
 }
 const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
+  console.log(`🚀 -> ArticleEditor -> 1:`, 1)
+
   const _initialValues = initialValues ?? {
     title: '',
     summary: '',
@@ -56,6 +59,7 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
           保存
         </Button>
       </Form.Item>
+      <RenderTest/>
     </Form>
   )
 }

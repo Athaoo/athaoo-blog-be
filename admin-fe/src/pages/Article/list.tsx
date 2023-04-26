@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Article } from '../../api/types'
 import { getAllArticles, deleteOneArticle, useRequest } from '../../api'
 import { useMessage } from '../../components/message'
+import { formatDate } from '../../../../fe/src/utils/format';
 
 const DeleteConfirm = ({ text, id }: { text: string; id: string }) => {
   const [res, isLoading, reqDelete] = useRequest(deleteOneArticle)
@@ -42,7 +43,7 @@ const columns = [
     title: '时间',
     dataIndex: 'createdAt',
     render: (text, record: Article) => {
-      return <>{JSON.stringify(new Date(record.createdAt))}</>
+      return <>{formatDate(record.createdAt)}</>
     },
   },
   {

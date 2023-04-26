@@ -3,7 +3,6 @@ import { Card, message } from 'antd'
 import { Article } from '../../api/types'
 import ArticleEditor, { ArticleForm } from './Editor'
 import { createArticle, useRequest } from '../../api'
-import { AddArticleType } from '../../api/types'
 
 
 const App = () => {
@@ -12,7 +11,8 @@ const App = () => {
   const [msgApi, contextHolder] = message.useMessage()
 
   useEffect(() => {
-    res?.message && (msgApi.success(res.message))
+    console.log(`🚀 -> useEffect -> res:`, res)
+    res?.message && (msgApi.info(res.message))
   }, [res])
 
   const onSubmit = async (values: ArticleForm) => {
@@ -27,6 +27,7 @@ const App = () => {
 
   return (
     <Card>
+      {contextHolder}
       <ArticleEditor onSubmit={onSubmit} />
     </Card>
   )

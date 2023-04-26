@@ -2,11 +2,11 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { ConfigProvider } from 'antd'
-import { theme } from 'antd'
+import { theme, App as AntdApp } from 'antd'
 import { useTheme } from './theme'
 import { magenta } from '@ant-design/colors'
 import { ThemeProvider } from './theme'
-import App from './pages/App'
+import MyApp from './pages/App'
 import './index.css'
 
 const container = document.getElementById('root') as HTMLElement
@@ -22,7 +22,7 @@ const Root: React.FC = () => {
         },
         algorithm: myTheme.isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
       }}>
-      <App />
+      <MyApp />
     </ConfigProvider>
   )
 }

@@ -47,7 +47,6 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
 
   const fetchData = async (...params: P) => {
     try {
-      setData(() => null)
       setLoading(() => true)
       const response = await requestFunction(...params)
       console.log(`🚀 -> file: index.ts:53 -> fetchData -> response:`, response)
