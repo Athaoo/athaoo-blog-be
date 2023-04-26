@@ -6,7 +6,7 @@ const localUrl = '//localhost:3000'
 
 const instance = axios.create({
   baseURL: localUrl,
-  timeout: 500,
+  timeout: 5000,
 })
 
 // 在请求拦截器中，你可以规定 AxiosRequestConfig 类型
@@ -62,25 +62,19 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
   return [data, loading, fetchData] as const
 }
 
-export const getTestData = async (): Promise<AxiosResponse<TestData>> => {
-  return await instance.get<TestData>('/test/get1')
-}
-export const getTestCorsData = async (): Promise<AxiosResponse<TestData>> => {
-  return await instance.get<TestData>('/test/getcors')
-}
 export const getTestArticleData1 = async (): Promise<AxiosResponse<Article>> => {
   return await instance.get<Article>('/article/test')
 }
 
-export const createArticle = async (article: AddArticleType): Promise<AxiosResponse<Article>> => {
-  return await instance.post<Article>('/article', article)
+export const createArticle = async (article: AddArticleType): Promise<AxiosResponse<MySuccessRes>> => {
+  return await instance.post<MySuccessRes>('/article', article)
 }
 
 export const getAllArticles = async (): Promise<AxiosResponse<Article[]>> => {
   return await instance.get<Article[]>('/article')
 }
 
-export const getOneArticle = async (id: number): Promise<AxiosResponse<Article>> => {
+export const getOneArticle = async (id: string): Promise<AxiosResponse<Article>> => {
   return await instance.get<Article>(`/article/${id}`, {
     params: {
       id,
@@ -89,10 +83,18 @@ export const getOneArticle = async (id: number): Promise<AxiosResponse<Article>>
 }
 
 export const updateOneArticle = async (
-  id: number,
+  id: string,
   data: UpdateArticleType
 ): Promise<AxiosResponse<MySuccessRes>> => {
   return await instance.put<MySuccessRes>(`/article/${id}`, data)
+}
+
+export const deleteOneArticle = async (id: string): Promise<AxiosResponse<MySuccessRes>> => {
+  return await instance.delete<MySuccessRes>(`/article/${id}`, {
+    params: {
+      id,
+    },
+  })
 }
 
 export default instance

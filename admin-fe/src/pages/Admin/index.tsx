@@ -1,9 +1,8 @@
 import React from 'react'
-import { Menu, Breadcrumb, Row, Col, App, MenuProps } from 'antd'
+import { Menu, Breadcrumb, Row, Col, App, MenuProps, theme } from 'antd'
 import { ThunderboltOutlined, UserOutlined } from '@ant-design/icons'
 import { Link, Outlet } from 'react-router-dom'
-
-const { SubMenu } = Menu
+import ThemeToggler from '../../components/ThemeToggler'
 
 type page = {
   id: string
@@ -22,11 +21,6 @@ const subArticleRoutes: page[] = [
     path: '/admin/article/add',
     name: '添加文章',
   },
-  {
-    id: '3',
-    path: '/admin/article/testApi',
-    name: '测试接口',
-  },
 ]
 
 const sideMenuItems: MenuProps['items'] = [
@@ -43,28 +37,41 @@ const sideMenuItems: MenuProps['items'] = [
     }),
   },
 ]
-
+const { useToken } = theme
 const Admin: React.FC = () => {
+  const { token } = useToken()
   return (
-    <Row style={{ height: '100%', width: '100%' }}>
-      <Row style={{ height: '64px', width: '100%' }}>
-        <Col span={24}>
-          <div>我是Header</div>
-        </Col>
-      </Row>
-      <Row style={{ height: 'calc(100% - 64px)', width: '100%' }}>
-        <Col span={4}>
-          <Menu
-            mode="inline"
-            defaultOpenKeys={['articleList']}
-            defaultSelectedKeys={['articleList']}
-            style={{ height: '100%', borderRight: 0 }}
-            items={sideMenuItems}></Menu>
-        </Col>
-        <Col span={20} style={{ height: '100%' }}>
-          <Outlet />
-        </Col>
-      </Row>
+    <Row style={{ width: '100%', minHeight: '100vh', background: token.colorBgContainer }}>
+      <Col span={24} style={{ height: '100%', width: '100%' }}>
+        <Row style={{ height: '64px', width: '100%' }}>
+          <Col span={24}>
+            <div
+              style={{
+                height: '100%',
+                width: '100%',
+                lineHeight: '64px',
+                paddingLeft: '32px',
+                color: token.colorText,
+              }}>
+              我是Header
+              <ThemeToggler/>
+            </div>
+          </Col>
+        </Row>
+        <Row style={{ height: 'calc(100% - 64px)', width: '100%' }}>
+          <Col span={4}>
+            <Menu
+              mode="inline"
+              defaultOpenKeys={['articleList']}
+              defaultSelectedKeys={['articleList']}
+              style={{ height: '100%', borderRight: 0 }}
+              items={sideMenuItems}></Menu>
+          </Col>
+          <Col span={20} style={{ height: '100%' }}>
+            <Outlet />
+          </Col>
+        </Row>
+      </Col>
     </Row>
   )
 }

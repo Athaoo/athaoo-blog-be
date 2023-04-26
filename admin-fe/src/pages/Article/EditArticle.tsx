@@ -1,16 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Card, Spin, message } from 'antd'
+import { App, Card, Spin, message } from 'antd'
 import { Article, UpdateArticleType } from '../../api/types'
 import ArticleEditor, { ArticleForm } from './Editor'
 import { getOneArticle, useRequest, updateOneArticle } from '../../api'
 import { useParams } from 'react-router-dom'
+import { RenderTest } from '../../components/renderTest'
 
-// TODO article会导致App reRender两次
-const App = () => {
-  const id = parseInt(useParams().id)
+
+// TODO EditArticle reRender两次
+const EditArticle = () => {
+  const { id } = useParams()
   console.log(`🚀 -> file: EditArticle.tsx:10 -> App -> id:`, id)
   const [article, loading, reqOneArticle] = useRequest(getOneArticle)
-  const [msg, ifUpdating, reqUpdateOneArticle] = useRequest(updateOneArticle)
+  const [msg, isUpdating, reqUpdateOneArticle] = useRequest(updateOneArticle)
+  const [test, setTest] = useState(0)
+  const [messageApi, contextHolder] = message.useMessage()
+
+  const info = (text: string) => {
+    messageApi.info(text)
+  }
 
   const formatArticleForm = (article: Article) => {
     return {
@@ -20,7 +28,10 @@ const App = () => {
     }
   }
   useEffect(() => {
-    reqOneArticle(id)
+    const cb = async () => {
+      // await reqOneArticle(id)
+    }
+    cb()
   }, [])
 
   useEffect(() => {
@@ -29,7 +40,7 @@ const App = () => {
 
   useEffect(() => {
     console.log(`🚀 -> file: EditArticle.tsx:33 -> useEffect -> msg:`, msg)
-    msg
+    msg?.message && (info(msg.message))
   }, [msg])
 
   const onSubmit = async (article: ArticleForm) => {
@@ -53,4 +64,4 @@ const App = () => {
   )
 }
 
-export default App
+export default EditArticle

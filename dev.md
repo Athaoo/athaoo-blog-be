@@ -1,6 +1,22 @@
 # 开发日志
 
+##### 2023-04-26
 
+发现editArticle里面并没有出现多余的渲染，想多了
+
+antd的message组件要用useMessage的hook调用，直接message.info会爆警告
+
+**todo**
+
+- [ ] 管理员登陆注册
+
+- [ ] token
+  
+  - [ ] token如何生成，如何生成jwt
+  
+  - [ ] 如何设置有效期
+
+- [ ] 请求转发
 
 ##### 2023-04-25
 
@@ -19,10 +35,7 @@ export interface Article {
   createdAt?: Date
   updatedAt?: Date
 }
-
 ```
-
-
 
 封装了useRequest并正确往里面传递了参数
 
@@ -79,5 +92,3 @@ const { id } = useParams()
     cb()
   }, [])
 ```
-
-

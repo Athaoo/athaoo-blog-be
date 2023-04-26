@@ -17,6 +17,7 @@ import { MyThreeCtrlMenu, MyThreeCtrlMenuProps } from '@src/components/three/men
 
 const PointCloud = () => {
   const pcdRef = React.useRef<THREE.Group>()
+  const octreeHelperRef = useRef()
 
   React.useEffect(() => {
     const loader = new PCDLoader()
@@ -27,6 +28,9 @@ const PointCloud = () => {
       })
       points.material = materia
       pcdRef.current.add(points)
+
+      const octree = new Octree()
+      octree.fromGraphNode(points)
     })
   }, [])
 

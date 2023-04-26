@@ -3,12 +3,11 @@ import React, { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Outlet, Route, RouteObject, useRoutes } from 'react-router-dom'
 
 const Login = lazy(() => import('../pages/Login'))
-const Register = lazy(() => import('../pages/Login/Register'))
+const Register = lazy(() => import('../pages/Login/register'))
 const Admin = lazy(() => import('../pages/Admin'))
 const ArticleList = lazy(() => import('../pages/Article/list'))
 const AddArticle = lazy(() => import('../pages/Article/AddArticle'))
 const EditArticle = lazy(() => import('../pages/Article/EditArticle'))
-const TestApi = lazy(() => import('../pages/Article/TestApi'))
 
 export type RoutesItems = {
   path: string
@@ -51,10 +50,6 @@ const config: RouteObject[] = [
           {
             path: 'edit/:id',
             element: <EditArticle />,
-          },
-          {
-            path: 'testApi',
-            element: <TestApi />,
           },
         ],
       },

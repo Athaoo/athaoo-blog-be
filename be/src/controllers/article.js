@@ -23,7 +23,9 @@ export const createArticle = async (ctx) => {
 
     const article = await Article.create(value)
     ctx.status = 201
-    ctx.body = article.dataValues
+    ctx.body = {
+      message: 'Successfully created article'
+    }
   } catch (err) {
     ctx.status = 500
     ctx.body = {

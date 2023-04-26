@@ -1,30 +1,26 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { Table, Tag, Popconfirm, Card, Spin } from 'antd'
+import { Table, Tag, Popconfirm, Card, Spin, message } from 'antd'
 import { Link } from 'react-router-dom'
 import { Article } from '../../api/types'
-import { getAllArticles } from '../../api'
+import { getAllArticles, deleteOneArticle, useRequest } from '../../api'
+import { useMessage } from '../../components/message'
 
-const useGetList: () => [boolean, Article[]] = () => {
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState<Article[]>()
-
-  const request = async () => {
-    try {
-      const res = await getAllArticles()
-      console.log(`🚀 -> file: list.tsx:14 -> request -> res:`, res)
-
-      setData(res.data)
-    } catch (e) {
-      console.error(e)
-    } finally {
-      setLoading(false)
-    }
-  }
+const DeleteConfirm = ({ text, id }: { text: string; id: string }) => {
+  const [res, isLoading, reqDelete] = useRequest(deleteOneArticle)
+  const [msgApi, contextHolder] = message.useMessage()
 
   useEffect(() => {
-    request()
-  }, [])
-  return [loading, data]
+    res?.message && (msgApi.success(res.message))
+  }, [res])
+
+  return (
+    <Popconfirm title={text} onConfirm={() => {
+      reqDelete(id)
+    }}>
+      {contextHolder}
+      <a>删除</a>
+    </Popconfirm>
+  )
 }
 const columns = [
   {
@@ -66,17 +62,20 @@ const columns = [
     title: '操作',
     dataIndex: 'operation',
     render: (text, record: Article) => (
-      <Popconfirm title="确定log?" onConfirm={() => console.log(record)}>
-        <a>log这一行的数据</a>
-      </Popconfirm>
+      <DeleteConfirm text={'删除'} id={record.id}/>
     ),
   },
 ]
 const ArticleList = () => {
-  const [loading, data] = useGetList()
+  const [articles, isLoading, reqAll] = useRequest(getAllArticles)
+
+  useEffect(() => {
+    reqAll()
+  }, [])
+
   return (
     <Card style={{ height: '100%' }}>
-      {loading ? <Spin /> : <Table columns={columns} dataSource={data} rowKey="id" />}
+      {isLoading ? <Spin /> : <Table columns={columns} dataSource={articles} rowKey="id" />}
     </Card>
   )
 }

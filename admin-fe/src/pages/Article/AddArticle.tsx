@@ -1,31 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Card } from 'antd'
+import { Card, message } from 'antd'
 import { Article } from '../../api/types'
 import ArticleEditor, { ArticleForm } from './Editor'
-import { createArticle } from '../../api'
+import { createArticle, useRequest } from '../../api'
 import { AddArticleType } from '../../api/types'
 
-const useAddArticle = () => {
-  const [res, setRes] = useState<Article>()
-  const [loading, setLoading] = useState(false)
-
-  const addArticle = async (article: AddArticleType) => {
-    try {
-      const res = await createArticle(article)
-      setRes(res.data)
-      console.log(`🚀 -> file: AddArticle.tsx:10 -> useAddArticle -> res:`, res)
-    } catch (e) {
-      console.error(e.stack)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return { res, loading, addArticle }
-}
 
 const App = () => {
-  const { res, loading, addArticle } = useAddArticle()
+  const [res, loading, addArticle] = useRequest(createArticle)
+
+  const [msgApi, contextHolder] = message.useMessage()
+
+  useEffect(() => {
+    res?.message && (msgApi.success(res.message))
+  }, [res])
 
   const onSubmit = async (values: ArticleForm) => {
     const tagsArray = values.tags.split(',').map((tag: string) => tag.trim())
