@@ -5,8 +5,8 @@ import { useRequest, apiRegister } from '../../api'
 import { useMessage } from '../../components/message'
 
 type Form = {
-  username: string,
-  password: string,
+  username: string
+  password: string
 }
 const Register: React.FC = () => {
   const navigate = useNavigate()
@@ -14,10 +14,10 @@ const Register: React.FC = () => {
   const [info, contextHolder] = useMessage()
 
   const onFinish = async (values: Form) => {
-    navigate('admin')
     const { username, password } = values
     await register(username, password)
     info(res.message)
+    navigate('login')
     console.log('Success:', values)
   }
 

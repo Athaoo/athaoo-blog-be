@@ -5,8 +5,8 @@ import { useRequest, apiLogin } from '../../api'
 import { useMessage } from '../../components/message'
 
 type Form = {
-  username: string,
-  password: string,
+  username: string
+  password: string
 }
 const Login: React.FC = () => {
   const navigate = useNavigate()
@@ -14,10 +14,10 @@ const Login: React.FC = () => {
   const [info, contextHolder] = useMessage()
 
   const onFinish = async (values: Form) => {
-    navigate('admin')
     const { username, password } = values
     await login(username, password)
     info(res.message)
+    navigate('admin')
     console.log('Success:', values)
   }
 

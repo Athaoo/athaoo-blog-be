@@ -1,6 +1,7 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { TestData, Article, AddArticleType, UpdateArticleType, MySuccessRes } from './types'
 import { useState } from 'react'
+import { message } from 'antd'
 
 const localUrl = '//localhost:3000'
 
@@ -30,7 +31,8 @@ instance.interceptors.response.use(
     // 在此处添加响应拦截逻辑，如统一处理错误等
     return response
   },
-  (error) => {
+  (error: AxiosError) => {
+    console.log(`🚀 -> file: index.ts:35 -> error:`, error)
     if (error.response.status === 401) {
       // 处理身份验证错误，如重定向到登录页等
     }
@@ -52,7 +54,7 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
       console.log(`🚀 -> file: index.ts:53 -> fetchData -> response:`, response)
       setData(() => response.data)
     } catch (err) {
-      console.error(`Error fetching data`, err)
+      console.error(`Error fetching data`, err.respose.data.message)
     } finally {
       setLoading(false)
     }
@@ -61,19 +63,23 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
   return [data, loading, fetchData] as const
 }
 
-export const apiLogin = async (username: string, password: string): Promise<AxiosResponse<MySuccessRes>> => {
+export const apiLogin = async (
+  username: string,
+  password: string
+): Promise<AxiosResponse<MySuccessRes>> => {
   return await instance.post<MySuccessRes>('/login', {
-    param: {
-      username, password,
-    }
+    username,
+    password,
   })
 }
 
-export const apiRegister = async (username: string, password: string): Promise<AxiosResponse<MySuccessRes>> => {
+export const apiRegister = async (
+  username: string,
+  password: string
+): Promise<AxiosResponse<MySuccessRes>> => {
   return await instance.post<MySuccessRes>('/register', {
-    param: {
-      username, password,
-    }
+    username,
+    password,
   })
 }
 
@@ -81,7 +87,9 @@ export const getTestArticleData1 = async (): Promise<AxiosResponse<Article>> => 
   return await instance.get<Article>('/article/test')
 }
 
-export const createArticle = async (article: AddArticleType): Promise<AxiosResponse<MySuccessRes>> => {
+export const createArticle = async (
+  article: AddArticleType
+): Promise<AxiosResponse<MySuccessRes>> => {
   return await instance.post<MySuccessRes>('/article', article)
 }
 
