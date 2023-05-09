@@ -1,11 +1,23 @@
 import React from 'react'
 import { Button, Form, Input, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { useRequest, apiRegister } from '../../api'
+import { useMessage } from '../../components/message'
 
+type Form = {
+  username: string,
+  password: string,
+}
 const Register: React.FC = () => {
   const navigate = useNavigate()
+  const [res, registering, register] = useRequest(apiRegister)
+  const [info, contextHolder] = useMessage()
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: Form) => {
+    navigate('admin')
+    const { username, password } = values
+    await register(username, password)
+    info(res.message)
     console.log('Success:', values)
   }
 

@@ -61,6 +61,22 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
   return [data, loading, fetchData] as const
 }
 
+export const apiLogin = async (username: string, password: string): Promise<AxiosResponse<MySuccessRes>> => {
+  return await instance.post<MySuccessRes>('/login', {
+    param: {
+      username, password,
+    }
+  })
+}
+
+export const apiRegister = async (username: string, password: string): Promise<AxiosResponse<MySuccessRes>> => {
+  return await instance.post<MySuccessRes>('/register', {
+    param: {
+      username, password,
+    }
+  })
+}
+
 export const getTestArticleData1 = async (): Promise<AxiosResponse<Article>> => {
   return await instance.get<Article>('/article/test')
 }

@@ -1,17 +1,27 @@
 import React from 'react'
 import { Button, Form, Input, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { useRequest, apiLogin } from '../../api'
+import { useMessage } from '../../components/message'
 
+type Form = {
+  username: string,
+  password: string,
+}
 const Login: React.FC = () => {
   const navigate = useNavigate()
+  const [res, logining, login] = useRequest(apiLogin)
+  const [info, contextHolder] = useMessage()
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: Form) => {
     navigate('admin')
+    const { username, password } = values
+    await login(username, password)
+    info(res.message)
     console.log('Success:', values)
   }
 
   const onFinishFailed = (errorInfo: any) => {
-    navigate('admin')
     console.log('Failed:', errorInfo)
   }
 
@@ -25,6 +35,7 @@ const Login: React.FC = () => {
         width: '24vw',
         height: '100%',
       }}>
+      {contextHolder}
       <Form
         name="basic"
         initialValues={{ remember: true }}
