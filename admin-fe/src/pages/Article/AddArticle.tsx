@@ -1,18 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Card, message } from 'antd'
-import { Article } from '../../api/types'
+import { Article, MySuccessRes } from '../../api/types'
 import ArticleEditor, { ArticleForm } from './Editor'
 import { createArticle, useRequest } from '../../api'
 
-
 const App = () => {
-  const [res, loading, addArticle] = useRequest(createArticle)
-
+  const [loading, addArticle] = useRequest(createArticle)
   const [msgApi, contextHolder] = message.useMessage()
+  const [res, setRes] = useState<MySuccessRes>(null)
 
   useEffect(() => {
     console.log(`🚀 -> useEffect -> res:`, res)
-    res?.message && (msgApi.info(res.message))
+    res?.message && msgApi.info(res.message)
   }, [res])
 
   const onSubmit = async (values: ArticleForm) => {
@@ -22,7 +21,8 @@ const App = () => {
       content: JSON.stringify(values.content),
       tags: tagsArray,
     } as Article
-    await addArticle(article)
+    const response = await addArticle(article)
+    setRes(response)
   }
 
   return (

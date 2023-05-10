@@ -4,20 +4,18 @@ import { Link } from 'react-router-dom'
 import { Article } from '../../api/types'
 import { getAllArticles, deleteOneArticle, useRequest } from '../../api'
 import { useMessage } from '../../components/message'
-import { formatDate } from '../../../../fe/src/utils/format';
+import { formatDate } from '../../../../fe/src/utils/format'
 
 const DeleteConfirm = ({ text, id }: { text: string; id: string }) => {
-  const [res, isLoading, reqDelete] = useRequest(deleteOneArticle)
+  const [isLoading, reqDelete] = useRequest(deleteOneArticle)
   const [msgApi, contextHolder] = message.useMessage()
 
-  useEffect(() => {
-    res?.message && (msgApi.success(res.message))
-  }, [res])
-
   return (
-    <Popconfirm title={text} onConfirm={() => {
-      reqDelete(id)
-    }}>
+    <Popconfirm
+      title={text}
+      onConfirm={() => {
+        reqDelete(id)
+      }}>
       {contextHolder}
       <a>删除</a>
     </Popconfirm>
@@ -62,16 +60,18 @@ const columns = [
   {
     title: '操作',
     dataIndex: 'operation',
-    render: (text, record: Article) => (
-      <DeleteConfirm text={'删除'} id={record.id}/>
-    ),
+    render: (text, record: Article) => <DeleteConfirm text={'删除'} id={record.id} />,
   },
 ]
 const ArticleList = () => {
-  const [articles, isLoading, reqAll] = useRequest(getAllArticles)
+  const [isLoading, reqAll] = useRequest(getAllArticles)
+  const [articles, setArticles] = useState<Article[]>(null)
 
   useEffect(() => {
-    reqAll()
+    const req = async () => {
+      const articles = await reqAll()
+      setArticles(articles)
+    }
   }, [])
 
   return (

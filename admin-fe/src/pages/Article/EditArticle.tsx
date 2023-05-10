@@ -9,9 +9,10 @@ import { RenderTest } from '../../components/renderTest'
 const EditArticle = () => {
   const { id } = useParams()
   console.log(`🚀 -> file: EditArticle.tsx:10 -> App -> id:`, id)
-  const [article, loading, reqOneArticle] = useRequest(getOneArticle)
-  const [msg, isUpdating, reqUpdateOneArticle] = useRequest(updateOneArticle)
+  const [loading, reqOneArticle] = useRequest(getOneArticle)
+  const [isUpdating, reqUpdateOneArticle] = useRequest(updateOneArticle)
   const [messageApi, contextHolder] = message.useMessage()
+  const [article, setArticle] = useState<Article>(null)
 
   const formatArticleForm = (article: Article) => {
     return {
@@ -21,17 +22,13 @@ const EditArticle = () => {
     }
   }
   useEffect(() => {
-    reqOneArticle(id)
+    const req = async () => {
+      const article = await reqOneArticle(id)
+      setArticle(article)
+    }
+
+    req()
   }, [])
-
-  useEffect(() => {
-    console.log(`🚀 -> file: EditArticle.tsx:17 -> .then -> article:`, article)
-  }, [article])
-
-  useEffect(() => {
-    console.log(`🚀 -> file: EditArticle.tsx:33 -> useEffect -> msg:`, msg)
-    msg?.message && messageApi.info(msg.message)
-  }, [msg])
 
   const onSubmit = async (article: ArticleForm) => {
     const updateParam = {

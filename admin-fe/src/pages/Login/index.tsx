@@ -10,15 +10,21 @@ type Form = {
 }
 const Login: React.FC = () => {
   const navigate = useNavigate()
-  const [res, logining, login] = useRequest(apiLogin)
+  const [logining, login] = useRequest(apiLogin)
   const [info, contextHolder] = useMessage()
 
   const onFinish = async (values: Form) => {
-    const { username, password } = values
-    await login(username, password)
-    info(res.message)
-    navigate('admin')
-    console.log('Success:', values)
+    try {
+      const { username, password } = values
+      const res = await login(username, password)
+      console.log(`🚀 -> file: index.tsx:26 -> onFinish -> res:`, res)
+      info(res.message)
+      window.localStorage.setItem('token', res.token)
+      navigate('admin')
+      console.log('Success:', values)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const onFinishFailed = (errorInfo: any) => {

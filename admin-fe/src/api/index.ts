@@ -1,5 +1,18 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { TestData, Article, AddArticleType, UpdateArticleType, MySuccessRes } from './types'
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'axios'
+import {
+  TestData,
+  Article,
+  AddArticleType,
+  UpdateArticleType,
+  MySuccessRes,
+  loginSuccessRes,
+} from './types'
 import { useState } from 'react'
 import { message } from 'antd'
 
@@ -11,19 +24,19 @@ const instance = axios.create({
 })
 
 // 在请求拦截器中，你可以规定 AxiosRequestConfig 类型
-// instance.interceptors.request.use(
-//   (config: AxiosRequestConfig) => {
-//     // 在此处添加请求拦截逻辑，如添加请求头等
-//     const token = localStorage.getItem('token')
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`
-//     }
-//     return config
-//   },
-//   (error) => {
-//     return Promise.reject(error)
-//   }
-// )
+instance.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    // 在此处添加请求拦截逻辑，如添加请求头等
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
 
 // 在响应拦截器中，你可以规定 AxiosResponse 类型
 instance.interceptors.response.use(
@@ -44,7 +57,6 @@ type RequestFunction<T, P extends any[]> = (...params: P) => Promise<AxiosRespon
 
 // useRequest Hook
 export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<T, P>) => {
-  const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
 
   const fetchData = async (...params: P) => {
@@ -52,7 +64,7 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
       setLoading(() => true)
       const response = await requestFunction(...params)
       console.log(`🚀 -> file: index.ts:53 -> fetchData -> response:`, response)
-      setData(() => response.data)
+      return response.data
     } catch (err) {
       console.error(`Error fetching data`, err.respose.data.message)
     } finally {
@@ -60,14 +72,14 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
     }
   }
 
-  return [data, loading, fetchData] as const
+  return [loading, fetchData] as const
 }
 
 export const apiLogin = async (
   username: string,
   password: string
-): Promise<AxiosResponse<MySuccessRes>> => {
-  return await instance.post<MySuccessRes>('/login', {
+): Promise<AxiosResponse<loginSuccessRes>> => {
+  return await instance.post<loginSuccessRes>('/login', {
     username,
     password,
   })
