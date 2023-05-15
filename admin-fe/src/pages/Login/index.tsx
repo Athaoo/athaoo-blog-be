@@ -19,7 +19,7 @@ const Login: React.FC = () => {
       const res = await login(username, password)
       console.log(`🚀 -> file: index.tsx:26 -> onFinish -> res:`, res)
       info(res.message)
-      window.localStorage.setItem('token', res.token)
+      window.sessionStorage.setItem('token', res.token)
       navigate('admin')
       console.log('Success:', values)
     } catch (e) {

@@ -7,7 +7,7 @@ import {
   deleteArticle,
 } from '../controllers/article.js'
 
-const router = new Router()
+const router = new Router({ prefix: '/api' })
 
 router.get('/article/test', async (ctx) => {
   ctx.body = {

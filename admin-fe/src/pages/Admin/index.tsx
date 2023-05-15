@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Menu, Breadcrumb, Row, Col, App, MenuProps, theme } from 'antd'
 import { ThunderboltOutlined, UserOutlined } from '@ant-design/icons'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import ThemeToggler from '../../components/ThemeToggler'
 
 type page = {
@@ -37,9 +37,18 @@ const sideMenuItems: MenuProps['items'] = [
     }),
   },
 ]
+
 const { useToken } = theme
 const Admin: React.FC = () => {
   const { token } = useToken()
+  const navigate = useNavigate()
+
+  const logout = () => {
+    sessionStorage.removeItem('token')
+    navigate('/login')
+  }
+  const doLogout = useCallback(logout, [])
+
   return (
     <Row style={{ width: '100%', minHeight: '100vh', background: token.colorBgContainer }}>
       <Col span={24} style={{ height: '100%', width: '100%' }}>
@@ -47,14 +56,19 @@ const Admin: React.FC = () => {
           <Col span={24}>
             <div
               style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
                 height: '100%',
                 width: '100%',
                 lineHeight: '64px',
-                paddingLeft: '32px',
                 color: token.colorText,
               }}>
-              我是Header
-              <ThemeToggler/>
+              <div style={{ padding: '0 36px' }}>我是Header</div>
+              <div style={{ padding: '0 36px' }}>
+                <a onClick={doLogout}>登出</a>
+              </div>
+              <ThemeToggler />
             </div>
           </Col>
         </Row>

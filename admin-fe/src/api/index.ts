@@ -16,7 +16,7 @@ import {
 import { useState } from 'react'
 import { message } from 'antd'
 
-const localUrl = '//localhost:3000'
+const localUrl = '//localhost:3000/api'
 
 const instance = axios.create({
   baseURL: localUrl,
@@ -26,11 +26,15 @@ const instance = axios.create({
 // 在请求拦截器中，你可以规定 AxiosRequestConfig 类型
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // 在此处添加请求拦截逻辑，如添加请求头等
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+    console.log(`🚀 -> file: index.ts:41 -> url:`, config.url)
+    if (config.url !== '/login' && config.url !== '/register') {
+      // 在此处添加请求拦截逻辑，如添加请求头等
+      const token = sessionStorage.getItem('token')
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
     }
+
     return config
   },
   (error) => {

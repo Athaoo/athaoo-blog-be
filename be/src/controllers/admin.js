@@ -2,7 +2,7 @@ import Admin from '../models/admin.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
-const jwtSecret = '123'
+export const jwtSecret = '123'
 
 export async function getAllAdmins(ctx) {
   const admins = await Admin.findAll()

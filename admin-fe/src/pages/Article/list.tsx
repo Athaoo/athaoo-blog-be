@@ -72,6 +72,7 @@ const ArticleList = () => {
       const articles = await reqAll()
       setArticles(articles)
     }
+    req()
   }, [])
 
   return (
