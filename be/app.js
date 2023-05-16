@@ -24,16 +24,14 @@ async function main() {
       }
     })
   })
-
+  app.use(cors())
   app.use(
     koaJwt({
       secret: jwtSecret,
-      passthrough: false, // 设置为 true 时，如果没有 token 也会继续下一个中间件，但会在 ctx.state 上标记没有 token，可以在后续中间件中进行处理
     }).unless({
       path: [/^\/api\/login/, /^\/api\/register/],
     })
   )
-  app.use(cors())
   app.use(bodyParser())
   app.use(adminRoutes.routes()).use(adminRoutes.allowedMethods())
   app.use(articleRoutes.routes()).use(adminRoutes.allowedMethods())
