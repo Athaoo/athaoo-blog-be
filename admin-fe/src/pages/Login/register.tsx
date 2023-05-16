@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form, Input, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useRequest, apiRegister } from '../../api'
@@ -10,15 +10,19 @@ type Form = {
 }
 const Register: React.FC = () => {
   const navigate = useNavigate()
-  const [res, registering, register] = useRequest(apiRegister)
+  const [registering, register] = useRequest(apiRegister)
   const [info, contextHolder] = useMessage()
+  const [msg, setMsg] = useState('')
+
+  useEffect(() => {
+    msg && info(msg)
+  }, [msg])
 
   const onFinish = async (values: Form) => {
     const { username, password } = values
-    await register(username, password)
-    info(res.message)
+    const res = await register(username, password)
+    setMsg(res.message)
     navigate('login')
-    console.log('Success:', values)
   }
 
   const onFinishFailed = (errorInfo: any) => {

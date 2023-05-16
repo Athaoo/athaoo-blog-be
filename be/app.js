@@ -6,6 +6,7 @@ import { myCors } from './src/middleware/my-cors.js'
 import sequelize from './src/database/index.js'
 import koaJwt from 'koa-jwt'
 import { jwtSecret } from './src/controllers/admin.js'
+import cors from 'koa2-cors'
 
 async function main() {
   // 同步表
@@ -28,12 +29,11 @@ async function main() {
     koaJwt({
       secret: jwtSecret,
       passthrough: false, // 设置为 true 时，如果没有 token 也会继续下一个中间件，但会在 ctx.state 上标记没有 token，可以在后续中间件中进行处理
-      debug: true,
     }).unless({
       path: [/^\/api\/login/, /^\/api\/register/],
     })
   )
-  app.use(myCors)
+  app.use(cors())
   app.use(bodyParser())
   app.use(adminRoutes.routes()).use(adminRoutes.allowedMethods())
   app.use(articleRoutes.routes()).use(adminRoutes.allowedMethods())
