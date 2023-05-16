@@ -1,6 +1,7 @@
 import { Spin } from 'antd'
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Outlet, Route, RouteObject, useRoutes } from 'react-router-dom'
+import { RouterBeforeEach } from './AuthRoute'
 
 const Login = lazy(() => import('../pages/Login'))
 const Register = lazy(() => import('../pages/Login/register'))
@@ -57,23 +58,35 @@ const config: RouteObject[] = [
   },
 ]
 
-const Routes = () => {
-  return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-          }}>
-          <Spin size="large" />
-        </div>
-      }>
-      {useRoutes(config)}
-    </Suspense>
-  )
+const createRoutes = (routes: RouteObject[]) => {
+  return routes.map((route) => {
+    route.element = (
+      <Suspense
+        fallback={
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Spin size="default" />
+          </div>
+        }>
+        <RouterBeforeEach>{route.element}</RouterBeforeEach>
+        {/* {route.element} */}
+      </Suspense>
+    )
+
+    if (route instanceof Array && route.length) {
+      route.children = createRoutes(route.children)
+    }
+
+    return route
+  })
 }
+const myRoutes = createRoutes(config)
+console.log(`🚀 -> file: index.tsx:88 -> myRoutes:`, myRoutes)
+
+const Routes = () => useRoutes(myRoutes)
 
 export default Routes
