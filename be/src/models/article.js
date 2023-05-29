@@ -34,6 +34,10 @@ Article.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    cover: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }
   },
   {
     sequelize,

@@ -29,7 +29,7 @@ async function main() {
     koaJwt({
       secret: jwtSecret,
     }).unless({
-      path: [/^\/api\/login/, /^\/api\/register/],
+      path: [/^\/api\/login/, /^\/api\/register/, '/api/article/list'],
     })
   )
   app.use(bodyParser())
