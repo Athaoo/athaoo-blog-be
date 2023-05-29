@@ -34,7 +34,7 @@
 
   - [ ] token
 
-    - [ ] token 如何生成，如何生成 jwt
+    - [x] token 如何生成，如何生成 jwt
 
     - [ ] 如何设置有效期
 
@@ -67,6 +67,11 @@
   - [ ] 缓存？
 
 # 开发日志
+
+##### 2023-05-28
+
+详细的 react+webpack+postcss+tailwind 配置，官方并没有 create-react-app 和 webapck 关于 tailwind 的详细配置，踩了些坑配好了。文章关于 webpack 的 css 相关 loader 和 plugin 的作用写的很详细
+https://www.iwenson.com/articles/react-with-tailwindcss-from-scratch
 
 ##### 2023-05-16
 
