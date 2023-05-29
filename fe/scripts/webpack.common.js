@@ -47,9 +47,8 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
+          MiniCssExtractPlugin.loader,
+          // 'style-loader',
           'css-loader',
           'postcss-loader',
           {

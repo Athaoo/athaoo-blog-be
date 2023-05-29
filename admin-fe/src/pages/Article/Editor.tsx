@@ -3,6 +3,7 @@ import { Article } from '../../api/types'
 import MarkdownEditor from '@uiw/react-markdown-editor'
 import { Card, Input, Button, Form, FormProps } from 'antd'
 import { RenderTest } from '../../components/renderTest'
+// import { Editor, Viewer} from 'bytemd'
 
 export type ArticleForm = {
   title: string
@@ -59,7 +60,7 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
           保存
         </Button>
       </Form.Item>
-      <RenderTest/>
+      <RenderTest />
     </Form>
   )
 }
