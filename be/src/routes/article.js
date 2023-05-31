@@ -16,6 +16,8 @@ router.get('/article/test', async (ctx) => {
 })
 router.post('/article', createArticle)
 router.get('/article', getArticles)
+router.get('/public/article', getArticles)
+router.get('/public/article/:id', getArticleById)
 router.get('/article/:id', getArticleById)
 router.put('/article/:id', updateArticle)
 router.delete('/article/:id', deleteArticle)

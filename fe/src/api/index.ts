@@ -38,52 +38,34 @@ const instance = axios.create({
 //   }
 // )
 
-type RequestFunction<T> = () => Promise<T>
+type RequestFunction<T, P extends any[]> = (...params: P) => Promise<AxiosResponse<T>>
 
 // useRequest Hook
-export const useRequest = <T>(requestFunction: RequestFunction<T>) => {
-  const [data, setData] = useState<T | null>(null)
+export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<T, P>) => {
   const [loading, setLoading] = useState(true)
 
-  const fetchData = async () => {
+  const fetchData = async (...params: P) => {
     try {
-      setData(null)
-      setLoading(true)
-      const response = await requestFunction()
-      setData(response)
+      setLoading(() => true)
+      const response = await requestFunction(...params)
+      console.log(`🚀 -> file: index.ts:53 -> fetchData -> response:`, response)
+      return response.data
     } catch (err) {
-      console.error(`Error fetching data`, err)
+      console.error(`Error fetching data`, err.respose.data.message)
     } finally {
       setLoading(false)
     }
   }
 
-  return [data, loading, fetchData] as const
-}
-
-export const getTestData = async (): Promise<AxiosResponse<TestData>> => {
-  return await instance.get<TestData>('/test/get1')
-}
-export const getTestCorsData = async (): Promise<AxiosResponse<TestData>> => {
-  return await instance.get<TestData>('/test/getcors')
-}
-export const getTestArticleData1 = async (): Promise<AxiosResponse<Article>> => {
-  return await instance.get<Article>('/article/test')
-}
-export const getTestArticleData2 = async (): Promise<AxiosResponse<Article>> => {
-  return await instance.get<Article>('/article/1')
-}
-
-export const createArticle = async (article: Article): Promise<AxiosResponse<Article>> => {
-  return await instance.post<Article>('/article', article)
+  return [loading, fetchData] as const
 }
 
 export const getAllArticles = async (): Promise<AxiosResponse<Article[]>> => {
-  return await instance.get<Article[]>('/article')
+  return await instance.get<Article[]>('/api/public/article')
 }
 
 export const getOneArticle = async (id: number): Promise<AxiosResponse<Article>> => {
-  return await instance.get<Article>(`/article`, {
+  return await instance.get<Article>(`/api/public/article/${id}`, {
     params: {
       id,
     },
