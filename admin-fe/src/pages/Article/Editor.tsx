@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Article } from '../../api/types'
 import MarkdownEditor from '@uiw/react-markdown-editor'
-import { Card, Input, Button, Form, FormProps } from 'antd'
+import { Card, Input, Button, Form, FormProps, Upload } from 'antd'
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload'
 import { RenderTest } from '../../components/renderTest'
-// import { Editor, Viewer} from 'bytemd'
+import { Editor, Viewer } from '@bytemd/react'
+import gfm from '@bytemd/plugin-gfm'
+import 'bytemd/dist/index.css'
 
 export type ArticleForm = {
   title: string
@@ -17,6 +20,16 @@ export type ArticleEditorProps = {
   initialValues?: ArticleForm
   onSubmit: (formData: ArticleForm) => void
 }
+
+const getBase64 = (file: RcFile): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = (error) => reject(error)
+  })
+
+const plugins = [gfm()]
 const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
   console.log(`🚀 -> ArticleEditor -> 1:`, 1)
 
@@ -28,15 +41,22 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
     tags: '',
   }
   const [content, setContent] = useState(_initialValues.content)
+  const [fileList, setFileList] = useState<UploadFile[]>([])
   const [form] = Form.useForm()
-  const onContentChange = (text, viewUpdate) => {
-    setContent(text)
-  }
 
-  const onFinish = (formData) => {
+  const handleFileChange: UploadProps['onChange'] = useCallback(
+    ({ fileList: newFileList }) => setFileList(newFileList),
+    []
+  )
+
+  const onContentChange = useCallback((text: string) => {
+    setContent(text)
+  }, [])
+
+  const onFinish = useCallback((formData) => {
     formData.content = content
     onSubmit(formData)
-  }
+  }, [])
 
   return (
     <Form initialValues={_initialValues} layout="vertical" form={form} onFinish={onFinish}>
@@ -52,8 +72,13 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
       <Form.Item label="作者" name="author">
         <Input placeholder="请输入作者（可选）" />
       </Form.Item>
+      <Form.Item label="封面">
+        <Upload listType="picture-circle" onChange={handleFileChange}>
+          <Button>上传上传</Button>
+        </Upload>
+      </Form.Item>
       <Form.Item label="正文">
-        <MarkdownEditor value={content} onChange={onContentChange} style={{ minHeight: '500px' }} />
+        <Editor value={content} onChange={onContentChange} plugins={plugins} />
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit">
