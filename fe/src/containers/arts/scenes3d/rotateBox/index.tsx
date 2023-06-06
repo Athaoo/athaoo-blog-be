@@ -22,7 +22,7 @@ import { OrbitControls, PerspectiveCamera, useHelper } from '@react-three/drei'
 import { Card, Switch, Button, Row, Col, Typography, Space, Divider } from 'antd'
 
 import TransformControls from '@src/components/three/transformControl'
-import { CameraHelper } from 'three'
+import { CameraHelper, Vector3 } from 'three'
 
 import { XyzArr } from '@src/types/three'
 
@@ -106,12 +106,13 @@ const Scene: React.FC<RotateSceneProps> = ({
 }) => {
   const mainCamRef = useRef<PerspectiveCameraType>()
   const helperCamRef = useRef<PerspectiveCameraType>()
+  const up = new Vector3(0, 0, 1)
 
   return (
     <Canvas>
       <Lights />
       <HelperCam ref={helperCamRef} position={helperCamPos} near={2} far={15} fov={25} />
-      <MainCam ref={mainCamRef} position={camPos} />
+      <MainCam ref={mainCamRef} position={camPos} up={up} />
       <OrbitControls
         camera={mainCamRef.current}
         enabled={orbitCtrlEnabled}

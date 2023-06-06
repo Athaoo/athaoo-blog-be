@@ -47,9 +47,17 @@ export const getArticleById = async (ctx) => {
 
 export const updateArticle = async (ctx) => {
   const { id } = ctx.params
-  const { title, time, tags, summary, content, author } = ctx.request.body
-  await Article.update({ title, time, tags, summary, content, author }, { where: { id } })
+  console.log(`🚀 -> updateArticle -> ctx:`, ctx)
+  console.log(`🚀 -> updateArticle -> id:`, id)
+  const { title, tags, summary, content, author } = ctx.request.body
   ctx.body = { message: 'Article updated successfully' }
+  console.log(`🚀 -> updateArticle -> title, time, tags, summary, content, author:`, title, tags, summary, content, author)
+  // console.log(`🚀 -> updateArticle -> ctx.request.files:`, ctx.request.files)
+  // try {
+  //   await Article.update({ title, tags, summary, content, author }, { where: { id } })
+  // } catch(e) {
+
+  // }
 }
 
 export const deleteArticle = async (ctx) => {

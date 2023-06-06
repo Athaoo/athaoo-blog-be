@@ -14,6 +14,7 @@ export type ArticleForm = {
   content: string
   author?: string
   tags: string
+  cover?: File
 }
 
 export type ArticleEditorProps = {
@@ -29,6 +30,7 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error)
   })
 
+// bytemd配置
 const plugins = [gfm()]
 const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
   console.log(`🚀 -> ArticleEditor -> 1:`, 1)
@@ -44,19 +46,28 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [form] = Form.useForm()
 
-  const handleFileChange: UploadProps['onChange'] = useCallback(
-    ({ fileList: newFileList }) => setFileList(newFileList),
-    []
-  )
-
   const onContentChange = useCallback((text: string) => {
     setContent(text)
   }, [])
 
-  const onFinish = useCallback((formData) => {
+  const handleBeforeUploadCover: UploadProps['beforeUpload'] = useCallback(
+    (file: RcFile, FileList: RcFile[]) => {
+      console.log(
+        `🚀 -> consthandleBeforeUploadCover:UploadProps['beforeUpload']=useCallback -> file:`,
+        file
+      )
+      setFileList([file])
+      return false
+    },
+    []
+  )
+
+  const onFinish = (formData) => {
     formData.content = content
+    formData.cover = fileList[0]
+    console.log(`🚀 -> onFinish -> fileList:`, fileList)
     onSubmit(formData)
-  }, [])
+  }
 
   return (
     <Form initialValues={_initialValues} layout="vertical" form={form} onFinish={onFinish}>
@@ -73,7 +84,7 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
         <Input placeholder="请输入作者（可选）" />
       </Form.Item>
       <Form.Item label="封面">
-        <Upload listType="picture-circle" onChange={handleFileChange}>
+        <Upload listType="picture-circle" beforeUpload={handleBeforeUploadCover} maxCount={1}>
           <Button>上传上传</Button>
         </Upload>
       </Form.Item>

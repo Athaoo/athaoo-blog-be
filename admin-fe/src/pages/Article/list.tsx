@@ -69,8 +69,12 @@ const ArticleList = () => {
 
   useEffect(() => {
     const req = async () => {
-      const articles = await reqAll()
-      setArticles(articles)
+      try {
+        const articles = await reqAll()
+        setArticles(articles)
+      } catch(e) {
+        console.log(e)
+      }
     }
     req()
   }, [])

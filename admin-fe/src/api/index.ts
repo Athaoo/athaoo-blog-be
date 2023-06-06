@@ -125,7 +125,23 @@ export const updateOneArticle = async (
   id: string,
   data: UpdateArticleType
 ): Promise<AxiosResponse<MySuccessRes>> => {
-  return await instance.put<MySuccessRes>(`/article/${id}`, data)
+  const formData = new FormData()
+  formData.append('title', data.title)
+  console.log(`🚀 -> data:`, data)
+  formData.append('tags', JSON.stringify(data.tags))
+  formData.append('summary', data.summary || '')
+  formData.append('content', data.content)
+  formData.append('author', data.author || '')
+  if (data.cover) {
+    formData.append('cover', data.cover)
+  }
+  console.log(`🚀 -> formData:`, formData.get('cover'))
+
+  return await instance.put<MySuccessRes>(`/article/${id}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    }
+  })
 }
 
 export const deleteOneArticle = async (id: string): Promise<AxiosResponse<MySuccessRes>> => {

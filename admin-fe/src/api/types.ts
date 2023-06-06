@@ -10,8 +10,11 @@ export type loginSuccessRes = {
   token: string
 }
 
+/**---------------------------------article------------------------------------------- */
 export type AddArticleType = Omit<Article, 'id' | 'createdAt' | 'updatedAt'>
-export type UpdateArticleType = AddArticleType
+export type UpdateArticleType = AddArticleType & {
+  cover? :File
+}
 export interface Article {
   id?: string
   title: string

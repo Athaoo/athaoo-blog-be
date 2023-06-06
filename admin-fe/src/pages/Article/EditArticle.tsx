@@ -38,7 +38,11 @@ const EditArticle = () => {
     }
     console.log(`🚀 -> file: EditArticle.tsx:32 -> onSubmit -> updateParam:`, updateParam)
 
-    await reqUpdateOneArticle(id, updateParam)
+    try {
+      await reqUpdateOneArticle(id, updateParam)
+    } catch(e) {
+      console.log(e)
+    }
   }
   return (
     <Card>
