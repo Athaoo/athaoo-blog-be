@@ -67,7 +67,7 @@ export async function loginAdmin(ctx) {
         username: admin.username,
       },
       jwtSecret,
-      { expiresIn: '1h' }
+      { expiresIn: '12h' }
     )
 
     ctx.body = {

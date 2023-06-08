@@ -29,15 +29,8 @@ async function main() {
         maxFieldsSize: 2 * 1024 * 1024, // 文件上传大小
         onFileBegin: (name, file) => {
           // 获取后缀, 如: .js  .txt
-
-          console.log(`🚀 -> main -> file:`, file)
           const reg = /\.[A-Za-z]+$/g
           const ext = file.originalFilename.match(reg)[0]
-
-          const newName = file.originalFilename + Date.now() + ext
-          file.filepath = join(__dirname, '/public/upload/' + newName)
-          file.newFilename = newName
-          console.log(`🚀 -> main -> Date.now():`, Date.now())
         },
         onError(err){
           console.log(err)
