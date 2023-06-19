@@ -17,7 +17,6 @@ const Login: React.FC = () => {
     try {
       const { username, password } = values
       const res = await login(username, password)
-      console.log(`🚀 -> file: index.tsx:26 -> onFinish -> res:`, res)
       info(res.message)
       window.sessionStorage.setItem('token', res.token)
       navigate('admin')

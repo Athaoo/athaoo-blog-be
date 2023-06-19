@@ -12,6 +12,7 @@ const MyEditor = lazy(() => import('@src/containers/arts/markdown'))
 const RotateBox = lazy(() => import('@src/containers/arts/scenes3d/rotateBox'))
 const RotateBox2 = lazy(() => import('@src/containers/arts/scenes3d/rotateBox2'))
 const Pcd1 = lazy(() => import('@src/containers/arts/scenes3d/pcd1'))
+const Hooks1 = lazy(() => import('@src/containers/arts/reactTest/hooks1'))
 
 export type RoutesItems = {
   path: string
@@ -79,6 +80,10 @@ const config: RouteObject[] = [
           {
             path: 'markdown',
             element: <MyEditor />,
+          },
+          {
+            path: 'hooks1',
+            element: <Hooks1 />,
           },
         ],
       },

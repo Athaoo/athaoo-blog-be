@@ -1,4 +1,3 @@
-import { Model } from 'sequelize'
 export type TestData = string
 
 export type MySuccessRes = {
@@ -12,8 +11,8 @@ export type loginSuccessRes = {
 
 /**---------------------------------article------------------------------------------- */
 export type AddArticleType = Omit<Article, 'id' | 'createdAt' | 'updatedAt'>
-export type UpdateArticleType = AddArticleType & {
-  cover? :File
+export type UpdateArticleType = Omit<AddArticleType, 'cover'> & {
+  cover?: File
 }
 export interface Article {
   id?: string
@@ -24,4 +23,5 @@ export interface Article {
   author?: string
   createdAt?: Date
   updatedAt?: Date
+  cover?: string
 }

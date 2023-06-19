@@ -8,7 +8,6 @@ import { RenderTest } from '../../components/renderTest'
 
 const EditArticle = () => {
   const { id } = useParams()
-  console.log(`🚀 -> file: EditArticle.tsx:10 -> App -> id:`, id)
   const [loading, reqOneArticle] = useRequest(getOneArticle)
   const [isUpdating, reqUpdateOneArticle] = useRequest(updateOneArticle)
   const [messageApi, contextHolder] = message.useMessage()
@@ -36,11 +35,10 @@ const EditArticle = () => {
       content: JSON.stringify(article.content),
       tags: article.tags.split(',').map((tag) => tag.trim()),
     }
-    console.log(`🚀 -> file: EditArticle.tsx:32 -> onSubmit -> updateParam:`, updateParam)
 
     try {
       await reqUpdateOneArticle(id, updateParam)
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }

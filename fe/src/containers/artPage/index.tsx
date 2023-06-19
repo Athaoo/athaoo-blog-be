@@ -15,7 +15,10 @@ const sub3dRoutes: page[] = [
   { id: '2', path: '3d/rotateBox2', name: '旋转盒子hook版' },
   { id: '3', path: '3d/pcd1', name: '点云' },
 ]
-const subReactRoutes: page[] = [{ id: '1', path: 'react/markdown', name: 'markdown' }]
+const subReactRoutes: page[] = [
+  { id: '1', path: 'react/markdown', name: 'markdown' },
+  { id: '2', path: 'react/hooks1', name: 'hooks1' },
+]
 
 const sideMenuItems: MenuProps['items'] = [
   {

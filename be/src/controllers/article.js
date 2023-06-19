@@ -94,13 +94,16 @@ export const updateArticle = async (ctx) => {
     let cover = ctx.request.files.cover ?? ''
     if (cover) {
       const tempPath = cover.filepath
-      console.log(`🚀 -> updateArticle -> tempPath:`, tempPath)
+      const filename = cover.newFilename
       const targetPath = join(__rootDirname, 'public', 'imgs', cover.newFilename)
-      console.log(`🚀 -> updateArticle -> targetPath:`, targetPath)
-
-      // 删掉旧封面
+      // 删掉旧封面, 存放在静态资源目录
       renameSync(tempPath, targetPath)
-      await record.update({ cover: targetPath })
+
+      // koa-static库把静态资源指向了public, 后缀带上pathname即可访问
+      const host = ctx.request.host
+      const publicURL = new URL(`http://${host}`)
+      publicURL.pathname = `/imgs/${filename}`
+      await record.update({ cover: publicURL.href })
     }
 
     await record.update({ title, tags: JSON.parse(tags), summary, content, author })

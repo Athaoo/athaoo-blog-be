@@ -17,8 +17,12 @@ export type ArticleForm = {
   cover?: File
 }
 
+export type ArticleInitialFormType = Omit<ArticleForm, 'cover'> & {
+  cover?: string
+}
+
 export type ArticleEditorProps = {
-  initialValues?: ArticleForm
+  initialValues?: ArticleInitialFormType
   onSubmit: (formData: ArticleForm) => void
 }
 
@@ -33,8 +37,6 @@ const getBase64 = (file: RcFile): Promise<string> =>
 // bytemd配置
 const plugins = [gfm()]
 const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
-  console.log(`🚀 -> ArticleEditor -> 1:`, 1)
-
   const _initialValues = initialValues ?? {
     title: '',
     summary: '',
@@ -44,29 +46,38 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
     cover: '',
   }
   const [content, setContent] = useState(_initialValues.content)
-  const [fileList, setFileList] = useState<UploadFile[]>([])
+  const initFileList = !_initialValues.cover
+    ? []
+    : [
+        {
+          uid: 'init',
+          name: 'init.png',
+          url: _initialValues.cover as string,
+        },
+      ]
+  const [fileList, setFileList] = useState<UploadFile[]>(initFileList)
+  console.log(`🚀 -> file: Editor.tsx:51 -> ArticleEditor -> initFileList:`, initFileList)
+
   const [form] = Form.useForm()
 
   const onContentChange = useCallback((text: string) => {
     setContent(text)
   }, [])
 
-  const handleBeforeUploadCover: UploadProps['beforeUpload'] = useCallback(
-    (file: RcFile, FileList: RcFile[]) => {
-      console.log(
-        `🚀 -> consthandleBeforeUploadCover:UploadProps['beforeUpload']=useCallback -> file:`,
-        file
-      )
-      setFileList([file])
-      return false
-    },
-    []
-  )
+  const handleBeforeUploadCover: UploadProps['beforeUpload'] = useCallback(() => false, [])
+  const handleCoverOnChange: UploadProps['onChange'] = useCallback(({ file }) => {
+    console.log(
+      `🚀 -> file: Editor.tsx:69 -> consthandleCoverOnChange:UploadProps['onChange']=useCallback -> newFileList:`,
+      file
+    )
+    setFileList([file])
+  }, [])
+
+  const customReq = useCallback(() => {}, [])
 
   const onFinish = (formData) => {
     formData.content = content
     formData.cover = fileList[0]
-    console.log(`🚀 -> onFinish -> fileList:`, fileList)
     onSubmit(formData)
   }
 
@@ -85,8 +96,14 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
         <Input placeholder="请输入作者（可选）" />
       </Form.Item>
       <Form.Item label="封面">
-        <Upload listType="picture-circle" beforeUpload={handleBeforeUploadCover} maxCount={1}>
-          <Button>上传上传</Button>
+        <Upload
+          listType="picture-circle"
+          fileList={fileList}
+          onChange={handleCoverOnChange}
+          beforeUpload={handleBeforeUploadCover}
+          customRequest={customReq}
+          maxCount={1}>
+          <Button>上传封面惹</Button>
         </Upload>
       </Form.Item>
       <Form.Item label="正文">

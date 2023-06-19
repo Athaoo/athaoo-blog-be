@@ -85,7 +85,6 @@ const createRoutes = (routes: RouteObject[]) => {
   })
 }
 const myRoutes = createRoutes(config)
-console.log(`🚀 -> file: index.tsx:88 -> myRoutes:`, myRoutes)
 
 const Routes = () => useRoutes(myRoutes)
 

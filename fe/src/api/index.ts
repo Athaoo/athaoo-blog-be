@@ -9,35 +9,6 @@ const instance = axios.create({
   timeout: 500,
 })
 
-// 在请求拦截器中，你可以规定 AxiosRequestConfig 类型
-// instance.interceptors.request.use(
-//   (config: AxiosRequestConfig) => {
-//     // 在此处添加请求拦截逻辑，如添加请求头等
-//     const token = localStorage.getItem('token')
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`
-//     }
-//     return config
-//   },
-//   (error) => {
-//     return Promise.reject(error)
-//   }
-// )
-
-// 在响应拦截器中，你可以规定 AxiosResponse 类型
-// instance.interceptors.response.use(
-//   (response: AxiosResponse) => {
-//     // 在此处添加响应拦截逻辑，如统一处理错误等
-//     return response
-//   },
-//   (error) => {
-//     if (error.response.status === 401) {
-//       // 处理身份验证错误，如重定向到登录页等
-//     }
-//     return Promise.reject(error)
-//   }
-// )
-
 type RequestFunction<T, P extends any[]> = (...params: P) => Promise<AxiosResponse<T>>
 
 // useRequest Hook

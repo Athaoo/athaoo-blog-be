@@ -5,7 +5,6 @@ import { isLogin } from '../utils/auth'
 export const RouterBeforeEach = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate()
   const location = useLocation()
-  console.log(`🚀 -> file: AuthRoute.tsx:7 -> RouterBeforeEach -> pathname`, location.pathname)
 
   const ifLogin = isLogin()
 

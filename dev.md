@@ -69,7 +69,9 @@
 # 开发日志
 
 ##### 2023-05-28
-上传封面，真坑啊，sequelize的局部update时要先用findOne拿到实例然后再调用实例的update，用Article.update限定fields不好使，比如不想更新tags时，仅更新title等时，也会走tags的校验之类的，导致报错，很恶心
+
+上传封面，真坑啊，sequelize 的局部 update 时要先用 findOne 拿到实例然后再调用实例的 update，用 Article.update 限定 fields 不好使，比如不想更新 tags 时，仅更新 title 等时，也会走 tags 的校验之类的，导致报错，很恶心。
+总之搞定了，要用 koa-static 设置静态资源目录，后端拿到请求后，用 koa-body 解析请求体拿到 file 实例，然后转移文件路径到静态资源目录下，向数据库存储 host+文件资源路径,这样前端拿到数据后就能直接请求到图片封面了
 
 ##### 2023-05-28
 
