@@ -69,6 +69,9 @@
 # 开发日志
 
 ##### 2023-05-28
+上传封面，真坑啊，sequelize的局部update时要先用findOne拿到实例然后再调用实例的update，用Article.update限定fields不好使，比如不想更新tags时，仅更新title等时，也会走tags的校验之类的，导致报错，很恶心
+
+##### 2023-05-28
 
 详细的 react+webpack+postcss+tailwind 配置，官方并没有 create-react-app 和 webapck 关于 tailwind 的详细配置，踩了些坑配好了。文章关于 webpack 的 css 相关 loader 和 plugin 的作用写的很详细
 https://www.iwenson.com/articles/react-with-tailwindcss-from-scratch

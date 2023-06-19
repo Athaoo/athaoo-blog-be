@@ -3,11 +3,11 @@ import { koaBody } from 'koa-body'
 import bodyParser from 'koa-bodyparser'
 import adminRoutes from './src/routes/auth.js'
 import articleRoutes from './src/routes/article.js'
-import { myCors } from './src/middleware/my-cors.js'
 import sequelize from './src/database/index.js'
 import koaJwt from 'koa-jwt'
 import { jwtSecret } from './src/controllers/admin.js'
 import cors from 'koa2-cors'
+import koaStatic from 'koa-static'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 
@@ -51,6 +51,8 @@ async function main() {
       }
     })
   })
+
+  app.use(koaStatic('public'))
 
   app.use(
     koaJwt({

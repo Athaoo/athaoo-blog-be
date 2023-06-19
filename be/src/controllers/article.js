@@ -8,7 +8,6 @@ import { castArray, cloneDeep } from 'lodash-es'
 const __filename = fileURLToPath(import.meta.url)
 const __rootDirname = dirname(dirname(dirname(__filename)))
 
-
 const articleCreateScheme = Joi.object({
   title: Joi.string().required(),
   tags: Joi.array().items(Joi.string()).required(),
@@ -27,7 +26,8 @@ const articleUpdateScheme = Joi.object({
 
 const prehandleData = (data) => {
   const _d = cloneDeep(data)
-  _d.tags = castArray(data.tags)
+  _d.tags = JSON.parse(data.tags)
+  console.log(`🚀 -> prehandleData -> data.tags:`, data.tags)
   console.log(`🚀 -> prehandleData -> _d.tags:`, _d.tags)
   return _d
 }
@@ -44,10 +44,10 @@ export const createArticle = async (ctx) => {
       return
     }
 
-    const article = await Article.create(value)
+    const article = await Article.create(ctx.request.body)
     ctx.status = 201
     ctx.body = {
-      message: 'Successfully created article'
+      message: 'Successfully created article',
     }
   } catch (err) {
     ctx.status = 500
@@ -84,21 +84,27 @@ export const updateArticle = async (ctx) => {
 
     const { title, tags, summary, content, author } = ctx.request.body
 
+    const record = await Article.findOne({ where: { id } })
+    if (!record) {
+      ctx.body = { message: 'Article not found' }
+      ctx.status = 404
+      return
+    }
+
     let cover = ctx.request.files.cover ?? ''
     if (cover) {
       const tempPath = cover.filepath
+      console.log(`🚀 -> updateArticle -> tempPath:`, tempPath)
       const targetPath = join(__rootDirname, 'public', 'imgs', cover.newFilename)
       console.log(`🚀 -> updateArticle -> targetPath:`, targetPath)
 
       // 删掉旧封面
       renameSync(tempPath, targetPath)
-      await Article.update({ cover: targetPath }, { where: { id } })
-      unlinkSync(tempPath)
+      await record.update({ cover: targetPath })
     }
 
-    // await Article.update({ title }, { where: { id } })
-    // await Article.update({ title, tags, summary, content, author }, { where: { id } })
-    ctx.body = { message: 'Article updated successfully', cover: targetPath }
+    await record.update({ title, tags: JSON.parse(tags), summary, content, author })
+    ctx.body = { message: 'Article updated successfully' }
   } catch (e) {
     console.log(`updateArticle -> e:`, e)
     ctx.body = { message: 'Article update failed' }

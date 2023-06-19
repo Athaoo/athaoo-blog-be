@@ -41,6 +41,7 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
     author: '',
     content: '',
     tags: '',
+    cover: '',
   }
   const [content, setContent] = useState(_initialValues.content)
   const [fileList, setFileList] = useState<UploadFile[]>([])
