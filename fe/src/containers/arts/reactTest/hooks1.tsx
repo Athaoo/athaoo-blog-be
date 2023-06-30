@@ -1,5 +1,5 @@
 import React, { useEffect, createContext, useContext, useState } from 'react'
-import { Card, Col, Menu, MenuProps, Row, theme, Divider } from 'antd'
+import { Card, Col, Menu, MenuProps, Row, theme, Divider, Input, Button } from 'antd'
 import { ReactChildrenProps } from '@src/types/types'
 
 type SonProps = {
@@ -31,69 +31,82 @@ const Ctx = createContext<NameContext>({
 
 const useNameCtx = () => useContext(Ctx)
 
+const randomNames = ['hao long ', 'tian xia', 'lucy', 'david', 'joker']
+const getRandomName = () => randomNames[Math.floor(Math.random() * 5)]
+
 const Pa = ({ name, theme, children }: ParentProps) => {
-  const { firstName } = useNameCtx()
+  const { firstName, change } = useNameCtx()
   useEffect(() => {
     console.log(`Parent render`)
   }, [])
+
+  const changeName = () => change(getRandomName())
+
   return (
     <Card>
       爷爷:
       <div>
-        姓名{firstName}
+        姓名 {firstName}
         {name}
       </div>
-      <div>主题{theme}</div>
+      <div>主题 {theme}</div>
+      <Button onClick={changeName}>改名</Button>
       <Divider />
       {children}
     </Card>
   )
 }
 const Son = ({ name, age, school, children }: SonProps) => {
-  const { firstName } = useNameCtx()
-  useEffect(() => {
-    console.log(`Son render`)
-  }, [])
+  const { firstName, change } = useNameCtx()
+
+  console.log(`Son render`)
+
+  const changeName = () => change(getRandomName())
+
   return (
     <Card>
       爹:
       <div>
-        姓名{firstName}
+        姓名 {firstName}
         {name}
       </div>
-      <div>年龄{age}</div>
-      {school ? <div>学校{school}</div> : null}
+      <div>年龄 {age}</div>
+      {school ? <div>学校 {school}</div> : null}
+      <Button onClick={changeName}>改名</Button>
       <Divider />
       {children}
     </Card>
   )
 }
 const Gson = ({ name, age, school, address }: GSonProps) => {
-  const { firstName } = useNameCtx()
-  useEffect(() => {
-    console.log(`GSon render`)
-  }, [])
+  const { firstName, change } = useNameCtx()
+
+  console.log(`GSon render`)
+
+  const changeName = () => change(getRandomName())
+
   return (
     <Card>
       笋子:
       <div>
-        姓名{firstName}
+        姓名 {firstName}
         {name}
       </div>
-      <div>年龄{age}</div>
-      {school ? <div>学校{school}</div> : null}
-      {address ? <div>学校{address}</div> : null}
-      <div>主题{name}</div>
+      <div>年龄 {age}</div>
+      {school ? <div>学校 {school}</div> : null}
+      {address ? <div>学校 {address}</div> : null}
+      <div>主题 {name}</div>
+      <Button onClick={changeName}>改名</Button>
       <Divider />
     </Card>
   )
 }
 
 const App = () => {
+  // 发现是从内向上依次render
   const [firstName, setFirstName] = useState('赵')
-  useEffect(() => {
-    console.log(`App render`)
-  }, [])
+
+  console.log(`App render`)
 
   const changeFirstName = (firstName: string) => setFirstName(firstName)
   return (

@@ -18,6 +18,7 @@ const sub3dRoutes: page[] = [
 const subReactRoutes: page[] = [
   { id: '1', path: 'react/markdown', name: 'markdown' },
   { id: '2', path: 'react/hooks1', name: 'hooks1' },
+  { id: '3', path: 'react/testHooks2', name: 'testHooks2' },
 ]
 
 const sideMenuItems: MenuProps['items'] = [

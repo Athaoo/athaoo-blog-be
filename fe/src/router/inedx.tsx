@@ -13,6 +13,7 @@ const RotateBox = lazy(() => import('@src/containers/arts/scenes3d/rotateBox'))
 const RotateBox2 = lazy(() => import('@src/containers/arts/scenes3d/rotateBox2'))
 const Pcd1 = lazy(() => import('@src/containers/arts/scenes3d/pcd1'))
 const Hooks1 = lazy(() => import('@src/containers/arts/reactTest/hooks1'))
+const TestHooks2 = lazy(() => import('@src/containers/arts/reactTest/testHooks2'))
 
 export type RoutesItems = {
   path: string
@@ -84,6 +85,10 @@ const config: RouteObject[] = [
           {
             path: 'hooks1',
             element: <Hooks1 />,
+          },
+          {
+            path: 'testHooks2',
+            element: <TestHooks2 />,
           },
         ],
       },
