@@ -1,10 +1,10 @@
 // routes.ts
 import { Spin } from 'antd'
 import React, { lazy, Suspense } from 'react'
-import { RouteObject, useRoutes, Navigate, Outlet } from 'react-router-dom'
+import { RouteObject, useRoutes, Navigate, Outlet, useRouteError } from 'react-router-dom'
+import ArtPage from '@src/containers/artPage'
+import ArticlePage from '@src/containers/articlePage'
 
-const ArticlePage = lazy(() => import('@src/containers/articlePage'))
-const ArtPage = lazy(() => import('@src/containers/artPage'))
 const SceneContainer = lazy(() => import('@src/containers/arts/scenes3d'))
 const ArticleList = lazy(() => import('@src/containers/articlePage/list'))
 const ArticleDetail = lazy(() => import('@src/containers/articlePage/detail'))
@@ -14,6 +14,7 @@ const RotateBox2 = lazy(() => import('@src/containers/arts/scenes3d/rotateBox2')
 const Pcd1 = lazy(() => import('@src/containers/arts/scenes3d/pcd1'))
 const Hooks1 = lazy(() => import('@src/containers/arts/reactTest/hooks1'))
 const TestHooks2 = lazy(() => import('@src/containers/arts/reactTest/testHooks2'))
+const VList = lazy(() => import('@src/containers/arts/reactTest/vList'))
 
 export type RoutesItems = {
   path: string
@@ -89,6 +90,10 @@ const config: RouteObject[] = [
           {
             path: 'testHooks2',
             element: <TestHooks2 />,
+          },
+          {
+            path: 'vList',
+            element: <VList />,
           },
         ],
       },
