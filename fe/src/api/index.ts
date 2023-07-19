@@ -11,6 +11,10 @@ const instance = axios.create({
 
 type RequestFunction<T, P extends any[]> = (...params: P) => Promise<AxiosResponse<T>>
 
+type QueryArticlesConditionType = {
+  page: number
+}
+
 // useRequest Hook
 export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<T, P>) => {
   const [loading, setLoading] = useState(true)
@@ -35,12 +39,8 @@ export const getAllArticles = async (): Promise<AxiosResponse<Article[]>> => {
   return await instance.get<Article[]>('/api/public/article')
 }
 
-export const getOneArticle = async (id: number): Promise<AxiosResponse<Article>> => {
-  return await instance.get<Article>(`/api/public/article/${id}`, {
-    params: {
-      id,
-    },
-  })
+export const getOneArticle = (id: number): Promise<AxiosResponse<Article>> => {
+  return instance.get<Article>(`/api/public/article/${id}`)
 }
 
 export default instance

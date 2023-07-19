@@ -1,7 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-
 import { theme, Row, Col } from 'antd'
+import { lazySuspense } from '@src/router/inedx'
 
 const { useToken } = theme
 const ArticlePage = () => {
@@ -15,9 +15,7 @@ const ArticlePage = () => {
         background: token.colorBgContainer,
       }}>
       <Col span={4}></Col>
-      <Col span={18}>
-        <Outlet></Outlet>
-      </Col>
+      <Col span={18}>{lazySuspense(<Outlet />)}</Col>
       <Col span={2}></Col>
     </Row>
   )

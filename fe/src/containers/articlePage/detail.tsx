@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkMdx from 'remark-mdx'
 
-import { Button, Card, Tag, Typography, Row, Col } from 'antd'
+import { Button, Card, Tag, Typography, Row, Col, Spin } from 'antd'
 import { blue } from '@ant-design/colors'
 import { getBlog } from './testData'
 import { BlogPost } from '@src/types/articlePage'
@@ -12,11 +12,12 @@ import MarkdownRenderer from '@src/components/markdownRenderer'
 import { formatDate } from '@src/utils/format'
 import Mdxprovider from '@src/components/mdxProvider'
 
+import { useRequest, getOneArticle } from '@src/api'
+
+import type { Article } from '@src/api/types'
+
 const { Title, Text } = Typography
 
-type ContainerProps = {
-  children: React.ReactNode
-}
 const ColClass = {
   display: 'flex',
   height: '100%',
@@ -54,7 +55,7 @@ const BackBtn = () => {
 }
 
 type HedaerProps = {
-  data: BlogPost
+  data: Article
 }
 const Header: React.FC<HedaerProps> = ({ data }) => {
   return (
@@ -76,19 +77,29 @@ const Header: React.FC<HedaerProps> = ({ data }) => {
 
 const ArticleDetail: React.FC = () => {
   const { id } = useParams()
-  const data = getBlog(id)
+  const [article, setArticle] = useState<Article>(null)
+  const [loading, apiGetArticle] = useRequest(getOneArticle)
 
-  return (
+  useEffect(() => {
+    const get = async () => {
+      const article = await apiGetArticle(Number(id))
+      setArticle(article)
+    }
+    get()
+  }, [])
+
+  return loading ? (
+    <Spin />
+  ) : (
     <Card>
       <Card style={{ boxShadow: 'none' }} bordered={false}>
-        <Header data={data} />
+        <Header data={article} />
       </Card>
       <Card style={{ boxShadow: 'none' }} bordered={false}>
-        {Tags(data.tags)}
+        {Tags(article.tags)}
       </Card>
       <Card style={{ boxShadow: 'none' }} bordered={false}>
-        <MarkdownRenderer>{data.content}</MarkdownRenderer>
-        {/* <Mdxprovider>{data.content}</Mdxprovider> */}
+        <MarkdownRenderer>{JSON.parse(article.content)}</MarkdownRenderer>
       </Card>
     </Card>
   )

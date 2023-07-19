@@ -1,10 +1,11 @@
 // routes.ts
 import { Spin } from 'antd'
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, useMemo } from 'react'
 import { RouteObject, useRoutes, Navigate, Outlet, useRouteError } from 'react-router-dom'
-import ArtPage from '@src/containers/artPage'
-import ArticlePage from '@src/containers/articlePage'
+import { ReactChildrenProps } from '../types/types'
 
+const ArtPage = lazy(() => import('@src/containers/artPage'))
+const ArticlePage = lazy(() => import('@src/containers/articlePage'))
 const SceneContainer = lazy(() => import('@src/containers/arts/scenes3d'))
 const ArticleList = lazy(() => import('@src/containers/articlePage/list'))
 const ArticleDetail = lazy(() => import('@src/containers/articlePage/detail'))
@@ -15,6 +16,24 @@ const Pcd1 = lazy(() => import('@src/containers/arts/scenes3d/pcd1'))
 const Hooks1 = lazy(() => import('@src/containers/arts/reactTest/hooks1'))
 const TestHooks2 = lazy(() => import('@src/containers/arts/reactTest/testHooks2'))
 const VList = lazy(() => import('@src/containers/arts/reactTest/vList'))
+
+export const lazySuspense = (component: React.ReactElement) => {
+  return (
+    <Suspense
+      fallback={
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Spin size="large" />
+        </div>
+      }>
+      {component}
+    </Suspense>
+  )
+}
 
 export type RoutesItems = {
   path: string
@@ -29,7 +48,7 @@ const config: RouteObject[] = [
   },
   {
     path: '/article',
-    element: <ArticlePage />,
+    element: lazySuspense(<ArticlePage />),
     children: [
       {
         path: '',
@@ -43,7 +62,7 @@ const config: RouteObject[] = [
   },
   {
     path: '/art',
-    element: <ArtPage />,
+    element: lazySuspense(<ArtPage />),
     children: [
       {
         path: '',
@@ -73,7 +92,7 @@ const config: RouteObject[] = [
       },
       {
         path: 'react',
-        element: <Outlet />,
+        element: lazySuspense(<Outlet />),
         children: [
           {
             path: '',
@@ -101,23 +120,6 @@ const config: RouteObject[] = [
   },
 ]
 
-const RouterRoot = () => {
-  return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-          }}>
-          <Spin size="large" />
-        </div>
-      }>
-      {useRoutes(config)}
-    </Suspense>
-  )
-}
+const RouterRoot = () => useRoutes(config)
 
 export { RouterRoot, config }

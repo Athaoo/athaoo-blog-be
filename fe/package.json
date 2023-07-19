@@ -10,7 +10,10 @@
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
     "@ant-design/cssinjs": "^1.7.1",
+    "@bytemd/plugin-gfm": "^1.21.0",
+    "@bytemd/react": "^1.21.0",
     "@reduxjs/toolkit": "^1.9.3",
+    "bytemd": "^1.21.0",
     "eslint": "8.23.1",
     "global": "^4.4.0",
     "prettier": "^2.7.1",

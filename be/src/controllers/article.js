@@ -58,6 +58,10 @@ export const createArticle = async (ctx) => {
 }
 
 export const getArticles = async (ctx) => {
+  const page = ctx.query?.page ?? null
+  const limit = ctx.query?.limit ?? null
+  const sort = ctx.query?.sort ?? null
+
   const articles = await Article.findAll()
   ctx.body = articles
 }

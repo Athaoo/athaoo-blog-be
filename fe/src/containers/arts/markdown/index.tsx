@@ -1,8 +1,12 @@
 import { Button, Card } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
-import MarkdownEditor from '@uiw/react-markdown-editor'
 import testData from '@src/containers/articlePage/testData'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { Editor, Viewer } from '@bytemd/react'
+import gfm from '@bytemd/plugin-gfm'
+import 'bytemd/dist/index.css'
+import '@src/styles/tailwind.css'
+
+const plugins = [gfm()]
 
 const App = () => {
   const [content, setContent] = useState('惹啊')
@@ -10,7 +14,7 @@ const App = () => {
   useEffect(() => {
     setContent(testData[6].content)
   }, [])
-  const onChange = (text, viewUpdate) => {
+  const onChange = (text) => {
     setContent(text)
   }
   const onClick = (e) => {
@@ -18,9 +22,9 @@ const App = () => {
     console.log(json)
   }
   return (
-    <Card>
+    <Card className="w-full h-full" bodyStyle={{ width: '100%', height: '100%' }}>
       <Button onClick={onClick}>导出</Button>
-      <MarkdownEditor value={content} onChange={onChange} style={{ minHeight: '500px' }} />
+      <Editor value={content} onChange={onChange} plugins={plugins} />
     </Card>
   )
 }

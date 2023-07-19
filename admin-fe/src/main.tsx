@@ -22,7 +22,7 @@ const Root: React.FC = () => {
         },
         algorithm: myTheme.isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
       }}>
-      <MyApp />
+      <MyApp/>
     </ConfigProvider>
   )
 }

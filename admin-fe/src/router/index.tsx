@@ -10,6 +10,24 @@ const ArticleList = lazy(() => import('../pages/Article/list'))
 const AddArticle = lazy(() => import('../pages/Article/AddArticle'))
 const EditArticle = lazy(() => import('../pages/Article/EditArticle'))
 
+export const lazySuspense = (component: React.ReactElement) => {
+  return (
+    <Suspense
+      fallback={
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Spin size="default" />
+        </div>
+      }>
+      {component}
+    </Suspense>
+  )
+}
+
 export type RoutesItems = {
   path: string
   element: React.ReactElement
@@ -22,19 +40,19 @@ const config: RouteObject[] = [
   },
   {
     path: '/login',
-    element: <Login />,
+    element: lazySuspense(<Login />),
   },
   {
     path: '/register',
-    element: <Register />,
+    element: lazySuspense(<Register />),
   },
   {
     path: '/admin',
-    element: <Admin />,
+    element: lazySuspense(<Admin />),
     children: [
       {
         path: 'article',
-        element: <Outlet />,
+        element: lazySuspense(<Outlet />),
         children: [
           {
             path: '*',
@@ -60,22 +78,7 @@ const config: RouteObject[] = [
 
 const createRoutes = (routes: RouteObject[]) => {
   return routes.map((route) => {
-    route.element = (
-      <Suspense
-        fallback={
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Spin size="default" />
-          </div>
-        }>
-        <RouterBeforeEach>{route.element}</RouterBeforeEach>
-        {/* {route.element} */}
-      </Suspense>
-    )
+    route.element = <RouterBeforeEach>{route.element}</RouterBeforeEach>
 
     if (route instanceof Array && route.length) {
       route.children = createRoutes(route.children)

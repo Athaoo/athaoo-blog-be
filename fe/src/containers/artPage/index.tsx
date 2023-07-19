@@ -3,6 +3,7 @@ import { Link, Outlet, useParams, useRoutes } from 'react-router-dom'
 
 import { Card, Col, Menu, MenuProps, Row, theme } from 'antd'
 import { ThunderboltOutlined } from '@ant-design/icons'
+import { lazySuspense } from '@src/router/inedx'
 
 type page = {
   id: string
@@ -69,7 +70,7 @@ const ArtPage = () => {
           items={sideMenuItems}></Menu>
       </Col>
       <Col span={20} style={{ height: '100%', minHeight: '50vh' }}>
-        <Outlet></Outlet>
+        {lazySuspense(<Outlet />)}
       </Col>
     </Row>
   )

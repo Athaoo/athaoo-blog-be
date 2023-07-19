@@ -3,6 +3,7 @@ import { Menu, MenuProps, Space, theme, Row, Col, Typography } from 'antd'
 import { Header } from 'antd/es/layout/layout'
 import { Link, useLocation } from 'react-router-dom'
 import ThemeToggler from './ThemeToggler'
+import '@src/styles/tailwind.css'
 
 const MenuRouteName = [
   {
@@ -43,20 +44,20 @@ const MyHeader: React.FC<HeaderProps> = ({ defaultSelectedKey }) => {
     border: 'none',
   }
   return (
-    <Header className="header" style={{ padding: '0', background: token.colorBgContainer }}>
-      <Row justify="space-between" style={{ height: '100%', width: '100%' }}>
-        <Col span={6}></Col>
-        <Col span={12} style={{ height: '100%' }}>
-          <Menu
-            style={MenuClass}
-            mode="horizontal"
-            defaultSelectedKeys={[defaultSelectedKey]}
-            items={MenuItems}></Menu>
-        </Col>
-        <Col span={6}>
+    <Header
+      className="header sticky top-0 pd-0 z-10 drop-shadow-sm"
+      style={{ background: token.colorBgContainer }}>
+      <div className="flex flex-row justify-between h-full w-full">
+        <Menu
+          style={MenuClass}
+          className="flex-1"
+          mode="horizontal"
+          defaultSelectedKeys={[defaultSelectedKey]}
+          items={MenuItems}></Menu>
+        <div className="h-full w-36">
           <ThemeToggler></ThemeToggler>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </Header>
   )
 }

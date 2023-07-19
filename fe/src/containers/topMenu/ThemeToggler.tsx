@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Space, Button } from 'antd'
+import { Space, Button, Tooltip } from 'antd'
 import { BulbOutlined } from '@ant-design/icons'
 import { useTheme } from '@src/theme'
 
@@ -8,7 +8,9 @@ const ThemeToggler: React.FC = () => {
 
   return (
     <Space>
-      <Button shape="circle" onClick={toggleTheme} icon={<BulbOutlined />}></Button>
+      <Tooltip title="明暗切换">
+        <Button shape="circle" onClick={toggleTheme} icon={<BulbOutlined />}></Button>
+      </Tooltip>
     </Space>
   )
 }

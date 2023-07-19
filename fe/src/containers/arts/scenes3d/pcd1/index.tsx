@@ -29,8 +29,8 @@ const PointCloud = () => {
       points.material = materia
       pcdRef.current.add(points)
 
-      const octree = new Octree()
-      octree.fromGraphNode(points)
+      // const octree = new Octree()
+      // octree.fromGraphNode(points)
     })
   }, [])
 

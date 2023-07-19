@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useCallback, memo, useMemo, useState, useLayoutEffect } from 'react'
 import { Table, Tag, Dropdown, Menu, Button, Popconfirm, Card, Spin } from 'antd'
 import { BlogPost } from '@src/types/articlePage'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getBlog } from './testData'
 import '@src/styles/tailwind.css'
-import ageni from '@assets/imgs/ageni.png'
-import { formatDate } from '@src/utils/format'
 import { useRequest, getAllArticles } from '@src/api'
 import { Article } from '@src/api/types'
+import MyCard from './ArticleCard'
 
 const testBlogData = [1, 2, 3, 4, 5, 6, 7, 8].map((id) => getBlog(`${id}`))
 const columns = [
@@ -51,48 +50,37 @@ const columns = [
   },
 ]
 
-type MyCardProps = {
-  title: string
-  summary: string
-  time: Date
-  tags: string[]
-  cover?: string
-}
-
-const MyCard = ({ title, summary, tags, time, cover }: MyCardProps) => {
-  return (
-    <div className="flex sm:flex-col lg:flex-row relative rounded-3xl shadow-lg h-full w-full p-0 overflow-hidden transform transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-3xl">
-      <img
-        src={cover ?? ageni}
-        className=" w-1/2 h-full overflow-hidden object-cover"
-        alt="Card Image"
-      />
-      <div className="flex flex-1 flex-col pl-8 ">
-        <div className="w-full h-32 pt-8">
-          <h2 className="text-xl font-semibold mb-2">{title}</h2>
-        </div>
-        <div className="flex-1 w-full">
-          <p className="text-gray-600">{summary}</p>
-        </div>
-        <div className="flex-1 w-full">
-          <p className="text-gray-600">{formatDate(time)}</p>
-        </div>
-        <div className="w-full h-16">
-          <div className="flex space-x-2">
-            {tags.map((tag) => (
-              <span key={tag} className="text-blue-500">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
 const BlogList: React.FC = () => {
   const [loading, apiGetAll] = useRequest(getAllArticles)
   const [articles, setArticles] = useState<Article[]>(null)
+  const cachedArticles = useMemo(() => articles, [articles])
+  const navigate = useNavigate()
+
+  const nav = useCallback((id: string) => {
+    navigate(`/article/${id}`)
+  }, [])
+
+  const CardList = memo(({ articles }: { articles: Article[] }) => {
+    console.log(`🚀 -> CardList -> cachedArticles:`, articles)
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+        {articles.map(({ id, title, summary, createdAt, tags, cover }) => {
+          return (
+            <div key={id} className="w-full h-full">
+              <MyCard
+                title={title}
+                summary={summary}
+                time={createdAt}
+                tags={tags}
+                cover={cover}
+                onClick={() => nav(id)}
+              />
+            </div>
+          )
+        })}
+      </div>
+    )
+  })
 
   useEffect(() => {
     const req = async () => {
@@ -103,21 +91,12 @@ const BlogList: React.FC = () => {
     req()
   }, [])
 
-  return loading ? (
+  return !cachedArticles || loading ? (
     <Spin />
   ) : (
     <Card style={{ height: '100%' }}>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-        {articles.map(({ id, title, summary, createdAt, tags, cover }) => {
-          return (
-            <div key={id} className="w-full h-full">
-              <MyCard title={title} summary={summary} time={createdAt} tags={tags} cover={cover} />
-            </div>
-          )
-        })}
-      </div>
-
-      <Table columns={columns} dataSource={articles} rowKey="id" />
+      <CardList articles={cachedArticles} />
+      <Table columns={columns} dataSource={cachedArticles} rowKey="id" />
     </Card>
   )
 }
