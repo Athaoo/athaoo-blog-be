@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { TestData, Article } from './types'
+import { TestData, Article, ArticleListQueryType } from './types'
 
 const localUrl = '//localhost:3000'
 
@@ -10,10 +10,6 @@ const instance = axios.create({
 })
 
 type RequestFunction<T, P extends any[]> = (...params: P) => Promise<AxiosResponse<T>>
-
-type QueryArticlesConditionType = {
-  page: number
-}
 
 // useRequest Hook
 export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<T, P>) => {
@@ -35,8 +31,17 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
   return [loading, fetchData] as const
 }
 
-export const getAllArticles = async (): Promise<AxiosResponse<Article[]>> => {
-  return await instance.get<Article[]>('/api/public/article')
+export const getAllArticles = async (
+  params?: ArticleListQueryType
+): Promise<AxiosResponse<Article[]>> => {
+  params = params ?? ({} as ArticleListQueryType)
+  params.condition = {
+    tags: ['test'],
+  }
+  params.pageLimit = 10
+  params.pageNum = 0
+
+  return await instance.get<Article[]>('/api/public/article', { params })
 }
 
 export const getOneArticle = (id: number): Promise<AxiosResponse<Article>> => {

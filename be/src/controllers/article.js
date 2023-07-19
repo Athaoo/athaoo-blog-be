@@ -24,6 +24,7 @@ const articleUpdateScheme = Joi.object({
   author: Joi.string(),
 })
 
+
 const prehandleData = (data) => {
   const _d = cloneDeep(data)
   _d.tags = JSON.parse(data.tags)
@@ -58,10 +59,10 @@ export const createArticle = async (ctx) => {
 }
 
 export const getArticles = async (ctx) => {
-  const page = ctx.query?.page ?? null
-  const limit = ctx.query?.limit ?? null
-  const sort = ctx.query?.sort ?? null
+  const { page, limit, sort, condition } = ctx.query
 
+
+  const param = {}
   const articles = await Article.findAll()
   ctx.body = articles
 }
