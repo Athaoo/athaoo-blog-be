@@ -11,10 +11,6 @@ import MyCard from './ArticleCard'
 const testBlogData = [1, 2, 3, 4, 5, 6, 7, 8].map((id) => getBlog(`${id}`))
 const columns = [
   {
-    title: 'ID',
-    dataIndex: 'id',
-  },
-  {
     title: '标题',
     dataIndex: 'title',
     render: (text, record: BlogPost) => <Link to={`/article/${record.id}`}>{record.title}</Link>,

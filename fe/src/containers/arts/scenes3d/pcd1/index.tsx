@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
-import { PCDLoader } from 'three-stdlib'
+import { PCDLoader } from 'three/examples/jsm/loaders/PCDLoader'
+// import { PCDLoader } from 'three-stdlib'
 import { OrbitControls, PerspectiveCamera, useHelper, TransformControls } from '@react-three/drei'
 import THREE, { PointLightHelper, PointsMaterial } from 'three'
-import { Octree } from 'three-stdlib'
 
 import { RootState } from '@src/store'
 
@@ -17,20 +17,17 @@ import { MyThreeCtrlMenu, MyThreeCtrlMenuProps } from '@src/components/three/men
 
 const PointCloud = () => {
   const pcdRef = React.useRef<THREE.Group>()
-  const octreeHelperRef = useRef()
 
   React.useEffect(() => {
     const loader = new PCDLoader()
     loader.load(pcdFile, (points) => {
+      console.log(`🚀 -> loader.load -> points:`, points)
       const materia = new PointsMaterial({
-        color: '#00FF00',
+        // color: '#00FF00',
         size: 0.1,
       })
       points.material = materia
       pcdRef.current.add(points)
-
-      // const octree = new Octree()
-      // octree.fromGraphNode(points)
     })
   }, [])
 
@@ -53,7 +50,7 @@ const Pcd1SceneContainer = () => {
     <Row>
       <Col span={18}>
         <Card bordered={false} style={{ width: '100%', margin: '0 36px' }}>
-          <Card>点云八叉树测试</Card>
+          <Card>点云测试</Card>
           <Canvas style={{ height: '600px' }}>
             <Pcd />
           </Canvas>

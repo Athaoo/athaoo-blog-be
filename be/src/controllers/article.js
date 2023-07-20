@@ -1,8 +1,10 @@
 import Article from '../models/article.js'
 import Joi from 'joi'
+import { Op } from 'sequelize'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import { renameSync, unlinkSync } from 'fs'
+import { isNumber, isString } from 'lodash-es'
 import { castArray, cloneDeep } from 'lodash-es'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -23,7 +25,6 @@ const articleUpdateScheme = Joi.object({
   content: Joi.string(),
   author: Joi.string(),
 })
-
 
 const prehandleData = (data) => {
   const _d = cloneDeep(data)
@@ -59,12 +60,40 @@ export const createArticle = async (ctx) => {
 }
 
 export const getArticles = async (ctx) => {
-  const { page, limit, sort, condition } = ctx.query
+  try {
+    let { pageLimit, pageNum, orderBy, isDesc, condition } = ctx.query
+    pageLimit = parseInt(pageLimit)
+    pageNum = parseInt(pageNum)
+    condition = JSON.parse(condition)
+    console.log(`🚀 -> getArticles -> condition:`, condition)
 
+    const param = {}
+    if (!isNaN(pageLimit) && !isNaN(pageNum)) {
+      param.limit = pageLimit
+      param.offset = pageLimit * pageNum
+    }
 
-  const param = {}
-  const articles = await Article.findAll()
-  ctx.body = articles
+    if (isString(orderBy)) {
+      param.order = [orderBy]
+      if (isDesc === true) {
+        param.order.push('DESC')
+      }
+    }
+
+    if (condition) {
+      if (condition.tags && condition instanceof Array) {
+        param.where.tags = {
+          [Op.overlap]: condition.tags
+        }
+      }
+    }
+
+    const articles = await Article.findAll(param)
+    ctx.body = articles
+  } catch (e) {
+    ctx.body = { message: `Get article failed: ${e.message}` }
+    ctx.status = 500
+  }
 }
 
 export const getArticleById = async (ctx) => {

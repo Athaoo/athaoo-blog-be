@@ -1,12 +1,20 @@
 export type TestData = string
 
-export type PageQueryType = {
+export type PageQueryType<OK extends object> = {
   pageLimit: number
   pageNum: number
+  orderBy: keyof OK
+  isDesc: boolean
 }
 
-export type SearchListQueryType<T extends object> = Partial<PageQueryType> & {
-  condition: T
+export type SearchConditionType<T extends object> = Partial<{
+  [K in keyof T]?: any
+}>
+
+export type SearchListQueryType<T extends object, OK extends object> = Partial<
+  PageQueryType<OK>
+> & {
+  condition: SearchConditionType<T>
 }
 
 export type MySuccessRes = {
@@ -36,4 +44,7 @@ export type UpdateArticleType = Omit<AddArticleType, 'cover'> & {
   cover?: File
 }
 
-export type ArticleListQueryType = SearchListQueryType<Partial<Pick<Article, 'tags'>>>
+export type ArticleListQueryType = SearchListQueryType<
+  Partial<Pick<Article, 'tags'>>,
+  Pick<Article, 'createdAt' | 'id'>
+>

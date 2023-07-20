@@ -22,7 +22,7 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
       console.log(`🚀 -> file: index.ts:53 -> fetchData -> response:`, response)
       return response.data
     } catch (err) {
-      console.error(`Error fetching data`, err.respose.data.message)
+      console.error(`Error fetching data`, err)
     } finally {
       setLoading(false)
     }
@@ -32,14 +32,16 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
 }
 
 export const getAllArticles = async (
-  params?: ArticleListQueryType
+  query?: ArticleListQueryType
 ): Promise<AxiosResponse<Article[]>> => {
-  params = params ?? ({} as ArticleListQueryType)
-  params.condition = {
+  const params = {} as any
+  //query?.condition ? params.condition = JSON.stringify(query?.condition) : null
+  params.condition = JSON.stringify({
     tags: ['test'],
-  }
-  params.pageLimit = 10
-  params.pageNum = 0
+  })
+  params.pageLimit = query?.pageLimit ?? null
+  params.pageNum = typeof query?.pageNum == 'number' && query?.pageNum >= 0 ? query?.pageNum : null
+  params.orderBy = query?.orderBy ?? null
 
   return await instance.get<Article[]>('/api/public/article', { params })
 }
