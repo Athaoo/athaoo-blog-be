@@ -72,6 +72,10 @@
 
 # 开发日志
 
+##### 2023-07-20
+
+hover显示卡片彩色渐变边框get,条件排序筛选查询接口get
+
 ##### 2023-07-19
 
 tailwind会导致antd button图标不居中,学了下useMemo/memo用在了blogList,把卡片组件封装了一下

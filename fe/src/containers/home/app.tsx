@@ -8,6 +8,7 @@ import { RouterRoot } from '@src/router/inedx'
 import MyHeader from '../topMenu'
 
 import './styles/index.scss'
+import '@src/styles/tailwind.css'
 
 const { Footer } = Layout
 const { useToken } = theme
@@ -15,7 +16,7 @@ const App: React.FC = () => {
   const { token } = useToken()
 
   return (
-    <Row style={{ minHeight: '100vh', minWidth: '100vw' }}>
+    <Row className="transition duration-300" style={{ minHeight: '100vh', minWidth: '100vw' }}>
       <Col span={24} style={{ minHeight: '100vh' }}>
         <MyHeader defaultSelectedKey={''}></MyHeader>
         <main style={{ height: 'calc(100% - 64px)', background: token.colorBgContainer }}>

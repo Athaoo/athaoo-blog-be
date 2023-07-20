@@ -18,21 +18,7 @@ const TestHooks2 = lazy(() => import('@src/containers/arts/reactTest/testHooks2'
 const VList = lazy(() => import('@src/containers/arts/reactTest/vList'))
 
 export const lazySuspense = (component: React.ReactElement) => {
-  return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Spin size="large" />
-        </div>
-      }>
-      {component}
-    </Suspense>
-  )
+  return <Suspense fallback={<></>}>{component}</Suspense>
 }
 
 export type RoutesItems = {

@@ -54,7 +54,7 @@ const MyHeader: React.FC<HeaderProps> = ({ defaultSelectedKey }) => {
           mode="horizontal"
           defaultSelectedKeys={[defaultSelectedKey]}
           items={MenuItems}></Menu>
-        <div className="h-full w-36">
+        <div className="absolute right-0 h-full w-36 ">
           <ThemeToggler></ThemeToggler>
         </div>
       </div>

@@ -5,6 +5,10 @@ module.exports = {
     extend: {
       colors: {
         primary: '#1B73E8',
+        darkModeShadow: '#ffffff',
+      },
+      transitionProperty: {
+        colors: 'background-color', // 启用背景颜色过渡
       },
     },
   },

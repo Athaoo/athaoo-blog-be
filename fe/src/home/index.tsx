@@ -9,6 +9,7 @@ import { magenta } from '@ant-design/colors'
 import { useTheme } from '../theme/index'
 import store from '@src/store'
 import { Provider as ReduxProvider } from 'react-redux'
+import '@src/styles/main.css'
 
 const container = document.getElementById('root')
 const root = createRoot(container)
