@@ -96,7 +96,7 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
       </Form.Item>
       <Form.Item label="封面">
         <Upload
-          listType="picture-circle"
+          listType="picture-card"
           fileList={fileList}
           onChange={handleCoverOnChange}
           beforeUpload={handleBeforeUploadCover}

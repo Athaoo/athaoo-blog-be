@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import remarkMdx from 'remark-mdx'
-
 import { Button, Card, Tag, Typography, Row, Col, Spin } from 'antd'
-import { blue } from '@ant-design/colors'
-import { getBlog } from './testData'
-import { BlogPost } from '@src/types/articlePage'
 import MarkdownRenderer from '@src/components/markdownRenderer'
 import { formatDate } from '@src/utils/format'
-import Mdxprovider from '@src/components/mdxProvider'
 
 import { useRequest, getOneArticle } from '@src/api'
 

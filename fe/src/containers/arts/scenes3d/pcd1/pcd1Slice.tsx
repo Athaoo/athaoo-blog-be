@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Pcd1SceneState } from '@src/store/pcd1Scene/types'
-import { XyzArr } from '@src/types/three'
 
 const initialState: Pcd1SceneState = {
   orbitCtrlStatus: {

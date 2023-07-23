@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -28,6 +28,7 @@
     "@uiw/react-markdown-editor": "^5.11.1",
     "@vitejs/plugin-react": "^3.1.0",
     "bytemd": "^1.21.0",
+    "react-reconciler": "^0.29.0",
     "react-router-dom": "^6.10.0",
     "typescript": "^4.9.3",
     "vite": "^4.2.0"

@@ -37,12 +37,12 @@ export const getAllArticles = async (
   const params = {} as any
   //query?.condition ? params.condition = JSON.stringify(query?.condition) : null
   params.condition = JSON.stringify({
-    tags: ['test'],
+    // tags: ['test'],
   })
   // params.pageLimit = query?.pageLimit ?? null
   // params.pageNum = typeof query?.pageNum == 'number' && query?.pageNum >= 0 ? query?.pageNum : null
-  params.pageLimit = 6
-  params.pageNum = 2
+  params.pageLimit = 8
+  params.pageNum = 0
   params.orderBy = query?.orderBy ?? null
 
   return await instance.get<Article[]>('/api/public/article', { params })

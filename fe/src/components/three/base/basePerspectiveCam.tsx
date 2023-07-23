@@ -1,10 +1,7 @@
 import { OrbitControls, PerspectiveCamera, useHelper } from '@react-three/drei'
-import { PerspectiveCameraProps } from '@react-three/fiber'
 import { XyzArr } from '@src/types/three'
 import React, { useEffect, useRef, useState } from 'react'
-import { CameraHelper, type PerspectiveCamera as PerspectiveCameraType } from 'three'
-import { OrbitControls as ThreeOrbitControls } from 'three-stdlib'
-import { useBaseOrbitCtrols } from './baseOrbitCtrl'
+import { type PerspectiveCamera as PerspectiveCameraType } from 'three'
 
 export const usePerspectiveCamRef = () => {
   const perspectiveCamRef = useRef<PerspectiveCameraType>()

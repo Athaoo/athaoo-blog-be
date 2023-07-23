@@ -10,7 +10,9 @@ export type loginSuccessRes = {
 }
 
 /**---------------------------------article------------------------------------------- */
-export type AddArticleType = Omit<Article, 'id' | 'createdAt' | 'updatedAt'>
+export type AddArticleType = Omit<Article, 'id' | 'createdAt' | 'updatedAt' | 'cover'> & {
+  cover?: File
+}
 export type UpdateArticleType = Omit<AddArticleType, 'cover'> & {
   cover?: File
 }

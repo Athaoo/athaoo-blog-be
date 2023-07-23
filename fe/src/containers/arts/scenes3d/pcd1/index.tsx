@@ -4,35 +4,33 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { PCDLoader } from 'three/examples/jsm/loaders/PCDLoader'
 // import { PCDLoader } from 'three-stdlib'
 import { OrbitControls, PerspectiveCamera, useHelper, TransformControls } from '@react-three/drei'
-import THREE, { PointLightHelper, PointsMaterial } from 'three'
+import { Group, PointsMaterial } from 'three'
 
 import { RootState } from '@src/store'
 
 import { Card, Col, Row } from 'antd'
 
-import pcdFile from '@src/assets/pcd/test1.pcd'
+// import pcdFile from '@src/assets/pcd/test1.pcd'
 import BaseAmbientPointLight from '@src/components/three/base/light'
 
-import { MyThreeCtrlMenu, MyThreeCtrlMenuProps } from '@src/components/three/menu'
+// const PointCloud = () => {
+//   const pcdRef = React.useRef<Group>()
 
-const PointCloud = () => {
-  const pcdRef = React.useRef<THREE.Group>()
+//   React.useEffect(() => {
+//     const loader = new PCDLoader()
+//     loader.load(pcdFile, (points) => {
+//       console.log(`🚀 -> loader.load -> points:`, points)
+//       const materia = new PointsMaterial({
+//         // color: '#00FF00',
+//         size: 0.1,
+//       })
+//       points.material = materia
+//       pcdRef.current.add(points)
+//     })
+//   }, [])
 
-  React.useEffect(() => {
-    const loader = new PCDLoader()
-    loader.load(pcdFile, (points) => {
-      console.log(`🚀 -> loader.load -> points:`, points)
-      const materia = new PointsMaterial({
-        // color: '#00FF00',
-        size: 0.1,
-      })
-      points.material = materia
-      pcdRef.current.add(points)
-    })
-  }, [])
-
-  return <group ref={pcdRef}></group>
-}
+//   return <group ref={pcdRef}></group>
+// }
 
 const Pcd = () => {
   return (
@@ -40,7 +38,7 @@ const Pcd = () => {
       <PerspectiveCamera makeDefault position={[0, 0, 40]} fov={90} />
       <BaseAmbientPointLight />
       <OrbitControls />
-      <PointCloud />
+      {/* <PointCloud /> */}
     </>
   )
 }

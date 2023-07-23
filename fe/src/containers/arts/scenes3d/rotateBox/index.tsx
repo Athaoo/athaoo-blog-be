@@ -23,7 +23,6 @@ import { Card, Switch, Button, Row, Col, Typography, Space, Divider } from 'antd
 
 import TransformControls from '@src/components/three/transformControl'
 import { CameraHelper, Vector3 } from 'three'
-
 import { XyzArr } from '@src/types/three'
 
 import {

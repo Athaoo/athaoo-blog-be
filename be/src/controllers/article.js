@@ -29,8 +29,6 @@ const articleUpdateScheme = Joi.object({
 const prehandleData = (data) => {
   const _d = cloneDeep(data)
   _d.tags = JSON.parse(data.tags)
-  console.log(`🚀 -> prehandleData -> data.tags:`, data.tags)
-  console.log(`🚀 -> prehandleData -> _d.tags:`, _d.tags)
   return _d
 }
 
@@ -83,7 +81,7 @@ export const getArticles = async (ctx) => {
     if (condition) {
       if (condition.tags && condition instanceof Array) {
         param.where.tags = {
-          [Op.overlap]: condition.tags
+          [Op.overlap]: condition.tags,
         }
       }
     }

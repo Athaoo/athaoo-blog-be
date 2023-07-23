@@ -1,11 +1,11 @@
-import { Vector3 } from '@react-three/fiber'
+import { Vector3 as RTFV3 } from '@react-three/fiber'
 import { XyzArr } from '@src/types/three'
-import * as THREE from 'three'
+import { Vector3 as THREEVecter3 } from 'three'
 
-export function forMatVector3(vector: Vector3): XyzArr {
+export function forMatVector3(vector: RTFV3): XyzArr {
   if (typeof vector === 'number') {
     return [vector, vector, vector]
-  } else if (vector instanceof THREE.Vector3) {
+  } else if (vector instanceof THREEVecter3) {
     return [vector.x, vector.y, vector.z]
   } else if (vector instanceof Array) {
     return [vector[0], vector[1], vector[2]]

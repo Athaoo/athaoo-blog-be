@@ -11,7 +11,6 @@ import {
   Descriptions,
 } from 'antd'
 import { ReactChildrenProps } from '@src/types/types'
-import { XyzArr } from '@src/types/three'
 import type { Vector3 } from '@react-three/fiber'
 import { forMatVector3 } from '@src/utils/format'
 

@@ -6,13 +6,11 @@
 import React, { useRef, useState, useEffect, forwardRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@src/store'
-import { Canvas, PerspectiveCameraProps, useFrame } from '@react-three/fiber'
-import { OrbitControls, TransformControls, PerspectiveCamera, useHelper } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import { useHelper } from '@react-three/drei'
 import { Card, Switch, Button, Row, Col, Typography, Space, Divider, InputNumber } from 'antd'
 
-import { BoxGeometry, CameraHelper } from 'three'
-
-import { XyzArr } from '@src/types/three'
+import { CameraHelper } from 'three'
 
 import {
   XyzInfoRow,

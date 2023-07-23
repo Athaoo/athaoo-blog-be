@@ -20,7 +20,10 @@ const devConfig = {
     port: 9000,
     /**历史转发，解决刷新404 */
     historyApiFallback: true,
+    open: true,
   },
+  /**源码跳转 */
+  devtool: 'source-map',
 }
 
 module.exports = merge(devConfig, baseConfig)

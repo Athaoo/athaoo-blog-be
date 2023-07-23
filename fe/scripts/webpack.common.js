@@ -1,9 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const path = require('path')
 const aliasPath = require('../tsconfig.json').compilerOptions.paths
+const WebpackBar = require('webpackbar')
 
-module.exports = {
+const cfg = {
   /**入口 */
   entry: {
     main: path.resolve(__dirname, '../src/home/index.tsx'),
@@ -23,69 +25,76 @@ module.exports = {
       '@components': path.resolve(__dirname, '../src/components'),
     },
     mainFiles: ['index', 'main'],
-    extensions: ['.tsx', '.ts', '.scss', '.js', '.jsx'],
+    extensions: ['.js', '.tsx', '.ts', 'scss'],
     fallback: {},
   },
   module: {
     rules: [
       {
-        test: /\.(t|j)sx?$/,
-        exclude: /node_modules/,
-        use: ['babel-loader'],
-      },
-      {
-        test: /\.(png|jpe?g|svg|gif)$/i,
-        type: 'asset/resource',
-      },
-      {
-        test: /\.(eot|ttf|woff|woff2)$/,
-        type: 'asset/resource',
-        generator: {
-          filename: 'font/[hash][ext][query]',
-        },
-      },
-      {
-        test: /\.(sa|sc|c)ss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          // 'style-loader',
-          'css-loader',
-          'postcss-loader',
+        oneOf: [
           {
-            loader: 'resolve-url-loader',
-            options: {
-              keepQuery: true,
+            test: /\.(t|j)sx?$/,
+            exclude: /node_modules/,
+            include: [path.resolve(__dirname, '../src')],
+            use: ['babel-loader'],
+          },
+          {
+            test: /\.(png|jpe?g|svg|gif)$/i,
+            type: 'asset/resource',
+          },
+          {
+            test: /\.(eot|ttf|woff|woff2)$/,
+            type: 'asset/resource',
+            generator: {
+              filename: 'font/[hash][ext][query]',
             },
           },
           {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-            },
+            test: /\.(sa|sc|c)ss$/,
+            use: [
+              MiniCssExtractPlugin.loader,
+              'css-loader',
+              'postcss-loader',
+              'resolve-url-loader',
+              {
+                loader: 'sass-loader',
+                options: {
+                  sourceMap: true,
+                },
+              },
+            ],
+          },
+          {
+            test: /\.pcd$/,
+            use: [
+              {
+                loader: 'file-loader',
+                options: {
+                  outputPath: 'assets/pcd',
+                  name: '[name].[ext]',
+                },
+              },
+            ],
+          },
+          {
+            test: /\.mdx$/,
+            use: [
+              {
+                loader: 'babel-loader',
+              },
+              {
+                loader: '@mdx-js/loader',
+              },
+            ],
           },
         ],
-      },
-      {
-        test: /\.pcd$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: 'assets/pcd',
-              name: '[name].[ext]',
-            },
-          },
-        ],
-      },
-      {
-        test: /\.mdx$/,
-        use: ['babel-loader', '@mdx-js/loader'],
       },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'assets/[name].css',
+      filename: 'index-[contenthash:8].css',
+      chunkFilename: '[id].css',
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -93,7 +102,22 @@ module.exports = {
       favicon: path.resolve(__dirname, '../public/favicon.ico'),
       inject: true,
     }),
+    new WebpackBar(),
   ],
-  /**源码跳转 */
-  devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'eval-source-map',
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+      }),
+    ],
+  },
+  // cache: {
+  //   type: 'filesystem', // 缓存类型，默认为 memory
+  //   version: '1.0', // 缓存版本号，默认为空字符串
+  //   buildDependencies: {
+  //     config: [__filename], // 依赖项
+  //   },
+  // },
 }
+module.exports = cfg

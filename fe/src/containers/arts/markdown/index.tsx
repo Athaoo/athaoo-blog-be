@@ -1,7 +1,7 @@
 import { Button, Card } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import testData from '@src/containers/articlePage/testData'
-import { Editor, Viewer } from '@bytemd/react'
+import { Editor } from '@bytemd/react'
 import gfm from '@bytemd/plugin-gfm'
 import 'bytemd/dist/index.css'
 import '@src/styles/tailwind.css'

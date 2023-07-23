@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera, useHelper, TransformControls } from '@react-three/drei'
-import THREE, { PointLightHelper } from 'three'
+import { PointLightHelper } from 'three'
 
 const Mesh = () => {
   return <></>

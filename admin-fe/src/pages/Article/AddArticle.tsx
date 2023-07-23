@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Card, message } from 'antd'
-import { Article, MySuccessRes } from '../../api/types'
+import { AddArticleType, Article, MySuccessRes } from '../../api/types'
 import ArticleEditor, { ArticleForm } from './Editor'
 import { createArticle, useRequest } from '../../api'
 
@@ -20,7 +20,7 @@ const App = () => {
       ...values,
       content: JSON.stringify(values.content),
       tags: tagsArray,
-    } as Article
+    } as AddArticleType
     const response = await addArticle(article)
     setRes(response)
   }
