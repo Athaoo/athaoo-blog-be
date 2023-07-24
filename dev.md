@@ -72,13 +72,33 @@
 
 # 开发日志
 
+##### 2023-07-23
+
+package.json 让 css 为 sideEffect 为 false，会导致 tailwind 失效，需要把 css 置为 sideeffect 项
+
+##### 2023-07-23
+
+webpack 优化
+
+生产环境， 优化前带 source-map 24mb 开发环境 dev 要 20s
+
+用 eval-source-map 7mb
+
+关闭 source-map js 剩下 3.4mb 还有 4.4mb 是一个点云+图片静态资源
+
+1. prod 环境设置别名，精准命中库 react，变成了 3.3mb，减小了一点点
+
+2. rules 添加 oneOf 字段，避免重复校验后缀，现在打包变成 16s
+
+3. thread-loader 多进程，负优化，变成 17s，可能是因为本身打包时间没那么长
+
 ##### 2023-07-20
 
-hover显示卡片彩色渐变边框get,条件排序筛选查询接口get
+hover 显示卡片彩色渐变边框 get,条件排序筛选查询接口 get
 
 ##### 2023-07-19
 
-tailwind会导致antd button图标不居中,学了下useMemo/memo用在了blogList,把卡片组件封装了一下
+tailwind 会导致 antd button 图标不居中,学了下 useMemo/memo 用在了 blogList,把卡片组件封装了一下
 
 ##### 2023-05-28
 
