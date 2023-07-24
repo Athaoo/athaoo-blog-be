@@ -23,7 +23,7 @@ const devConfig = {
     open: true,
   },
   /**源码跳转 */
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
 }
 
 module.exports = merge(devConfig, baseConfig)

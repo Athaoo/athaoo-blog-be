@@ -93,8 +93,7 @@ const cfg = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'index-[contenthash:8].css',
-      chunkFilename: '[id].css',
+      filename: 'assets/[name].css',
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
