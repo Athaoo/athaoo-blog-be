@@ -6,6 +6,7 @@ import React, {
   useState,
   useLayoutEffect,
   useReducer,
+  useRef,
 } from 'react'
 import { Table, Tag, Dropdown, Menu, Button, Popconfirm, Card, Spin, Skeleton } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
@@ -23,7 +24,7 @@ type PageActions = {
   payload: undefined | number
 }
 
-const LAZY_STEP = 6
+const LAZY_STEP = 2
 const pageReducer = (state: PageState, action: PageActions) => {
   switch (action.type) {
     case 'ADD':
@@ -35,21 +36,51 @@ const pageReducer = (state: PageState, action: PageActions) => {
   }
 }
 
+const ACard = ({ article, nav }: { article: Article; nav: (id: string) => void }) => {
+  console.log(`🚀 -> file: list.tsx:40 -> ACard -> article:`, article)
+  const { id, title, summary, createdAt, tags, cover } = article
+  return (
+    <div className="w-full h-full">
+      <MyCard
+        title={title}
+        summary={summary}
+        time={createdAt}
+        tags={tags}
+        cover={cover}
+        onClick={() => nav(id)}
+      />
+    </div>
+  )
+}
+
+const CardList = memo(({ articles }: { articles: Article[] }) => {
+  const navigate = useNavigate()
+  const nav = useCallback((id: string) => {
+    navigate(`/article/${id}`)
+  }, [])
+  console.log(`🚀 -> file: list.tsx:40 -> CardList -> articles:`, articles)
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+      {articles.map((article) => {
+        return <ACard key={article.id} article={article} nav={nav} />
+      })}
+    </div>
+  )
+})
+
 const BlogList: React.FC = () => {
   const { loading, runAsync: getArticles } = useMyHttpRequest(getAllArticles)
 
   const [articles, setArticles] = useState<Article[]>([])
   const cachedArticles = useMemo(() => articles, [articles])
-  const navigate = useNavigate()
+
+  const ifInited = useRef(false)
 
   const [pageState, pageDispatch] = useReducer(pageReducer, {
     curItemSum: LAZY_STEP,
     pageNum: 1,
   })
-
-  const nav = useCallback((id: string) => {
-    navigate(`/article/${id}`)
-  }, [])
 
   const loadMore = useCallback(() => {
     pageDispatch({
@@ -58,34 +89,14 @@ const BlogList: React.FC = () => {
     })
   }, [])
 
-  const CardList = memo(({ articles }: { articles: Article[] }) => {
-    console.log(`🚀 -> CardList -> cachedArticles:`, articles)
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-        {articles.map(({ id, title, summary, createdAt, tags, cover }) => {
-          return (
-            <div key={id} className="w-full h-full">
-              <MyCard
-                title={title}
-                summary={summary}
-                time={createdAt}
-                tags={tags}
-                cover={cover}
-                onClick={() => nav(id)}
-              />
-            </div>
-          )
-        })}
-      </div>
-    )
-  })
-
   useEffect(() => {
     const req = async () => {
       try {
-        const { data } = await getArticles({ pageLimit: 12, pageNum: 0 })
+        const { data } = await getArticles({ pageLimit: LAZY_STEP * 2, pageNum: 0 })
         console.log(`🚀 -> file: list.tsx:93 -> req -> res:`, data)
-        setArticles((articles) => data)
+        setArticles(data)
+
+        ifInited.current = true
       } catch (e) {
         console.error(e)
       }
@@ -97,6 +108,7 @@ const BlogList: React.FC = () => {
     console.log(`🚀 -> useEffect -> pageState:`, { ...pageState })
     const req = async () => {
       try {
+        console.log(`🚀 -> file: list.tsx:93 -> pageState.pageNum:`, pageState.pageNum)
         const { data } = await getArticles({ pageLimit: LAZY_STEP, pageNum: pageState.pageNum })
         console.log(`🚀 -> file: list.tsx:93 -> req -> res:`, data)
         setArticles((articles) => [...articles, ...data])
@@ -104,10 +116,12 @@ const BlogList: React.FC = () => {
         console.error(e)
       }
     }
-    // req()
+    if (ifInited.current) {
+      req()
+    }
   }, [pageState])
 
-  return !cachedArticles || loading ? (
+  return !cachedArticles && loading ? (
     <Spin />
   ) : (
     <Card style={{ height: '100%' }}>

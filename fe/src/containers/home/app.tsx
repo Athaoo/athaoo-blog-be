@@ -16,17 +16,19 @@ const App: React.FC = () => {
   const { token } = useToken()
 
   return (
-    <Row
-      className="transition duration-300 overflow-x-hidden"
-      style={{ minHeight: '100vh', minWidth: '100vw' }}>
-      <Col span={24} style={{ minHeight: '100vh' }}>
+    <Row className="transition duration-300 overflow-x-hidden h-full w-full">
+      <Col className="flex flex-col w-full h-full" span={24}>
         <MyHeader defaultSelectedKey={''}></MyHeader>
-        <main style={{ height: 'calc(100% - 64px)', background: token.colorBgContainer }}>
-          <RouterRoot></RouterRoot>
+        <main
+          className="overflow-x-hidden flex flex-col flex-1"
+          style={{ background: token.colorBgContainer }}>
+          <div className="flex1">
+            <RouterRoot></RouterRoot>
+          </div>
+          <Footer style={{ background: token.colorBgContainer, textAlign: 'center' }}>
+            Athaoo 2023
+          </Footer>
         </main>
-        <Footer style={{ background: token.colorBgContainer, textAlign: 'center' }}>
-          Athaoo 2023
-        </Footer>
       </Col>
     </Row>
   )
