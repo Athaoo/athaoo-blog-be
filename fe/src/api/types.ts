@@ -11,10 +11,10 @@ export type SearchConditionType<T extends object> = Partial<{
   [K in keyof T]?: any
 }>
 
-export type SearchListQueryType<T extends object, OK extends object> = Partial<
-  PageQueryType<OK>
+export type SearchListQueryType<TCondition extends object, TOrder extends object> = Partial<
+  PageQueryType<TOrder>
 > & {
-  condition: SearchConditionType<T>
+  condition?: SearchConditionType<TCondition>
 }
 
 export type MySuccessRes = {
@@ -44,7 +44,7 @@ export type UpdateArticleType = Omit<AddArticleType, 'cover'> & {
   cover?: File
 }
 
-export type ArticleListQueryType = SearchListQueryType<
-  Partial<Pick<Article, 'tags'>>,
-  Pick<Article, 'createdAt' | 'id'>
->
+export type ArticleConditionsType = Partial<Pick<Article, 'tags'>>
+export type ArticleOrderType = Pick<Article, 'createdAt' | 'id'>
+
+export type ArticleListQueryType = SearchListQueryType<ArticleConditionsType, ArticleOrderType>

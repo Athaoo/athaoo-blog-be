@@ -16,7 +16,9 @@ const App: React.FC = () => {
   const { token } = useToken()
 
   return (
-    <Row className="transition duration-300" style={{ minHeight: '100vh', minWidth: '100vw' }}>
+    <Row
+      className="transition duration-300 overflow-x-hidden"
+      style={{ minHeight: '100vh', minWidth: '100vw' }}>
       <Col span={24} style={{ minHeight: '100vh' }}>
         <MyHeader defaultSelectedKey={''}></MyHeader>
         <main style={{ height: 'calc(100% - 64px)', background: token.colorBgContainer }}>

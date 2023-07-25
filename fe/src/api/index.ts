@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { TestData, Article, ArticleListQueryType } from './types'
+import { useRequest as useRequestA } from 'ahooks'
+import type { Options, Plugin } from 'ahooks/lib/useRequest/src/types'
 
 const localUrl = '//localhost:3000'
 
@@ -29,6 +31,24 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
   }
 
   return [loading, fetchData] as const
+}
+
+/**
+ *  ahooks/useRequest的封装
+ *  1.限定函数返回值类型必须为AxiosResponse
+ *  2.始终手动请求, 需要手动调用runAsync
+ *  3.其他参数相同
+ * @param requestFunction
+ * @param options
+ * @param plugins
+ * @returns
+ */
+export const useMyHttpRequest = <TData, TParams extends any[]>(
+  requestFunction: RequestFunction<TData, TParams>,
+  options?: Options<AxiosResponse<TData>, TParams>,
+  plugins?: Plugin<AxiosResponse<TData>, TParams>[]
+) => {
+  return useRequestA(requestFunction, { ...options, manual: true }, plugins)
 }
 
 export const getAllArticles = async (

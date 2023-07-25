@@ -1,59 +1,61 @@
-import React, { useEffect, useCallback, memo, useMemo, useState, useLayoutEffect } from 'react'
-import { Table, Tag, Dropdown, Menu, Button, Popconfirm, Card, Spin } from 'antd'
-import { BlogPost } from '@src/types/articlePage'
+import React, {
+  useEffect,
+  useCallback,
+  memo,
+  useMemo,
+  useState,
+  useLayoutEffect,
+  useReducer,
+} from 'react'
+import { Table, Tag, Dropdown, Menu, Button, Popconfirm, Card, Spin, Skeleton } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
-import { getBlog } from './testData'
 import '@src/styles/tailwind.css'
-import { useRequest, getAllArticles } from '@src/api'
-import { Article } from '@src/api/types'
+import { useRequest, getAllArticles, useMyHttpRequest } from '@src/api'
+import type { Article, ArticleListQueryType } from '@src/api/types'
 import MyCard from './ArticleCard'
 
-const testBlogData = [1, 2, 3, 4, 5, 6, 7, 8].map((id) => getBlog(`${id}`))
-const columns = [
-  {
-    title: '标题',
-    dataIndex: 'title',
-    render: (text, record: BlogPost) => <Link to={`/article/${record.id}`}>{record.title}</Link>,
-  },
-  {
-    title: '时间',
-    dataIndex: 'createdAt',
-    render: (text, record: BlogPost) => {
-      return <>{JSON.stringify(record.createdAt)}</>
-    },
-  },
-  {
-    title: '标签',
-    dataIndex: 'tags',
-    render: (text, record: BlogPost) => (
-      <>
-        {record.tags.map((tag) => (
-          <Tag color="blue" key={tag}>
-            {tag}
-          </Tag>
-        ))}
-      </>
-    ),
-  },
-  {
-    title: '操作',
-    dataIndex: 'operation',
-    render: (text, record: BlogPost) => (
-      <Popconfirm title="确定log?" onConfirm={() => console.log(record)}>
-        <a>log这一行的数据</a>
-      </Popconfirm>
-    ),
-  },
-]
+type PageState = {
+  curItemSum: number
+  pageNum: number
+}
+type PageActions = {
+  type: 'ADD'
+  payload: undefined | number
+}
+
+const LAZY_STEP = 6
+const pageReducer = (state: PageState, action: PageActions) => {
+  switch (action.type) {
+    case 'ADD':
+      return {
+        ...state,
+        curItemSum: state.curItemSum + LAZY_STEP,
+        pageNum: state.pageNum + 1,
+      }
+  }
+}
 
 const BlogList: React.FC = () => {
-  const [loading, apiGetAll] = useRequest(getAllArticles)
-  const [articles, setArticles] = useState<Article[]>(null)
+  const { loading, runAsync: getArticles } = useMyHttpRequest(getAllArticles)
+
+  const [articles, setArticles] = useState<Article[]>([])
   const cachedArticles = useMemo(() => articles, [articles])
   const navigate = useNavigate()
 
+  const [pageState, pageDispatch] = useReducer(pageReducer, {
+    curItemSum: LAZY_STEP,
+    pageNum: 1,
+  })
+
   const nav = useCallback((id: string) => {
     navigate(`/article/${id}`)
+  }, [])
+
+  const loadMore = useCallback(() => {
+    pageDispatch({
+      type: 'ADD',
+      payload: undefined,
+    })
   }, [])
 
   const CardList = memo(({ articles }: { articles: Article[] }) => {
@@ -80,19 +82,37 @@ const BlogList: React.FC = () => {
 
   useEffect(() => {
     const req = async () => {
-      const res = await apiGetAll()
-      console.log(`🚀 -> file: list.tsx:93 -> req -> res:`, res)
-      setArticles(res)
+      try {
+        const { data } = await getArticles({ pageLimit: 12, pageNum: 0 })
+        console.log(`🚀 -> file: list.tsx:93 -> req -> res:`, data)
+        setArticles((articles) => data)
+      } catch (e) {
+        console.error(e)
+      }
     }
     req()
   }, [])
+
+  useEffect(() => {
+    console.log(`🚀 -> useEffect -> pageState:`, { ...pageState })
+    const req = async () => {
+      try {
+        const { data } = await getArticles({ pageLimit: LAZY_STEP, pageNum: pageState.pageNum })
+        console.log(`🚀 -> file: list.tsx:93 -> req -> res:`, data)
+        setArticles((articles) => [...articles, ...data])
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    // req()
+  }, [pageState])
 
   return !cachedArticles || loading ? (
     <Spin />
   ) : (
     <Card style={{ height: '100%' }}>
       <CardList articles={cachedArticles} />
-      <Table columns={columns} dataSource={cachedArticles} rowKey="id" />
+      <Button onClick={() => loadMore()}>加载更多</Button>
     </Card>
   )
 }
