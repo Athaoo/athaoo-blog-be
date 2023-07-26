@@ -59,11 +59,11 @@ export const createArticle = async (ctx) => {
 
 export const getArticles = async (ctx) => {
   try {
-    let { pageLimit, pageNum, orderBy, isDesc, condition } = ctx.query
-    pageLimit = parseInt(pageLimit)
-    pageNum = parseInt(pageNum)
-    condition = JSON.parse(condition)
-    console.log(`🚀 -> getArticles -> condition:`, condition)
+    let pageLimit = parseInt(ctx.query?.pageLimit ?? NaN)
+    let pageNum = parseInt(ctx.query?.pageNum ?? NaN)
+    let condition = JSON.parse(ctx.query?.condition ?? null)
+    let orderBy = ctx.query?.orderBy ?? null
+    let isDesc = ctx.query?.isDesc ?? false
 
     const param = {}
     if (!isNaN(pageLimit) && !isNaN(pageNum)) {
@@ -86,6 +86,7 @@ export const getArticles = async (ctx) => {
       }
     }
 
+    console.log(`🚀 -> getArticles -> param:`, param)
     const articles = await Article.findAll(param)
     ctx.body = articles
   } catch (e) {
