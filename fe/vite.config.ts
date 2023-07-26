@@ -20,13 +20,13 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: './src/admin/main.tsx',
+        main: path.resolve(__dirname, './src/admin/index.html'),
       },
     },
-    outDir: 'dist/admin',
+    outDir: path.resolve(__dirname, './dist/admin'),
   },
   plugins: [react()],
-  base: './',
-  publicDir: './public/admin',
-  root: path.resolve(__dirname, './public/admin'),
+  base: '.test',
+  publicDir: path.resolve(__dirname, './public'),
+  root: path.resolve(__dirname, './src/admin'),
 })
