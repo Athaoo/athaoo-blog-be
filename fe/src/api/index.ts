@@ -11,9 +11,9 @@ const instance = axios.create({
   timeout: 500,
 })
 
-type RequestFunction<T, P extends any[]> = (...params: P) => Promise<AxiosResponse<T>>
+export type RequestFunction<T, P extends any[]> = (...params: P) => Promise<AxiosResponse<T>>
 
-// useRequest Hook
+// 手动简陋版useRequest Hook
 export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<T, P>) => {
   const [loading, setLoading] = useState(true)
 

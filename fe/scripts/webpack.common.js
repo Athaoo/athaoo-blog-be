@@ -12,7 +12,7 @@ const cfg = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, '../fe/dist'),
     /**解决刷新重定位失败 */
     publicPath: '/',
   },
@@ -20,6 +20,8 @@ const cfg = {
     /**设置别名,从tsconfig中读取paths */
     alias: {
       '@src': path.resolve(__dirname, '../src'),
+      '@api': path.resolve(__dirname, '../src/api'),
+      '@utils': path.resolve(__dirname, '../src/utils'),
       '@containers': path.resolve(__dirname, '../src/containers'),
       '@assets': path.resolve(__dirname, '../src/assets'),
       '@components': path.resolve(__dirname, '../src/components'),

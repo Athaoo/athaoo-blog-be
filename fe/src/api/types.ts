@@ -28,7 +28,7 @@ export type loginSuccessRes = {
 
 /**---------------------------------article------------------------------------------- */
 export interface Article {
-  id?: string
+  id?: number
   title: string
   tags: string[]
   summary?: string
@@ -38,11 +38,11 @@ export interface Article {
   updatedAt?: Date
   cover?: string
 }
-export type AddArticleType = Omit<Article, 'id' | 'createdAt' | 'updatedAt'>
-
-export type UpdateArticleType = Omit<AddArticleType, 'cover'> & {
+export type AddArticleType = Omit<Article, 'id' | 'createdAt' | 'updatedAt' | 'cover'> & {
   cover?: File
 }
+
+export type UpdateArticleType = AddArticleType
 
 export type ArticleConditionsType = Partial<Pick<Article, 'tags'>>
 export type ArticleOrderType = Pick<Article, 'createdAt' | 'id'>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Tooltip, theme } from 'antd'
 import { formatDate } from '@src/utils/format'
-import ageni from '@assets/imgs/ageni.png'
 
 type MyCardProps = {
   title: string
@@ -12,6 +11,7 @@ type MyCardProps = {
   onClick?: () => any
 }
 
+const defaultBg = '//localhost:3000/imgs/default-bg.png'
 const { useToken } = theme
 const MyCard = ({ title, summary, tags, time, cover, onClick }: MyCardProps) => {
   const { token } = useToken()
@@ -24,7 +24,7 @@ const MyCard = ({ title, summary, tags, time, cover, onClick }: MyCardProps) => 
         <div className="w-full h-full rounded-2xl overflow-hidden shadow-lg ">
           <div className="w-full h-0 pb-[48%] relative">
             <img
-              src={cover ?? ageni}
+              src={cover ?? defaultBg}
               className="absolute top-0 left-0 w-full h-full object-cover"
               alt="Card Image"
             />

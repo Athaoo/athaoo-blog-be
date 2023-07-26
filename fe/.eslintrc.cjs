@@ -49,7 +49,8 @@ module.exports = {
     'linebreak-style': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-vars': 'error',
     'react/react-in-jsx-scope': 'error',
     'valid-typeof': [

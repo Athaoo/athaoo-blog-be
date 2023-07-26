@@ -15,29 +15,10 @@ import { useRequest, getAllArticles, useMyHttpRequest } from '@src/api'
 import type { Article, ArticleListQueryType } from '@src/api/types'
 import MyCard from './ArticleCard'
 
-type PageState = {
-  curItemSum: number
-  pageNum: number
-}
-type PageActions = {
-  type: 'ADD'
-  payload: undefined | number
-}
-
-const LAZY_STEP = 2
-const pageReducer = (state: PageState, action: PageActions) => {
-  switch (action.type) {
-    case 'ADD':
-      return {
-        ...state,
-        curItemSum: state.curItemSum + LAZY_STEP,
-        pageNum: state.pageNum + 1,
-      }
-  }
-}
+// const LAZY_STEP = 2
+const LAZY_STEP = 6
 
 const ACard = ({ article, nav }: { article: Article; nav: (id: string) => void }) => {
-  console.log(`🚀 -> file: list.tsx:40 -> ACard -> article:`, article)
   const { id, title, summary, createdAt, tags, cover } = article
   return (
     <div className="w-full h-full">
@@ -73,27 +54,22 @@ const BlogList: React.FC = () => {
   const { loading, runAsync: getArticles } = useMyHttpRequest(getAllArticles)
 
   const [articles, setArticles] = useState<Article[]>([])
-  const cachedArticles = useMemo(() => articles, [articles])
+
+  // 因为articles的引用每次都会变，memo并不能达到缓存的效果
+  // const cachedArticles = useMemo(() => articles, [articles])
 
   const ifInited = useRef(false)
-
-  const [pageState, pageDispatch] = useReducer(pageReducer, {
-    curItemSum: LAZY_STEP,
-    pageNum: 1,
-  })
+  const ifLoadOver = useRef(false)
+  const [page, setPage] = useState(1)
 
   const loadMore = useCallback(() => {
-    pageDispatch({
-      type: 'ADD',
-      payload: undefined,
-    })
+    setPage((p) => p + 1)
   }, [])
 
   useEffect(() => {
     const req = async () => {
       try {
         const { data } = await getArticles({ pageLimit: LAZY_STEP * 2, pageNum: 0 })
-        console.log(`🚀 -> file: list.tsx:93 -> req -> res:`, data)
         setArticles(data)
 
         ifInited.current = true
@@ -105,28 +81,28 @@ const BlogList: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    console.log(`🚀 -> useEffect -> pageState:`, { ...pageState })
     const req = async () => {
       try {
-        console.log(`🚀 -> file: list.tsx:93 -> pageState.pageNum:`, pageState.pageNum)
-        const { data } = await getArticles({ pageLimit: LAZY_STEP, pageNum: pageState.pageNum })
-        console.log(`🚀 -> file: list.tsx:93 -> req -> res:`, data)
+        const { data } = await getArticles({ pageLimit: LAZY_STEP, pageNum: page })
         setArticles((articles) => [...articles, ...data])
+        if (data.length < LAZY_STEP) {
+          ifLoadOver.current = true
+        }
       } catch (e) {
         console.error(e)
       }
     }
-    if (ifInited.current) {
+    if (ifInited.current && !ifLoadOver.current) {
       req()
     }
-  }, [pageState])
+  }, [page])
 
-  return !cachedArticles && loading ? (
+  return !articles && loading ? (
     <Spin />
   ) : (
     <Card style={{ height: '100%' }}>
-      <CardList articles={cachedArticles} />
-      <Button onClick={() => loadMore()}>加载更多</Button>
+      <CardList articles={articles} />
+      {ifLoadOver.current ? null : <Button onClick={() => loadMore()}>加载更多</Button>}
     </Card>
   )
 }
