@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button, Card, Tag, Typography, Row, Col, Spin } from 'antd'
 import MarkdownRenderer from '@src/components/markdownRenderer'
+import { MDViewer } from '@src/admin/components/markdown'
 import { formatDate } from '@src/utils/format'
 
 import { useRequest, getOneArticle } from '@src/api'
@@ -91,7 +92,7 @@ const ArticleDetail: React.FC = () => {
         {Tags(article.tags)}
       </Card>
       <Card style={{ boxShadow: 'none' }} bordered={false}>
-        <MarkdownRenderer>{JSON.parse(article.content)}</MarkdownRenderer>
+        <MDViewer value={JSON.parse(article.content)} />
       </Card>
     </Card>
   )
