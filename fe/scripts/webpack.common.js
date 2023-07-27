@@ -8,7 +8,7 @@ const WebpackBar = require('webpackbar')
 const cfg = {
   /**入口 */
   entry: {
-    main: path.resolve(__dirname, '../src/home/index.tsx'),
+    main: path.resolve(__dirname, '../src/main.tsx'),
   },
   output: {
     filename: 'bundle.js',

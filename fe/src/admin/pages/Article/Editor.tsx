@@ -3,9 +3,8 @@ import type { Article } from '@api/types'
 import { Card, Input, Button, Form, FormProps, Upload } from 'antd'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload'
 import { RenderTest } from '../../components/renderTest'
-import { Editor, Viewer } from '@bytemd/react'
-import gfm from '@bytemd/plugin-gfm'
-import 'bytemd/dist/index.css'
+
+import { MDEditor, MDViewer } from '@src/admin/components/markdown'
 
 export type ArticleForm = {
   title: string
@@ -33,8 +32,6 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error)
   })
 
-// bytemd配置
-const plugins = [gfm()]
 const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
   const _initialValues = initialValues ?? {
     title: '',
@@ -106,7 +103,7 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
         </Upload>
       </Form.Item>
       <Form.Item label="正文">
-        <Editor value={content} onChange={onContentChange} plugins={plugins} />
+        <MDEditor value={content} onChange={onContentChange} />
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit">

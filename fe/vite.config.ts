@@ -2,16 +2,17 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
-// https://vitejs.dev/config/
+const { resolve } = path
+
 export default defineConfig({
   resolve: {
     alias: {
-      '@src': path.resolve(__dirname, './src'),
-      '@api': path.resolve(__dirname, './src/api'),
-      '@utils': path.resolve(__dirname, './src/utils'),
-      '@containers': path.resolve(__dirname, './src/containers'),
-      '@assets': path.resolve(__dirname, './src/assets'),
-      '@components': path.resolve(__dirname, './src/components'),
+      '@src': resolve(__dirname, './src'),
+      '@api': resolve(__dirname, './src/api'),
+      '@utils': resolve(__dirname, './src/utils'),
+      '@containers': resolve(__dirname, './src/containers'),
+      '@assets': resolve(__dirname, './src/assets'),
+      '@components': resolve(__dirname, './src/components'),
     },
   },
   server: {
@@ -20,13 +21,13 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, './src/admin/index.html'),
+        main: resolve(__dirname, 'src/index.html'),
+        admin: resolve(__dirname, 'src/admin/index.html'),
       },
     },
-    outDir: path.resolve(__dirname, './dist/admin'),
+    outDir: 'dist',
   },
   plugins: [react()],
-  base: '.test',
-  publicDir: path.resolve(__dirname, './public'),
-  root: path.resolve(__dirname, './src/admin'),
+  base: './',
+  publicDir: resolve(__dirname, './public'),
 })
