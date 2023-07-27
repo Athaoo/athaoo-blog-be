@@ -72,6 +72,12 @@
 
 # 开发日志
 
+##### 2023-07-27
+
+1. 由于依赖以及通用的 api、types、组件比较多，将 admin-fe 移植到了 fe 中
+2. 移植后变成了 2 入口的多页面应用，并将 fe 的开发环境替换成 vite，解决了多页面应用的入口问题，配置了 vite.config.ts 和 package.json 的 vite serve 指令，dev 速度提升显著。
+3. 把所有的 md 换成了 bytemd，用 hightlight.js 换了主题
+
 ##### 2023-07-26
 
 完成了 article 列表的下拉懒加载

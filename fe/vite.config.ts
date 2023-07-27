@@ -21,11 +21,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'src/index.html'),
-        admin: resolve(__dirname, 'src/admin/index.html'),
+        main: resolve(__dirname, './src/index.html'),
+        admin: resolve(__dirname, './src/admin/index.html'),
       },
     },
-    outDir: 'dist',
+    outDir: resolve(__dirname, './dist'),
   },
   plugins: [react()],
   base: './',
