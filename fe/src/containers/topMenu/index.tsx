@@ -3,6 +3,7 @@ import { Menu, MenuProps, Space, theme, Row, Col, Typography } from 'antd'
 import { Header } from 'antd/es/layout/layout'
 import { Link, useLocation } from 'react-router-dom'
 import ThemeToggler from './ThemeToggler'
+import GithubBtn from './Github'
 import '@src/styles/tailwind.css'
 
 const MenuRouteName = [
@@ -55,7 +56,10 @@ const MyHeader: React.FC<HeaderProps> = ({ defaultSelectedKey }) => {
           defaultSelectedKeys={[defaultSelectedKey]}
           items={MenuItems}></Menu>
         <div className="absolute right-0 h-full w-36 ">
-          <ThemeToggler></ThemeToggler>
+          <Space>
+            <ThemeToggler />
+            <GithubBtn />
+          </Space>
         </div>
       </div>
     </Header>

@@ -3,7 +3,7 @@ import { Space, Button, Tooltip } from 'antd'
 import { BulbOutlined } from '@ant-design/icons'
 import { useTheme } from '@src/theme'
 
-const ThemeToggler: React.FC = () => {
+const GithubBtn: React.FC = () => {
   const { toggleTheme } = useTheme()
 
   return (
@@ -15,4 +15,4 @@ const ThemeToggler: React.FC = () => {
   )
 }
 
-export default ThemeToggler
+export default GithubBtn
