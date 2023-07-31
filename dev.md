@@ -72,6 +72,12 @@
 
 # 开发日志
 
+
+##### 2023-07-31
+
+添加了vite下env的配置。不知道为什么，在vite.config.js下如果不手动dotenv.config()就没处理.env环境。
+admin和blog现在用两个config，分开dev和打包
+
 ##### 2023-07-27
 
 1. 由于依赖以及通用的 api、types、组件比较多，将 admin-fe 移植到了 fe 中

@@ -8,7 +8,6 @@ import {
 } from '../controllers/article.js'
 
 const router = new Router({ prefix: '/api' })
-// const router = new Router({ prefix: '/api' })
 
 router.get('/article/test', async (ctx) => {
   ctx.body = {

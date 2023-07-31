@@ -1,11 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
-import dotenv from 'dotenv'
 
 const { resolve } = path
-
-dotenv.config()
 
 export default defineConfig({
   resolve: {
@@ -19,17 +16,17 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173,
+    port: 5174,
     open: true,
   },
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, './src/index.html'),
+        main: resolve(__dirname, './src/admin/index.html'),
       },
     },
-    outDir: resolve(__dirname, './dist/blog'),
+    outDir: resolve(__dirname, './dist/admin'),
   },
   plugins: [react()],
-  publicDir: resolve(__dirname, './public/blog'),
+  publicDir: resolve(__dirname, './public/admin'),
 })

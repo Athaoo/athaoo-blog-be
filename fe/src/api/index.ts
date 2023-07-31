@@ -4,10 +4,10 @@ import { TestData, Article, ArticleListQueryType } from './types'
 import { useRequest as useRequestA } from 'ahooks'
 import type { Options, Plugin } from 'ahooks/lib/useRequest/src/types'
 
-const localUrl = '//localhost:3000'
+const baseUrl = import.meta.env.VITE_API_URL
 
 const instance = axios.create({
-  baseURL: localUrl,
+  baseURL: baseUrl,
   timeout: 500,
 })
 
@@ -63,11 +63,11 @@ export const getAllArticles = async (
   params.pageNum = typeof query?.pageNum == 'number' && query?.pageNum >= 0 ? query?.pageNum : null
   params.orderBy = query?.orderBy ?? null
 
-  return await instance.get<Article[]>('/api/public/article', { params })
+  return await instance.get<Article[]>('/public/article', { params })
 }
 
 export const getOneArticle = (id: number): Promise<AxiosResponse<Article>> => {
-  return instance.get<Article>(`/api/public/article/${id}`)
+  return instance.get<Article>(`/public/article/${id}`)
 }
 
 export default instance

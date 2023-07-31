@@ -8,10 +8,10 @@ import axios, {
 import { Article, AddArticleType, UpdateArticleType, MySuccessRes, loginSuccessRes } from '../types'
 import { getAllArticles as getCommonAllArticles, getOneArticle as getCommonOneArticle } from '..'
 
-const localUrl = '//localhost:3000/api'
+const baseUrl = import.meta.env.VITE_API_URL
 
 const instance = axios.create({
-  baseURL: localUrl,
+  baseURL: baseUrl,
   timeout: 5000,
 })
 
