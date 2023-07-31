@@ -14,7 +14,7 @@ const config = {
     username: 'athaoo',
     password: 'athaooblog123',
     database: 'athaoo_blog',
-    host: 'localhost',
+    host: ip,
     port: 3306,
     dialect: 'mysql',
   },

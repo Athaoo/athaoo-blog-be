@@ -86,7 +86,6 @@ export const getArticles = async (ctx) => {
       }
     }
 
-    console.log(`🚀 -> getArticles -> param:`, param)
     const articles = await Article.findAll(param)
     ctx.body = articles
   } catch (e) {
