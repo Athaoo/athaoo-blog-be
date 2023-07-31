@@ -32,6 +32,6 @@
       "@components/*": ["./src/types/*"]
     }
   },
-  "include": ["./src/**/*", "./node_modules"],
+  "include": ["./src/**/*", "./node_modules", "env.d.ts"],
   "exclude": ["dist"]
 }

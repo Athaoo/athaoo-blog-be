@@ -4,7 +4,8 @@ import { TestData, Article, ArticleListQueryType } from './types'
 import { useRequest as useRequestA } from 'ahooks'
 import type { Options, Plugin } from 'ahooks/lib/useRequest/src/types'
 
-const baseUrl = import.meta.env.VITE_API_URL
+const baseUrl = __APP_ENV__.API_URL
+console.log(`🚀 -> file: index.ts:8 -> baseUrl:`, baseUrl)
 
 const instance = axios.create({
   baseURL: baseUrl,
