@@ -32,9 +32,9 @@ async function main() {
           const reg = /\.[A-Za-z]+$/g
           const ext = file.originalFilename.match(reg)[0]
         },
-        onError(err){
+        onError(err) {
           console.log(err)
-        }
+        },
       },
     })
   )
@@ -58,7 +58,7 @@ async function main() {
     koaJwt({
       secret: jwtSecret,
     }).unless({
-      path: [/^\/api\/login/, /^\/api\/register/, /.*public.*/, '/api/article/list'],
+      path: [/^\/api\/login/, /^\/api\/register/, /.*public.*/, /.*public.*/, '/api/article/list'],
     })
   )
 

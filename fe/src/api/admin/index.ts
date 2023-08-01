@@ -36,7 +36,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
     // 在此处添加响应拦截逻辑，如统一处理错误等
-    if (response.status === 401) {
+    if (response?.status === 401) {
       sessionStorage.removeItem('token')
       // navigate('/login')
     }
