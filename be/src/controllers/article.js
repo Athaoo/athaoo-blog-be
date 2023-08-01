@@ -39,9 +39,8 @@ export const createArticle = async (ctx) => {
     if (error) {
       ctx.status = 400
       ctx.body = {
-        message: 'Invalid article data',
+        message: `Invalid article data${error.message}`,
       }
-      return
     }
 
     const article = await Article.create(ctx.request.body)

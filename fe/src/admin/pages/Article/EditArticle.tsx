@@ -33,7 +33,7 @@ const EditArticle = () => {
     const updateParam = {
       ...article,
       content: JSON.stringify(article.content),
-      tags: article.tags.split(',').map((tag) => tag.trim()),
+      tags: JSON.stringify(article.tags.split(',').map((tag) => tag.trim())),
     }
 
     try {

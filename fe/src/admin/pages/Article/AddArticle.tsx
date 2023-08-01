@@ -19,7 +19,7 @@ const App = () => {
     const article = {
       ...values,
       content: JSON.stringify(values.content),
-      tags: tagsArray,
+      tags: JSON.stringify(tagsArray),
     } as AddArticleType
     const response = await addArticle(article)
     setRes(response)

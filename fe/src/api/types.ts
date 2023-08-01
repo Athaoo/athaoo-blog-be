@@ -38,8 +38,9 @@ export interface Article {
   updatedAt?: Date
   cover?: string
 }
-export type AddArticleType = Omit<Article, 'id' | 'createdAt' | 'updatedAt' | 'cover'> & {
+export type AddArticleType = Omit<Article, 'id' | 'createdAt' | 'updatedAt' | 'cover' | 'tags'> & {
   cover?: File
+  tags: string
 }
 
 export type UpdateArticleType = AddArticleType

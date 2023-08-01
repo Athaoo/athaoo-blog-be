@@ -86,7 +86,7 @@ export const updateOneArticle = async (
 ): Promise<AxiosResponse<MySuccessRes>> => {
   const formData = new FormData()
   formData.append('title', data.title)
-  formData.append('tags', JSON.stringify(data.tags))
+  formData.append('tags', data.tags)
   formData.append('summary', data.summary || '')
   formData.append('content', data.content)
   formData.append('author', data.author || '')
