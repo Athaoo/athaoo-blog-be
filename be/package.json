@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "serve": "nodemon app.js"
+    "serve": "pm2 start app.js --name blog-be"
   },
   "type": "module",
   "author": "Athaoo",
