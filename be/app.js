@@ -39,7 +39,7 @@ async function main() {
     })
   )
 
-  app.use(cors())
+  process.env == 'development' && app.use(cors())
 
   app.use((ctx, next) => {
     return next().catch((err) => {
