@@ -74,9 +74,7 @@ export const createArticle = async (data: AddArticleType): Promise<AxiosResponse
   formData.append('summary', data.summary || '')
   formData.append('content', data.content)
   formData.append('author', data.author || '')
-  if (data.cover) {
-    formData.append('cover', data.cover)
-  }
+  formData.append('cover', data.cover ?? '')
 
   return await instance.post<MySuccessRes>('/article', formData)
 }
@@ -95,9 +93,7 @@ export const updateOneArticle = async (
   formData.append('summary', data.summary || '')
   formData.append('content', data.content)
   formData.append('author', data.author || '')
-  if (data.cover) {
-    formData.append('cover', data.cover)
-  }
+  formData.append('cover', data.cover ?? '')
 
   return await instance.put<MySuccessRes>(`/article/${id}`, formData, {
     headers: {

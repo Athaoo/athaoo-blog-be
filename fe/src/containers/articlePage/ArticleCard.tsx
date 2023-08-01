@@ -11,7 +11,9 @@ type MyCardProps = {
   onClick?: () => any
 }
 
-const defaultBg = '//localhost:3000/imgs/default-bg.png'
+const defaultBg = import.meta.env.DEV
+  ? '//localhost:3000/imgs/default-bg.png'
+  : '154.8.162.201:80/public/imgs/default-bg.png'
 const { useToken } = theme
 const MyCard = ({ title, summary, tags, time, cover, onClick }: MyCardProps) => {
   const { token } = useToken()
