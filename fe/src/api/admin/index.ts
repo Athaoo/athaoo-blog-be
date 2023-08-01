@@ -43,9 +43,6 @@ instance.interceptors.response.use(
     return response
   },
   (error: AxiosError) => {
-    if (error.response.status === 401) {
-      // 处理身份验证错误，如重定向到登录页等
-    }
     return Promise.reject(error)
   }
 )

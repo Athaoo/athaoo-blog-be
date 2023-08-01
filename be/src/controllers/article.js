@@ -39,17 +39,25 @@ const handleImgFile = (ctx, img) => {
   const tempPath = img.filepath
   const filename = img.newFilename
   const targetPath = join(__rootDirname, 'public', 'imgs', img.newFilename)
+
   // 删掉旧封面, 存放在静态资源目录
   renameSync(tempPath, targetPath)
 
   // koa-static库把静态资源指向了public, 后缀带上pathname即可访问
-  const host = ctx.request.host
-  const publicURL = new URL(`http://${host}`)
-  publicURL.pathname = `/imgs/${filename}`
+  let publicURL
+  if (process.env == 'development') {
+    const host = ctx.request.host
+    // publicURL = new URL(`http://${host}`)
+    publicURL = new URL(`http://154.8.162.201`)
+  } else {
+    publicURL = new URL(`http://154.8.162.201`)
+  }
+  publicURL.pathname = `/public/imgs/${filename}`
 
   const url = publicURL.href
   return url
 }
+
 export const createArticle = async (ctx) => {
   try {
     const { error, value } = articleCreateScheme.validate(prehandleData(ctx.request.body))
