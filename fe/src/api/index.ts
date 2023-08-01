@@ -5,7 +5,6 @@ import { useRequest as useRequestA } from 'ahooks'
 import type { Options, Plugin } from 'ahooks/lib/useRequest/src/types'
 
 const baseUrl = __APP_ENV__.API_URL
-console.log(`🚀 -> file: index.ts:8 -> baseUrl:`, baseUrl)
 
 const instance = axios.create({
   baseURL: baseUrl,
@@ -22,7 +21,6 @@ export const useRequest = <T, P extends any[]>(requestFunction: RequestFunction<
     try {
       setLoading(() => true)
       const response = await requestFunction(...params)
-      console.log(`🚀 -> file: index.ts:53 -> fetchData -> response:`, response)
       return response.data
     } catch (err) {
       console.error(`Error fetching data`, err)

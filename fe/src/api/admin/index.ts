@@ -8,8 +8,7 @@ import axios, {
 import { Article, AddArticleType, UpdateArticleType, MySuccessRes, loginSuccessRes } from '../types'
 import { getAllArticles as getCommonAllArticles, getOneArticle as getCommonOneArticle } from '..'
 
-const baseUrl = import.meta.env.VITE_API_URL
-
+const baseUrl = __APP_ENV__.API_URL
 const instance = axios.create({
   baseURL: baseUrl,
   timeout: 5000,
@@ -18,7 +17,6 @@ const instance = axios.create({
 // 在请求拦截器中，你可以规定 AxiosRequestConfig 类型
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    console.log(`🚀 -> file: index.ts:41 -> url:`, config.url)
     if (config.url !== '/login' && config.url !== '/register') {
       // 在此处添加请求拦截逻辑，如添加请求头等
       const token = sessionStorage.getItem('token')
@@ -45,7 +43,6 @@ instance.interceptors.response.use(
     return response
   },
   (error: AxiosError) => {
-    console.log(`🚀 -> file: index.ts:35 -> error:`, error)
     if (error.response.status === 401) {
       // 处理身份验证错误，如重定向到登录页等
     }
@@ -89,7 +86,6 @@ export const updateOneArticle = async (
 ): Promise<AxiosResponse<MySuccessRes>> => {
   const formData = new FormData()
   formData.append('title', data.title)
-  console.log(`🚀 -> data:`, data)
   formData.append('tags', JSON.stringify(data.tags))
   formData.append('summary', data.summary || '')
   formData.append('content', data.content)
@@ -97,7 +93,6 @@ export const updateOneArticle = async (
   if (data.cover) {
     formData.append('cover', data.cover)
   }
-  console.log(`🚀 -> formData:`, formData.get('cover'))
 
   return await instance.put<MySuccessRes>(`/article/${id}`, formData, {
     headers: {

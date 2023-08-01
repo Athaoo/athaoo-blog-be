@@ -46,7 +46,6 @@ const heapSort = (arr: Array<number>) => {
 }
 
 const App = () => {
-  console.log(`🚀 -> App -> heapSort(arr):`, heapSort(arr))
   return <>Vlist</>
 }
 

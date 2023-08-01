@@ -28,7 +28,7 @@ const ACard = ({ article, nav }: { article: Article; nav: (id: string) => void }
         time={createdAt}
         tags={tags}
         cover={cover}
-        onClick={() => nav(id)}
+        onClick={() => nav(`${id}`)}
       />
     </div>
   )
@@ -39,7 +39,6 @@ const CardList = memo(({ articles }: { articles: Article[] }) => {
   const nav = useCallback((id: string) => {
     navigate(`/article/${id}`)
   }, [])
-  console.log(`🚀 -> file: list.tsx:40 -> CardList -> articles:`, articles)
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 mb-16">

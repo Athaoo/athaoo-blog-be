@@ -10,8 +10,6 @@ import '@src/admin/style/index.css'
 
 const container = document.getElementById('root') as HTMLElement
 const root = createRoot(container)
-console.log(123)
-console.log(`🚀 -> 123:`, 123)
 
 const Root: React.FC = () => {
   const myTheme = useTheme()

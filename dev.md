@@ -169,7 +169,6 @@ export const useRequest = <T, P>(requestFunction: RequestFunction<T, P>) => {
 			setData(null)
 			setLoading(true)
 			const response = await requestFunction(params)
-			console.log(`🚀 -> file: index.ts:53 -> fetchData -> response:`, response)
 			setData(response.data)
 		} catch (err) {
 			console.error(`Error fetching data`, err)
@@ -192,7 +191,6 @@ export const useRequest = <T, P>(requestFunction: RequestFunction<T, P>) => {
 //
 
 const { id } = useParams()
-console.log(`🚀 -> file: EditArticle.tsx:10 -> App -> id:`, id)
 const [article, loading, reqOneArticle] = useRequest(getOneArticle)
 
 const formatArticleForm = (article: Article) => {
@@ -208,7 +206,6 @@ const formatArticleForm = (article: Article) => {
 useEffect(() => {
 	const cb = async () => {
 		await reqOneArticle(Number(id))
-		console.log(`🚀 -> file: EditArticle.tsx:17 -> .then -> article:`, article)
 	}
 
 	cb()

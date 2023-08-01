@@ -70,13 +70,13 @@ const Login: React.FC = () => {
               <Button type="primary" htmlType="submit">
                 Login
               </Button>
-              <Button
+              {/* <Button
                 type="primary"
                 onClick={() => {
                   navigate('/register')
                 }}>
                 Register
-              </Button>
+              </Button> */}
             </Space>
           </Form.Item>
         </Form>

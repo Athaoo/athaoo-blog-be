@@ -52,7 +52,6 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
         },
       ]
   const [fileList, setFileList] = useState<UploadFile[]>(initFileList)
-  console.log(`🚀 -> file: Editor.tsx:51 -> ArticleEditor -> initFileList:`, initFileList)
 
   const [form] = Form.useForm()
 
@@ -62,10 +61,6 @@ const ArticleEditor = ({ initialValues, onSubmit }: ArticleEditorProps) => {
 
   const handleBeforeUploadCover: UploadProps['beforeUpload'] = useCallback(() => false, [])
   const handleCoverOnChange: UploadProps['onChange'] = useCallback(({ file }) => {
-    console.log(
-      `🚀 -> file: Editor.tsx:69 -> consthandleCoverOnChange:UploadProps['onChange']=useCallback -> newFileList:`,
-      file
-    )
     setFileList([file])
   }, [])
 

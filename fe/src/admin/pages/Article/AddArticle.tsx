@@ -11,7 +11,6 @@ const App = () => {
   const [res, setRes] = useState<MySuccessRes>(null)
 
   useEffect(() => {
-    console.log(`🚀 -> useEffect -> res:`, res)
     res?.message && msgApi.info(res.message)
   }, [res])
 

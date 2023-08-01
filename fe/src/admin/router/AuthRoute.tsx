@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
-import { useNavigate, useLocation, Navigate } from 'react-router-dom'
+import { useLocation, Navigate } from 'react-router-dom'
 import { isLogin } from '@utils/auth'
 
 export const RouterBeforeEach = ({ children }: { children: React.ReactNode }) => {
-  const navigate = useNavigate()
   const location = useLocation()
 
   const ifLogin = isLogin()
@@ -14,11 +13,13 @@ export const RouterBeforeEach = ({ children }: { children: React.ReactNode }) =>
     } else {
       return <>{children}</>
     }
-  } else {
+  } else if (location.pathname !== '/register') {
     if (!ifLogin) {
       return <Navigate to="/login" />
     } else if (ifLogin) {
       return <>{children}</>
     }
+  } else {
+    return <>{children}</>
   }
 }

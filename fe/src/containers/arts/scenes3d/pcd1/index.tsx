@@ -19,7 +19,6 @@ import BaseAmbientPointLight from '@src/components/three/base/light'
 //   React.useEffect(() => {
 //     const loader = new PCDLoader()
 //     loader.load(pcdFile, (points) => {
-//       console.log(`🚀 -> loader.load -> points:`, points)
 //       const materia = new PointsMaterial({
 //         // color: '#00FF00',
 //         size: 0.1,
