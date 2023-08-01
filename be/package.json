@@ -4,7 +4,8 @@
   "description": "athaoo blog back end",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "serve": "nodemon app.js"
   },
   "type": "module",
   "author": "Athaoo",
@@ -28,6 +29,7 @@
     "koa-static": "^5.0.0",
     "lodash-es": "^4.17.21",
     "nodemon": "^2.0.22",
+    "pm2": "^5.3.0",
     "sequelize-cli": "^6.6.0"
   }
 }
