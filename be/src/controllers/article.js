@@ -30,7 +30,7 @@ const articleUpdateScheme = Joi.object({
 const prehandleData = (data) => {
   const _d = cloneDeep(data)
   _d.tags = JSON.parse(data.tags)
-  return { ..._d, cover: data.cover }
+  return _d
 }
 
 const handleImgFile = (ctx, img) => {
