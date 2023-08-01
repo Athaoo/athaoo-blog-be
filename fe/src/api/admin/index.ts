@@ -70,10 +70,18 @@ export const apiRegister = async (
   })
 }
 
-export const createArticle = async (
-  article: AddArticleType
-): Promise<AxiosResponse<MySuccessRes>> => {
-  return await instance.post<MySuccessRes>('/article', article)
+export const createArticle = async (data: AddArticleType): Promise<AxiosResponse<MySuccessRes>> => {
+  const formData = new FormData()
+  formData.append('title', data.title)
+  formData.append('tags', data.tags)
+  formData.append('summary', data.summary || '')
+  formData.append('content', data.content)
+  formData.append('author', data.author || '')
+  if (data.cover) {
+    formData.append('cover', data.cover)
+  }
+
+  return await instance.post<MySuccessRes>('/article', formData)
 }
 
 export const getAllArticles = getCommonAllArticles

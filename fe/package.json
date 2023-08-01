@@ -3,10 +3,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./scripts/webpack.dev.js",
     "dev:blog": "vite serve src --mode development --config ./vite.config.ts",
-    "dev:admin": "vite serve src/admin --mode development --config ./vite.config.admin.ts",
+    "dev:admin": "vite serve src --mode development --config ./vite.config.admin.ts",
     "build:blog": "vite build --mode production src --config ./vite.config.ts",
-    "build:admin": "vite build --mode production src/admin --config ./vite.config.admin.ts",
-    "build": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.common.js",
     "buildD": "cross-env NODE_ENV=development webpack --config ./scripts/webpack.dev.js",
     "buildP": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.prod.js",
     "analyzer": "cross-env Analyzer=on npm run build && webpack-bundle-analyzer --port 8888 ./dist/analyzer.json",

@@ -4,6 +4,7 @@ import path from 'path'
 
 const { resolve } = path
 
+// 仅开发环境用，打包时
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
@@ -28,14 +29,6 @@ export default defineConfig(({ command, mode }) => {
     server: {
       port: 5174,
       open: true,
-    },
-    build: {
-      rollupOptions: {
-        input: {
-          main: resolve(__dirname, './src/admin/index.html'),
-        },
-      },
-      outDir: resolve(__dirname, './dist/admin'),
     },
     plugins: [react()],
     publicDir: resolve(__dirname, './public/admin'),

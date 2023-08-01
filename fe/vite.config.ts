@@ -25,14 +25,15 @@ export default defineConfig(({ command, mode }) => {
         '@components': resolve(__dirname, './src/components'),
       },
     },
-    server: {
-      port: 5173,
-      open: true,
-    },
+    // 因为开发环境blog和admin同时热更，所以端口不确定谁是谁，没必要写死
+    // server: {
+    //   port: 5173,
+    //   open: false,
+    // },
     build: {
       rollupOptions: {
         input: {
-          main: resolve(__dirname, './src/index.html'),
+          index: resolve(__dirname, './src/index.html'),
           admin: resolve(__dirname, './src/admin.html'),
         },
       },
