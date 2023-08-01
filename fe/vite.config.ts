@@ -33,11 +33,12 @@ export default defineConfig(({ command, mode }) => {
       rollupOptions: {
         input: {
           main: resolve(__dirname, './src/index.html'),
+          admin: resolve(__dirname, './src/admin.html'),
         },
       },
-      outDir: resolve(__dirname, './dist/blog'),
+      outDir: resolve(__dirname, './dist'),
     },
     plugins: [react()],
-    publicDir: resolve(__dirname, './public/blog'),
+    publicDir: resolve(__dirname, './public'),
   }
 })

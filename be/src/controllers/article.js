@@ -52,7 +52,7 @@ export const createArticle = async (ctx) => {
   } catch (err) {
     ctx.status = 500
     ctx.body = {
-      message: 'Server error',
+      message: err.message,
     }
   }
 }
