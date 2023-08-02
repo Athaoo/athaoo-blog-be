@@ -1,11 +1,12 @@
 {
   "name": "blog-be",
   "version": "1.0.0",
-  "description": "athaoo blog back end",
+  "description": "athaoo blog backend",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "serve": "pm2 start app.js --name blog-be"
+    "test": "NODE_ENV=test&& nodemon app.js",
+    "dev": "NODE_ENV=development&& pm2 start app.js --name blog",
+    "prod": "NODE_ENV=production&& pm2 start app.js --name blog"
   },
   "type": "module",
   "author": "Athaoo",
@@ -26,6 +27,7 @@
     "sequelize": "^6.31.0"
   },
   "devDependencies": {
+    "dotenv-flow": "^3.2.0",
     "koa-static": "^5.0.0",
     "lodash-es": "^4.17.21",
     "nodemon": "^2.0.22",

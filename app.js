@@ -9,7 +9,7 @@ import { jwtSecret } from './src/controllers/admin.js'
 import cors from 'koa2-cors'
 import koaStatic from 'koa-static'
 import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
+import { dirname, join, resolve } from 'path'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -18,6 +18,7 @@ async function main() {
   // 同步表
   await sequelize.sync()
 
+  // 环境变量
   const app = new Koa()
 
   app.use(
@@ -39,7 +40,13 @@ async function main() {
     })
   )
 
-  process.env == 'development' && app.use(cors())
+  if (process.env.NODE_ENV == 'test') {
+    /**
+     * 本地启动服务的情况下才需要cors
+     * 服务端无论dev还是prod都有nginx来反向代理
+     */
+    app.use(cors())
+  }
 
   app.use((ctx, next) => {
     return next().catch((err) => {

@@ -1,23 +1,15 @@
-const ip = '154.8.162.201'
+import { config } from 'dotenv-flow'
 
-// 线上和生产是两个库
-const config = {
-  development: {
-    username: 'athaoo',
-    password: 'athaooblog123',
-    database: 'athaoo_blog',
-    host: 'localhost',
-    port: 3306,
-    dialect: 'mysql',
-  },
-  production: {
-    username: 'athaoo',
-    password: 'athaooblog123',
-    database: 'athaoo_blog',
-    host: ip,
-    port: 3306,
-    dialect: 'mysql',
-  },
+// 读取环境变量
+config({ debug: true })
+
+const dbConfig = {
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  dialect: 'mysql',
 }
 
-export default config
+export default dbConfig
