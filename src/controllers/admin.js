@@ -19,10 +19,23 @@ export async function registerAdmin(ctx) {
       ctx.throw(400, 'Admin allready exists')
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10)
-    const newAdmin = await Admin.create({
-      username,
-      password: hashedPassword,
+    await new Promise((resolve, reject) => {
+      bcrypt.hash(password, null, null, async (err, hash) => {
+        if (err) reject(err)
+
+        try {
+          await Admin.create({
+            username,
+            password: hash,
+          })
+        } catch (e) {
+          reject(e)
+        }
+
+        resolve()
+      })
+    }).catch((e) => {
+      throw e
     })
 
     ctx.status = 201
@@ -32,7 +45,7 @@ export async function registerAdmin(ctx) {
   } catch (e) {
     ctx.status = 500
     ctx.body = {
-      message: 'Server error',
+      message: e.message,
     }
   }
 }
@@ -54,12 +67,20 @@ export async function loginAdmin(ctx) {
       return
     }
 
-    const passwordMatch = await bcrypt.compare(password, admin.password)
-    if (!passwordMatch) {
-      ctx.status = 401
-      ctx.body = { message: 'Invalid username or password' }
-      return
-    }
+    await new Promise((resolve, reject) => {
+      bcrypt.compare(password, admin.password, async (err, ifMatch) => {
+        if (err) reject(err)
+
+        if (!ifMatch) {
+          ctx.status = 401
+          ctx.body = { message: 'Invalid username or password' }
+          reject()
+        }
+        resolve()
+      })
+    }).catch((e) => {
+      throw e
+    })
 
     const token = jwt.sign(
       {
@@ -78,7 +99,7 @@ export async function loginAdmin(ctx) {
     console.log(e)
     ctx.status = 500
     ctx.body = {
-      message: 'Server error',
+      message: e.message,
     }
   }
 }
