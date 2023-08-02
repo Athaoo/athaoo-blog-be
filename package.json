@@ -4,9 +4,9 @@
   "description": "athaoo blog backend",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test&& nodemon app.js",
-    "dev": "NODE_ENV=development&& pm2 start app.js --name blog",
-    "prod": "NODE_ENV=production&& pm2 start app.js --name blog"
+    "test": "set NODE_ENV=test&& nodemon app.js",
+    "dev": "set NODE_ENV=development&& pm2 start app.js --name blog",
+    "prod": "set NODE_ENV=production&& pm2 start app.js --name blog"
   },
   "type": "module",
   "author": "Athaoo",
