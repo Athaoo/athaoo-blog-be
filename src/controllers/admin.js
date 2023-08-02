@@ -1,6 +1,6 @@
 import Admin from '../models/admin.js'
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt-nodejs'
 
 export const jwtSecret = '123'
 
