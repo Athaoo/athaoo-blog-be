@@ -1,6 +1,6 @@
 import Admin from '../models/admin.js'
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt-nodejs'
+import bcrypt from 'bcryptjs'
 
 export const jwtSecret = '123'
 
@@ -19,23 +19,10 @@ export async function registerAdmin(ctx) {
       ctx.throw(400, 'Admin allready exists')
     }
 
-    await new Promise((resolve, reject) => {
-      bcrypt.hash(password, null, null, async (err, hash) => {
-        if (err) reject(err)
-
-        try {
-          await Admin.create({
-            username,
-            password: hash,
-          })
-        } catch (e) {
-          reject(e)
-        }
-
-        resolve()
-      })
-    }).catch((e) => {
-      throw e
+    const hashPassword = bcrypt.hashSync(password, 10)
+    await Admin.create({
+      username,
+      password: hashPassword,
     })
 
     ctx.status = 201
@@ -67,20 +54,12 @@ export async function loginAdmin(ctx) {
       return
     }
 
-    await new Promise((resolve, reject) => {
-      bcrypt.compare(password, admin.password, async (err, ifMatch) => {
-        if (err) reject(err)
-
-        if (!ifMatch) {
-          ctx.status = 401
-          ctx.body = { message: 'Invalid username or password' }
-          reject()
-        }
-        resolve()
-      })
-    }).catch((e) => {
-      throw e
-    })
+    const isOk = bcrypt.compareSync(password, admin.password)
+    if (!isOk) {
+      ctx.status = 401
+      ctx.body = { message: 'Invalid username or password' }
+      return
+    }
 
     const token = jwt.sign(
       {
@@ -99,7 +78,50 @@ export async function loginAdmin(ctx) {
     console.log(e)
     ctx.status = 500
     ctx.body = {
-      message: e.message,
+      message: e?.message ?? e,
+    }
+  }
+}
+
+export async function updateAdmin(ctx) {
+  const { username, password } = ctx.request.body
+
+  try {
+    const admin = await Admin.findOne({ where: { username } })
+    if (!admin) {
+      ctx.status = 401
+      ctx.body = { message: 'User does not exist' }
+      return
+    }
+
+    if (!username || !password) {
+      ctx.status = 401
+      ctx.body = { message: 'Invalid username or password' }
+      return
+    }
+
+    const hash = bcrypt.hashSync(password, 10)
+
+    await Admin.update(
+      {
+        username,
+        password: hash,
+      },
+      {
+        where: {
+          username,
+        },
+      }
+    )
+
+    ctx.body = {
+      message: 'Admin updated in successfully!',
+    }
+  } catch (e) {
+    console.log(e)
+    ctx.status = 500
+    ctx.body = {
+      message: e?.message ?? e,
     }
   }
 }
