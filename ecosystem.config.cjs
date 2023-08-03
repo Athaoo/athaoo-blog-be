@@ -6,7 +6,7 @@ config({ debug: true })
 module.exports = {
   apps: [
     {
-      name: 'process.env.APP_NAME' ?? 'blog',
+      name: process.env.APP_NAME ?? 'blog',
       script: './app.js',
       watch: true,
       ignore_watch: ['node_modules', 'logs'],
