@@ -5,15 +5,14 @@
   "main": "app.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test nodemon app.js",
-    "dev": "cross-env NODE_ENV=development pm2 start app.js --name blog && pm2 logs blog --lines 100",
-    "prod": "cross-env NODE_ENV=production pm2 start app.js --name blog && pm2 logs blog --lines 100"
+    "dev": "cross-env NODE_ENV=development pm2 start ecosystem.config.cjs && pm2 logs blog --lines 100",
+    "prod": "cross-env NODE_ENV=production pm2 start ecosystem.config.cjs && pm2 logs blog --lines 100"
   },
   "type": "module",
   "author": "Athaoo",
   "license": "MIT",
   "dependencies": {
     "@koa/router": "^12.0.0",
-    "bcrypt-nodejs": "^0.0.3",
     "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
