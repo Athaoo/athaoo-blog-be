@@ -30,6 +30,7 @@ const articleUpdateScheme = Joi.object({
 const prehandleData = (data) => {
   const _d = cloneDeep(data)
   _d.tags = JSON.parse(data.tags)
+  delete _d.cover
   return _d
 }
 
