@@ -112,7 +112,7 @@ export const getArticles = async (ctx) => {
     let pageNum = parseInt(ctx.query?.pageNum ?? NaN)
     let condition = JSON.parse(ctx.query?.condition ?? null)
     let orderBy = ctx.query?.orderBy ?? null
-    let isDesc = ctx.query?.isDesc ?? false
+    let isDesc = JSON.parse(ctx.query?.isDesc ?? 'true') ?? true
 
     const param = {}
     if (!isNaN(pageLimit) && !isNaN(pageNum)) {
@@ -121,11 +121,13 @@ export const getArticles = async (ctx) => {
     }
 
     if (isString(orderBy)) {
-      param.order = [orderBy]
+      const orderPiece = [orderBy]
       if (isDesc === true) {
-        param.order.push('DESC')
+        orderPiece.push('DESC')
       }
+      param.order = [orderPiece]
     }
+    console.log(`🚀 -> getArticles -> param:`, param)
 
     if (condition) {
       if (condition.tags && condition instanceof Array) {
