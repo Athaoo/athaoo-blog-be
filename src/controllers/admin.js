@@ -13,6 +13,14 @@ export async function registerAdmin(ctx) {
   const { username, password } = ctx.request.body
 
   try {
+    const num = Admin.count()
+    if (num >= 1) {
+      ctx.status = 403
+      ctx.body = {
+        msg: 'forbidden'
+      }
+    }
+
     const existingAdmin = await Admin.findOne({ where: { username } })
 
     if (existingAdmin) {
