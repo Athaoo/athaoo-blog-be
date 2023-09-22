@@ -4,7 +4,7 @@
   "description": "athaoo blog backend",
   "main": "app.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test nodemon app.js",
+  "test": "cross-env NODE_ENV=test nodemon app.js",
     "dev": "cross-env NODE_ENV=development pm2 start ecosystem.config.cjs && pm2 logs blog-dev --lines 100",
     "prod": "cross-env NODE_ENV=production pm2 start ecosystem.config.cjs && pm2 logs blog --lines 100"
   },
